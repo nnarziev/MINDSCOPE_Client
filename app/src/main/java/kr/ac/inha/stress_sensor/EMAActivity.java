@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import java.util.Locale;
 
-import kr.ac.inha.stress_sensor.services.CustomSensorsService;
 import kr.ac.inha.stress_sensor.services.SendGPSStats;
 
 import static kr.ac.inha.stress_sensor.services.CustomSensorsService.EMA_NOTIFICATION_ID;

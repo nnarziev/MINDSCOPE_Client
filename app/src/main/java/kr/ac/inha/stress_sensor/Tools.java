@@ -14,8 +14,6 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -61,7 +59,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -82,6 +79,7 @@ import static kr.ac.inha.stress_sensor.services.CustomSensorsService.EMA_RESPONS
 import static kr.ac.inha.stress_sensor.services.CustomSensorsService.SERVICE_START_X_MIN_BEFORE_EMA;
 
 public class Tools {
+    private static final String TAG = "TOOLS";
     public static final short
             RES_OK = 0,
             RES_FAIL = 1,
@@ -105,24 +103,10 @@ public class Tools {
         SharedPreferences configPrefs = con.getSharedPreferences("Configurations", Context.MODE_PRIVATE);
         int dataSourceId = configPrefs.getInt("APPLICATION_USAGE", -1);
         assert dataSourceId != -1;
-
         UsageStatsManager usageStatsManager = (UsageStatsManager) con.getSystemService(Context.USAGE_STATS_SERVICE);
         List<UsageStats> stats = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_BEST, fromCal.getTimeInMillis(), System.currentTimeMillis());
         for (UsageStats usageStats : stats) {
-            Calendar cal = GregorianCalendar.getInstance();
-            cal.set(2019, 0, 1); // January 1, 2019
-            //if last time used is more than January 1, 2019 then take the stats (to eliminate extra app usages)
-            if (usageStats.getLastTimeUsed() > cal.getTimeInMillis()) {
-                DbMgr.saveMixedData(
-                        dataSourceId,
-                        usageStats.getLastTimeUsed(),
-                        1.0f,
-                        usageStats.getPackageName(),
-                        usageStats.getLastTimeUsed(),
-                        usageStats.getTotalTimeInForeground()
-
-                );
-            }
+            AppUseDb.saveAppUsageStat(usageStats.getPackageName(), usageStats.getLastTimeUsed(), usageStats.getTotalTimeInForeground());
         }
         SharedPreferences.Editor editor = loginPrefs.edit();
         editor.putLong("lastUsageSubmissionTime", tillCal.getTimeInMillis());

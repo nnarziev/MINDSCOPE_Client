@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/StressSensor-GRPC.iml" filepath="$PROJECT_DIR$/StressSensor-GRPC.iml" />
+      <module fileurl="file://$PROJECT_DIR$/StressSensor-gRPC.iml" filepath="$PROJECT_DIR$/StressSensor-gRPC.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

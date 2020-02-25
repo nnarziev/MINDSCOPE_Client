@@ -95,9 +95,9 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 28 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Gradle: __local_aars__:C.\Users\NSL\AndroidStudioProjects\StressSensor-GRPC\app\libs\accessory-v2.5.0.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:C.\Users\NSL\AndroidStudioProjects\StressSensor-GRPC\app\libs\sdk-v1.0.0.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:C.\Users\NSL\AndroidStudioProjects\StressSensor-GRPC\app\libs\TarsosDSP-Android-2.0.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:C.\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\libs\accessory-v2.5.0.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:C.\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\libs\sdk-v1.0.0.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:C.\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\libs\TarsosDSP-Android-2.0.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.collection:collection:1.1.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.arch.core:core-common:2.1.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-common:2.1.0@jar" level="project" />

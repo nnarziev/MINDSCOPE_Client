@@ -1,14 +1,9 @@
 package kr.ac.inha.stress_sensor;
 
-import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.time.Period;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.TimeZone;
 
 import android.Manifest;
 import android.content.Context;
@@ -106,6 +101,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         DbMgr.init(getApplicationContext());
+        AppUseDb.init(getApplicationContext());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setActionBar((Toolbar) findViewById(R.id.my_toolbar));
