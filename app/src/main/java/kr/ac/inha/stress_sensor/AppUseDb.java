@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class AppUseDb {
+class AppUseDb {
     static private SQLiteDatabase db;
     private static final String TAG = "AppUseDb";
 
@@ -77,7 +77,7 @@ public class AppUseDb {
         return res;
     }
 
-    static public void saveAppUsageStat(String packageName, long endTimestamp, long totalTimeInForeground) {
+    static void saveAppUsageStat(String packageName, long endTimestamp, long totalTimeInForeground) {
         AppUsageRecord lastRecord = getLastRecord(packageName);
         if (lastRecord == null){
             Log.e(TAG, "saveAppUsageStat: Inserted 1 -> " + packageName + "; " + totalTimeInForeground);
