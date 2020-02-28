@@ -70,16 +70,16 @@ public class CustomSensorsService extends Service implements SensorEventListener
     private static final int ID_SERVICE = 101;
     public static final int EMA_NOTIFICATION_ID = 1234; //in sec
     public static final long EMA_RESPONSE_EXPIRE_TIME = 3600;  //in sec
-    public static final int EMA_BTN_VISIBLE_X_MIN_AFTER_EMA = 60; //min
+    //public static final int EMA_BTN_VISIBLE_X_MIN_AFTER_EMA = 60; //min
     public static final int SERVICE_START_X_MIN_BEFORE_EMA = 3 * 60; //min
-    public static final short HEARTBEAT_PERIOD = 5;  //in min
+    public static final short HEARTBEAT_PERIOD = 2 * 1000;  //in sec
     public static final short DATA_SUBMIT_PERIOD = 5;  //in min
     private static final short LIGHT_SENSOR_READ_PERIOD = 20 * 60;  //in sec
-    private static final short LIGHT_SENSOR_READ_DURATION = 20;  //in sec
+    private static final short LIGHT_SENSOR_READ_DURATION = 5;  //in sec
     private static final short AUDIO_RECORDING_PERIOD = 20 * 60;  //in sec
-    private static final short AUDIO_RECORDING_DURATION = 20;  //in sec
+    private static final short AUDIO_RECORDING_DURATION = 5;  //in sec
     private static final int ACTIVITY_RECOGNITION_INTERVAL = 60; //in sec
-    private static final int APP_USAGE_SEND_PERIOD = 10; //in sec
+    private static final int APP_USAGE_SEND_PERIOD = 3; //in sec
 
 
     /*public static final short DATA_SRC_ACC = 1;
@@ -121,7 +121,6 @@ public class CustomSensorsService extends Service implements SensorEventListener
     private ScreenAndUnlockReceiver mPhoneUnlockedReceiver;
     private CallReceiver mCallReceiver;
 
-    //private AudioRecorder audioRecorder;
     private AudioFeatureRecorder audioFeatureRecorder;
 
     private ActivityRecognitionClient activityRecognitionClient;
@@ -130,7 +129,6 @@ public class CustomSensorsService extends Service implements SensorEventListener
     private ActivityRecognitionClient activityTransitionClient;
     private PendingIntent activityTransPendingIntent;
 
-    ScheduledExecutorService dataSubmitScheduler = Executors.newSingleThreadScheduledExecutor();
     ScheduledExecutorService appUsageSubmitScheduler = Executors.newSingleThreadScheduledExecutor();
     ScheduledExecutorService heartbeatSendScheduler = Executors.newSingleThreadScheduledExecutor();
 
@@ -143,7 +141,7 @@ public class CustomSensorsService extends Service implements SensorEventListener
             long curTimestamp = System.currentTimeMillis();
             Calendar curCal = Calendar.getInstance();
 
-            //region Sending Notification periodically
+            //region Sending Notification and some statistics periodically
             short ema_order = Tools.getEMAOrderAtExactTime(curCal);
             if (ema_order != 0 && canSendNotif) {
                 Log.e(TAG, "EMA order 1: " + ema_order);
@@ -179,11 +177,10 @@ public class CustomSensorsService extends Service implements SensorEventListener
             boolean canStartAudioRecord = (curTimestamp > prevAudioRecordStartTime + AUDIO_RECORDING_PERIOD * 1000) || AudioRunningForCall;
             boolean stopAudioRecord = (curTimestamp > prevAudioRecordStartTime + AUDIO_RECORDING_DURATION * 1000);
             if (canStartAudioRecord) {
-                if (audioFeatureRecorder == null) {
+                if (audioFeatureRecorder == null)
                     audioFeatureRecorder = new AudioFeatureRecorder(CustomSensorsService.this);
-                    audioFeatureRecorder.start();
-                    prevAudioRecordStartTime = curTimestamp;
-                }
+                audioFeatureRecorder.start();
+                prevAudioRecordStartTime = curTimestamp;
             } else if (stopAudioRecord) {
                 if (audioFeatureRecorder != null) {
                     audioFeatureRecorder.stop();
@@ -253,6 +250,7 @@ public class CustomSensorsService extends Service implements SensorEventListener
 
     private Runnable HeartBeatSendRunnable = new Runnable() {
         public void run() {
+            Log.e(TAG, "Sending heartbeat");
             try {
                 if (Tools.heartbeatNotSent(CustomSensorsService.this)) {
                     Tools.perform_logout(CustomSensorsService.this);
@@ -356,15 +354,15 @@ public class CustomSensorsService extends Service implements SensorEventListener
                 while (!stopDataSubmitThread) {
                     if (Tools.isNetworkAvailable(CustomSensorsService.this))
                         datasubmitRunnable.run();
-                    /*try {
+                    try {
                         Thread.sleep(DATA_SUBMIT_PERIOD * 60 * 1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
-                    }*/
+                    }
                 }
             }
         }).start();
-        heartbeatSendScheduler.scheduleAtFixedRate(HeartBeatSendRunnable, 0, HEARTBEAT_PERIOD, TimeUnit.MINUTES);
+        heartbeatSendScheduler.scheduleAtFixedRate(HeartBeatSendRunnable, 0, HEARTBEAT_PERIOD, TimeUnit.SECONDS);
         appUsageSubmitScheduler.scheduleAtFixedRate(AppUsageSubmitRunnable, 0, APP_USAGE_SEND_PERIOD, TimeUnit.SECONDS);
     }
 
@@ -468,12 +466,10 @@ public class CustomSensorsService extends Service implements SensorEventListener
         sensorNameToTypeMap.put("ANDROID_LIGHT", Sensor.TYPE_LIGHT);
         sensorNameToTypeMap.put("ANDROID_LINEAR_ACCELERATION", Sensor.TYPE_LINEAR_ACCELERATION);
         sensorNameToTypeMap.put("ANDROID_MAGNETIC_FIELD", Sensor.TYPE_MAGNETIC_FIELD);
-        sensorNameToTypeMap.put("ANDROID_ORIENTATION", Sensor.TYPE_ORIENTATION);
         sensorNameToTypeMap.put("ANDROID_PRESSURE", Sensor.TYPE_PRESSURE);
         sensorNameToTypeMap.put("ANDROID_PROXIMITY", Sensor.TYPE_PROXIMITY);
         sensorNameToTypeMap.put("ANDROID_RELATIVE_HUMIDITY", Sensor.TYPE_RELATIVE_HUMIDITY);
         sensorNameToTypeMap.put("ANDROID_ROTATION_VECTOR", Sensor.TYPE_ROTATION_VECTOR);
-        sensorNameToTypeMap.put("ANDROID_TEMPERATURE", Sensor.TYPE_TEMPERATURE);
         sensorNameToTypeMap.put("ANDROID_GAME_ROTATION_VECTOR", Sensor.TYPE_GAME_ROTATION_VECTOR);
         sensorNameToTypeMap.put("ANDROID_SIGNIFICANT_MOTION", Sensor.TYPE_SIGNIFICANT_MOTION);
         sensorNameToTypeMap.put("ANDROID_GYROSCOPE_UNCALIBRATED", Sensor.TYPE_GYROSCOPE_UNCALIBRATED);

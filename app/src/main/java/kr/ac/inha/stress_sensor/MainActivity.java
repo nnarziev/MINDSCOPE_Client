@@ -43,7 +43,6 @@ import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
 import kr.ac.inha.stress_sensor.receivers.ConnectionMonitor;
 import kr.ac.inha.stress_sensor.receivers.ConnectionReceiver;
-import kr.ac.inha.stress_sensor.services.AudioRecorder;
 import kr.ac.inha.stress_sensor.services.CustomSensorsService;
 
 
@@ -79,14 +78,12 @@ public class MainActivity extends Activity {
     private TextView ema_tv_6;
     //endregion
 
-    private AudioRecorder audioRecorder;
     private Intent customSensorsService;
     ConnectionReceiver connectionReceiver;
     ConnectionMonitor connectionMonitor;
     IntentFilter intentFilter;
 
     private SharedPreferences loginPrefs;
-    private SharedPreferences locationPrefs;
     SharedPreferences configPrefs;
 
     @Override
@@ -172,7 +169,6 @@ public class MainActivity extends Activity {
         }
 
         loginPrefs = getSharedPreferences("UserLogin", MODE_PRIVATE);
-        locationPrefs = getSharedPreferences("UserLocations", MODE_PRIVATE);
         configPrefs = getSharedPreferences("Configurations", Context.MODE_PRIVATE);
 
         int ema_order = Tools.getEMAOrderFromRangeAfterEMA(Calendar.getInstance());

@@ -8,7 +8,7 @@ public class DbMgr {
     private static SQLiteDatabase db;
     static Context con;
 
-    public static void init(Context context) {
+    static void init(Context context) {
         con = context;
         db = context.openOrCreateDatabase(context.getPackageName(), Context.MODE_PRIVATE, null);
         db.execSQL("create table if not exists Data(id integer primary key autoincrement, dataSourceId int default(0), timestamp bigint default(0), accuracy float default(0.0), data varchar(512) default(null));");

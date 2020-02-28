@@ -58,13 +58,13 @@ class AudioFeatureRecorder {
     }
 
     void start() {
-        Log.d(TAG, "Started: AudioRecorder");
+        Log.d(TAG, "Started: AudioFeatureRecorder");
         executor.execute(dispatcher);
         started = true;
     }
 
     void stop() {
-        Log.d(TAG, "Stopped: AudioRecorder");
+        Log.d(TAG, "Stopped: AudioFeatureRecorder");
         if (started) {
             dispatcher.stop();
             started = false;

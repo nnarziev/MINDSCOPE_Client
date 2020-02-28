@@ -855,6 +855,7 @@ id btn_restart_service
 id btn_set_locations
 id btn_submit
 id buttonPanel
+id buttons_view
 id cancel_action
 id center
 id center_horizontal
@@ -923,6 +924,7 @@ id list
 id listMode
 id list_item
 id loadingPanel
+id loading_frame
 id map
 id media_actions
 id message
@@ -1004,6 +1006,7 @@ id text
 id text2
 id textSpacerNoButtons
 id textSpacerNoTitle
+id text_view
 id time
 id title
 id titleDividerNoCustom

@@ -183,8 +183,9 @@ public class AuthenticationActivity extends Activity {
                 }
             } else if (resultCode == Activity.RESULT_FIRST_USER)
                 Toast.makeText(this, "Canceled", Toast.LENGTH_SHORT).show();
-            else if (resultCode == Activity.RESULT_CANCELED)
+            else if (resultCode == Activity.RESULT_CANCELED){
                 Toast.makeText(this, "Technical issue. Please check your internet connectivity and try again!", Toast.LENGTH_SHORT).show();
+            }
         } else if (requestCode == RC_OPEN_MAIN_ACTIVITY) {
             finish();
         } else if (requestCode == RC_OPEN_APP_STORE) {

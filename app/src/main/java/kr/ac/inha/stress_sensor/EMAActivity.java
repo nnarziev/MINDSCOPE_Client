@@ -7,6 +7,7 @@ import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import java.util.Locale;
 import kr.ac.inha.stress_sensor.services.SendGPSStats;
 
 import static kr.ac.inha.stress_sensor.services.CustomSensorsService.EMA_NOTIFICATION_ID;
+import static kr.ac.inha.stress_sensor.services.CustomSensorsService.SERVICE_START_X_MIN_BEFORE_EMA;
 
 public class EMAActivity extends AppCompatActivity {
 
@@ -129,6 +131,33 @@ public class EMAActivity extends AppCompatActivity {
         Intent gpsIntent = new Intent(EMAActivity.this, SendGPSStats.class);
         startService(gpsIntent);
 
+
+        final long app_usage_time_end = System.currentTimeMillis();
+        final long app_usage_time_start = (app_usage_time_end - SERVICE_START_X_MIN_BEFORE_EMA * 60 * 1000) + 1000; // add one second to start time
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SharedPreferences configPrefs = getSharedPreferences("Configurations", Context.MODE_PRIVATE);
+                int dataSourceId = configPrefs.getInt("APPLICATION_USAGE", -1);
+                assert dataSourceId != -1;
+                Cursor cursor = AppUseDb.getAppUsage();
+                if (cursor.moveToFirst()) {
+                    do {
+                        String package_name = cursor.getString(1);
+                        long start_time = cursor.getLong(2);
+                        long end_time = cursor.getLong(3);
+                        if (inRange(start_time, app_usage_time_start, app_usage_time_end) && inRange(end_time, app_usage_time_start, app_usage_time_end))
+                            if (start_time < end_time) {
+                                //Log.e(TAG, "Inserting -> package: " + package_name + "; start: " + start_time + "; end: " + end_time);
+                                DbMgr.saveMixedData(dataSourceId, start_time, 1.0f, start_time, end_time, package_name);
+                            }
+                    }
+                    while (cursor.moveToNext());
+                }
+                cursor.close();
+            }
+        }).start();
+
         SharedPreferences.Editor editor = loginPrefs.edit();
         editor.putBoolean("ema_btn_make_visible", false);
         editor.apply();
@@ -144,4 +173,9 @@ public class EMAActivity extends AppCompatActivity {
 
         Toast.makeText(this, "Response saved", Toast.LENGTH_SHORT).show();
     }
+
+    private boolean inRange(long value, long start, long end) {
+        return start < value && value < end;
+    }
+
 }

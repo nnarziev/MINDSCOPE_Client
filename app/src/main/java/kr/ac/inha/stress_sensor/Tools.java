@@ -80,12 +80,12 @@ import static kr.ac.inha.stress_sensor.services.CustomSensorsService.SERVICE_STA
 
 public class Tools {
     private static final String TAG = "TOOLS";
-    public static final short
+    static final short
             RES_OK = 0,
             RES_FAIL = 1,
             RES_SRV_ERR = -1;
 
-    public static final String DATA_SOURCE_SEPARATOR = " ";
+    static final String DATA_SOURCE_SEPARATOR = " ";
 
     public static void checkAndSendUsageAccessStats(Context con) throws IOException {
         SharedPreferences loginPrefs = con.getSharedPreferences("UserLogin", MODE_PRIVATE);
@@ -100,13 +100,18 @@ public class Tools {
         final Calendar tillCal = Calendar.getInstance();
         tillCal.set(Calendar.MILLISECOND, 0);
 
-        SharedPreferences configPrefs = con.getSharedPreferences("Configurations", Context.MODE_PRIVATE);
-        int dataSourceId = configPrefs.getInt("APPLICATION_USAGE", -1);
-        assert dataSourceId != -1;
+        PackageManager localPackageManager = con.getPackageManager();
+        Intent intent = new Intent("android.intent.action.MAIN");
+        intent.addCategory("android.intent.category.HOME");
+        String launcher_packageName = localPackageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY).activityInfo.packageName;
+
         UsageStatsManager usageStatsManager = (UsageStatsManager) con.getSystemService(Context.USAGE_STATS_SERVICE);
         List<UsageStats> stats = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_BEST, fromCal.getTimeInMillis(), System.currentTimeMillis());
         for (UsageStats usageStats : stats) {
-            AppUseDb.saveAppUsageStat(usageStats.getPackageName(), usageStats.getLastTimeUsed(), usageStats.getTotalTimeInForeground());
+            //do not include launcher's package name
+            if (usageStats.getTotalTimeInForeground() > 0 && !usageStats.getPackageName().contains(launcher_packageName)) {
+                AppUseDb.saveAppUsageStat(usageStats.getPackageName(), usageStats.getLastTimeUsed(), usageStats.getTotalTimeInForeground());
+            }
         }
         SharedPreferences.Editor editor = loginPrefs.edit();
         editor.putLong("lastUsageSubmissionTime", tillCal.getTimeInMillis());
@@ -120,6 +125,7 @@ public class Tools {
                 if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED)
                     return false;
 
+        assert context != null;
         if (!isAppUsageAccessGranted(context))
             return false;
 
@@ -285,22 +291,12 @@ public class Tools {
         return new String(s.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
     }
 
-    public static void execute(MyRunnable runnable) {
-        if (runnable.activity != null)
-            disable_touch(runnable.activity);
-        executor.execute(runnable);
-    }
-
-    public static void execute(FromServiceRunnable runnable) {
-        executor.execute(runnable);
-    }
-
-    private static void disable_touch(Activity activity) {
-        activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-    }
-
     static void enable_touch(Activity activity) {
         activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
+
+    static void disable_touch(Activity activity) {
+        activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
     private static boolean isReachable;

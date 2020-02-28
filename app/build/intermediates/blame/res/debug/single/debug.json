@@ -28,10 +28,6 @@
         "source": "C:\\Users\\NSL\\.gradle\\caches\\transforms-2\\files-2.1\\1d143f069b9d230a6380eb6d14e0486f\\appcompat-1.1.0\\res\\drawable-xxhdpi-v4\\abc_btn_radio_to_on_mtrl_000.png"
     },
     {
-        "merged": "C:\\Users\\NSL\\AndroidStudioProjects\\StressSensor-gRPC\\app\\build\\intermediates\\res\\merged\\debug\\color_abc_tint_spinner.xml.flat",
-        "source": "C:\\Users\\NSL\\.gradle\\caches\\transforms-2\\files-2.1\\1d143f069b9d230a6380eb6d14e0486f\\appcompat-1.1.0\\res\\color\\abc_tint_spinner.xml"
-    },
-    {
         "merged": "C:\\Users\\NSL\\AndroidStudioProjects\\StressSensor-gRPC\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v21_abc_list_divider_material.xml.flat",
         "source": "C:\\Users\\NSL\\.gradle\\caches\\transforms-2\\files-2.1\\1d143f069b9d230a6380eb6d14e0486f\\appcompat-1.1.0\\res\\drawable-v21\\abc_list_divider_material.xml"
     },
@@ -110,10 +106,6 @@
     {
         "merged": "C:\\Users\\NSL\\AndroidStudioProjects\\StressSensor-gRPC\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_ic_menu_paste_mtrl_am_alpha.png.flat",
         "source": "C:\\Users\\NSL\\.gradle\\caches\\transforms-2\\files-2.1\\1d143f069b9d230a6380eb6d14e0486f\\appcompat-1.1.0\\res\\drawable-xhdpi-v4\\abc_ic_menu_paste_mtrl_am_alpha.png"
-    },
-    {
-        "merged": "C:\\Users\\NSL\\AndroidStudioProjects\\StressSensor-gRPC\\app\\build\\intermediates\\res\\merged\\debug\\color_abc_tint_seek_thumb.xml.flat",
-        "source": "C:\\Users\\NSL\\.gradle\\caches\\transforms-2\\files-2.1\\1d143f069b9d230a6380eb6d14e0486f\\appcompat-1.1.0\\res\\color\\abc_tint_seek_thumb.xml"
     },
     {
         "merged": "C:\\Users\\NSL\\AndroidStudioProjects\\StressSensor-gRPC\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_scrubber_track_mtrl_alpha.9.png.flat",
@@ -660,10 +652,6 @@
         "source": "C:\\Users\\NSL\\.gradle\\caches\\transforms-2\\files-2.1\\1d143f069b9d230a6380eb6d14e0486f\\appcompat-1.1.0\\res\\drawable\\btn_radio_on_mtrl.xml"
     },
     {
-        "merged": "C:\\Users\\NSL\\AndroidStudioProjects\\StressSensor-gRPC\\app\\build\\intermediates\\res\\merged\\debug\\color_abc_tint_switch_track.xml.flat",
-        "source": "C:\\Users\\NSL\\.gradle\\caches\\transforms-2\\files-2.1\\1d143f069b9d230a6380eb6d14e0486f\\appcompat-1.1.0\\res\\color\\abc_tint_switch_track.xml"
-    },
-    {
         "merged": "C:\\Users\\NSL\\AndroidStudioProjects\\StressSensor-gRPC\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_switch_track_mtrl_alpha.9.png.flat",
         "source": "C:\\Users\\NSL\\.gradle\\caches\\transforms-2\\files-2.1\\1d143f069b9d230a6380eb6d14e0486f\\appcompat-1.1.0\\res\\drawable-mdpi-v4\\abc_switch_track_mtrl_alpha.9.png"
     },
@@ -898,10 +886,6 @@
     {
         "merged": "C:\\Users\\NSL\\AndroidStudioProjects\\StressSensor-gRPC\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_ic_star_black_16dp.png.flat",
         "source": "C:\\Users\\NSL\\.gradle\\caches\\transforms-2\\files-2.1\\1d143f069b9d230a6380eb6d14e0486f\\appcompat-1.1.0\\res\\drawable-hdpi-v4\\abc_ic_star_black_16dp.png"
-    },
-    {
-        "merged": "C:\\Users\\NSL\\AndroidStudioProjects\\StressSensor-gRPC\\app\\build\\intermediates\\res\\merged\\debug\\color_abc_tint_default.xml.flat",
-        "source": "C:\\Users\\NSL\\.gradle\\caches\\transforms-2\\files-2.1\\1d143f069b9d230a6380eb6d14e0486f\\appcompat-1.1.0\\res\\color\\abc_tint_default.xml"
     },
     {
         "merged": "C:\\Users\\NSL\\AndroidStudioProjects\\StressSensor-gRPC\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_ic_menu_copy_mtrl_am_alpha.png.flat",
@@ -1174,10 +1158,6 @@
     {
         "merged": "C:\\Users\\NSL\\AndroidStudioProjects\\StressSensor-gRPC\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_ic_star_black_36dp.png.flat",
         "source": "C:\\Users\\NSL\\.gradle\\caches\\transforms-2\\files-2.1\\1d143f069b9d230a6380eb6d14e0486f\\appcompat-1.1.0\\res\\drawable-hdpi-v4\\abc_ic_star_black_36dp.png"
-    },
-    {
-        "merged": "C:\\Users\\NSL\\AndroidStudioProjects\\StressSensor-gRPC\\app\\build\\intermediates\\res\\merged\\debug\\color_abc_tint_edittext.xml.flat",
-        "source": "C:\\Users\\NSL\\.gradle\\caches\\transforms-2\\files-2.1\\1d143f069b9d230a6380eb6d14e0486f\\appcompat-1.1.0\\res\\color\\abc_tint_edittext.xml"
     },
     {
         "merged": "C:\\Users\\NSL\\AndroidStudioProjects\\StressSensor-gRPC\\app\\build\\intermediates\\res\\merged\\debug\\drawable_common_google_signin_btn_icon_disabled.xml.flat",
@@ -1712,10 +1692,6 @@
         "source": "C:\\Users\\NSL\\.gradle\\caches\\transforms-2\\files-2.1\\e74396b6f887d6567c60625538edf397\\core-1.1.0\\res\\layout-v21\\notification_action.xml"
     },
     {
-        "merged": "C:\\Users\\NSL\\AndroidStudioProjects\\StressSensor-gRPC\\app\\build\\intermediates\\res\\merged\\debug\\color_abc_tint_btn_checkable.xml.flat",
-        "source": "C:\\Users\\NSL\\.gradle\\caches\\transforms-2\\files-2.1\\1d143f069b9d230a6380eb6d14e0486f\\appcompat-1.1.0\\res\\color\\abc_tint_btn_checkable.xml"
-    },
-    {
         "merged": "C:\\Users\\NSL\\AndroidStudioProjects\\StressSensor-gRPC\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v21_notification_action_background.xml.flat",
         "source": "C:\\Users\\NSL\\.gradle\\caches\\transforms-2\\files-2.1\\e74396b6f887d6567c60625538edf397\\core-1.1.0\\res\\drawable-v21\\notification_action_background.xml"
     },
@@ -1788,10 +1764,6 @@
         "source": "C:\\Users\\NSL\\.gradle\\caches\\transforms-2\\files-2.1\\1d143f069b9d230a6380eb6d14e0486f\\appcompat-1.1.0\\res\\drawable\\abc_list_selector_background_transition_holo_dark.xml"
     },
     {
-        "merged": "C:\\Users\\NSL\\AndroidStudioProjects\\StressSensor-gRPC\\app\\build\\intermediates\\res\\merged\\debug\\color_abc_btn_colored_text_material.xml.flat",
-        "source": "C:\\Users\\NSL\\.gradle\\caches\\transforms-2\\files-2.1\\1d143f069b9d230a6380eb6d14e0486f\\appcompat-1.1.0\\res\\color\\abc_btn_colored_text_material.xml"
-    },
-    {
         "merged": "C:\\Users\\NSL\\AndroidStudioProjects\\StressSensor-gRPC\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_tab_indicator_mtrl_alpha.9.png.flat",
         "source": "C:\\Users\\NSL\\.gradle\\caches\\transforms-2\\files-2.1\\1d143f069b9d230a6380eb6d14e0486f\\appcompat-1.1.0\\res\\drawable-xhdpi-v4\\abc_tab_indicator_mtrl_alpha.9.png"
     },
@@ -1802,10 +1774,6 @@
     {
         "merged": "C:\\Users\\NSL\\AndroidStudioProjects\\StressSensor-gRPC\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_locations_setting.xml.flat",
         "source": "C:\\Users\\NSL\\AndroidStudioProjects\\StressSensor-gRPC\\app\\src\\main\\res\\layout\\activity_locations_setting.xml"
-    },
-    {
-        "merged": "C:\\Users\\NSL\\AndroidStudioProjects\\StressSensor-gRPC\\app\\build\\intermediates\\res\\merged\\debug\\color-v21_abc_btn_colored_borderless_text_material.xml.flat",
-        "source": "C:\\Users\\NSL\\.gradle\\caches\\transforms-2\\files-2.1\\1d143f069b9d230a6380eb6d14e0486f\\appcompat-1.1.0\\res\\color-v21\\abc_btn_colored_borderless_text_material.xml"
     },
     {
         "merged": "C:\\Users\\NSL\\AndroidStudioProjects\\StressSensor-gRPC\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4_abc_ic_menu_cut_mtrl_alpha.png.flat",

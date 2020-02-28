@@ -4,8 +4,12 @@ import android.content.Context;
 import android.graphics.Color;
 import android.text.InputType;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.graphics.Bitmap;
 import android.app.AlertDialog;
@@ -21,6 +25,7 @@ import com.google.android.gms.maps.GoogleMap;
 import android.graphics.drawable.BitmapDrawable;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
@@ -68,6 +73,9 @@ public class LocationsSettingActivity extends AppCompatActivity implements OnMap
     private StoreLocation currentStoringLocation;
     private Circle geoLimits;
 
+
+    LinearLayout loadingLayout;
+
     //region Internal classes
     static class StoreLocation {
         LatLng mLatLng;
@@ -102,6 +110,10 @@ public class LocationsSettingActivity extends AppCompatActivity implements OnMap
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_locations_setting);
+        loadingLayout = findViewById(R.id.loading_frame);
+        loadingLayout.setVisibility(View.VISIBLE);
+        loadingLayout.bringToFront();
+        Tools.disable_touch(this);
 
         TITLE_HOME = getString(R.string.set_home_location);
         TITLE_DORM = getString(R.string.set_dorm_location);
@@ -116,6 +128,8 @@ public class LocationsSettingActivity extends AppCompatActivity implements OnMap
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        Log.e(TAG, "onMapReady: ");
+
         mMap = googleMap;
         mMap.clear();
         mMap.setOnMapClickListener(this);
@@ -149,6 +163,10 @@ public class LocationsSettingActivity extends AppCompatActivity implements OnMap
 
     @Override
     public void onLocationChanged(Location location) {
+        Log.e(TAG, "onLocationChanged: ");
+        loadingLayout.setVisibility(View.GONE);
+        Tools.enable_touch(this);
+
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         markerForGeofence(latLng);
     }
@@ -208,31 +226,32 @@ public class LocationsSettingActivity extends AppCompatActivity implements OnMap
         String location_title;
         switch (location.getmId()) {
             case ID_HOME:
-                iconDrawable = getResources().getDrawable(R.drawable.home);
+                iconDrawable = ContextCompat.getDrawable(this, R.drawable.home);
                 location_title = TITLE_HOME;
                 break;
             case ID_DORM:
-                iconDrawable = getResources().getDrawable(R.drawable.dormitory);
+                iconDrawable = ContextCompat.getDrawable(this, R.drawable.dormitory);
                 location_title = TITLE_DORM;
                 break;
             case ID_UNIV:
-                iconDrawable = getResources().getDrawable(R.drawable.university);
+                iconDrawable = ContextCompat.getDrawable(this, R.drawable.university);
                 location_title = TITLE_UNIV;
                 break;
             case ID_LIBRARY:
-                iconDrawable = getResources().getDrawable(R.drawable.library);
+                iconDrawable = ContextCompat.getDrawable(this, R.drawable.library);
                 location_title = TITLE_LIBRARY;
                 break;
             case ID_ADDITIONAL:
-                iconDrawable = getResources().getDrawable(R.drawable.additional);
+                iconDrawable = ContextCompat.getDrawable(this, R.drawable.additional);
                 location_title = TITLE_ADDITIONAL;
                 break;
             default:
-                iconDrawable = getResources().getDrawable(R.mipmap.ic_launcher_no_bg);
+                iconDrawable = ContextCompat.getDrawable(this, R.mipmap.ic_launcher_no_bg);
                 location_title = "My location";
                 break;
         }
 
+        assert iconDrawable != null;
         Bitmap iconBmp = ((BitmapDrawable) iconDrawable).getBitmap();
         mMap.addMarker(new MarkerOptions()
                 .title(location_title)
