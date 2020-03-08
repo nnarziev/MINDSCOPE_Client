@@ -2,7 +2,7 @@
 <resources>
 
     <!-- REST API Server URLs -->
-    <string name="grpc_host">165.246.43.162</string>
+    <string name="grpc_host">165.246.42.172</string>
     <string name="grpc_port">50051</string>
     <string name="url_user_register">http://%1$s/user/register</string>
     <string name="url_user_login">http://%1$s/user/login</string>
