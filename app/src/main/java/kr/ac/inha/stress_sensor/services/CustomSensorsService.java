@@ -123,8 +123,8 @@ public class CustomSensorsService extends Service implements SensorEventListener
 
     private AudioFeatureRecorder audioFeatureRecorder;
 
-    private ActivityRecognitionClient activityRecognitionClient;
-    private PendingIntent activityRecPendingIntent;
+    //private ActivityRecognitionClient activityRecognitionClient;
+    //private PendingIntent activityRecPendingIntent;
 
     private ActivityRecognitionClient activityTransitionClient;
     private PendingIntent activityTransPendingIntent;
@@ -274,21 +274,21 @@ public class CustomSensorsService extends Service implements SensorEventListener
         initDataSourceNameIdMap();
         setUpNewDataSources();
 
-        activityRecognitionClient = ActivityRecognition.getClient(getApplicationContext());
-        activityRecPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 2, new Intent(getApplicationContext(), ActivityRecognitionReceiver.class), PendingIntent.FLAG_UPDATE_CURRENT);
-        activityRecognitionClient.requestActivityUpdates(ACTIVITY_RECOGNITION_INTERVAL * 1000, activityRecPendingIntent)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "Registered: Activity Recognition");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.e(TAG, "Failed: Activity Recognition");
-                    }
-                });
+//        activityRecognitionClient = ActivityRecognition.getClient(getApplicationContext());
+//        activityRecPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 2, new Intent(getApplicationContext(), ActivityRecognitionReceiver.class), PendingIntent.FLAG_UPDATE_CURRENT);
+//        activityRecognitionClient.requestActivityUpdates(ACTIVITY_RECOGNITION_INTERVAL * 1000, activityRecPendingIntent)
+//                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                        Log.d(TAG, "Registered: Activity Recognition");
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Log.e(TAG, "Failed: Activity Recognition");
+//                    }
+//                });
 
         activityTransitionClient = ActivityRecognition.getClient(getApplicationContext());
         activityTransPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent(getApplicationContext(), ActivityTransitionsReceiver.class), PendingIntent.FLAG_UPDATE_CURRENT);
@@ -392,7 +392,7 @@ public class CustomSensorsService extends Service implements SensorEventListener
         mSensorManager.unregisterListener(this, sensorLight);
         mSensorManager.unregisterListener(this, sensorAcc);
         mSensorManager.unregisterListener(this, sensorStepDetect);
-        activityRecognitionClient.removeActivityUpdates(activityRecPendingIntent);
+        //activityRecognitionClient.removeActivityUpdates(activityRecPendingIntent);
         activityTransitionClient.removeActivityTransitionUpdates(activityTransPendingIntent);
         if (audioFeatureRecorder != null)
             audioFeatureRecorder.stop();

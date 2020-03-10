@@ -2,7 +2,7 @@
 <resources>
 
     <!-- REST API Server URLs -->
-    <string name="grpc_host">165.246.42.172</string>
+    <string name="grpc_host">165.246.21.202</string>
     <string name="grpc_port">50051</string>
     <string name="url_user_register">http://%1$s/user/register</string>
     <string name="url_user_login">http://%1$s/user/login</string>
@@ -15,7 +15,7 @@
     <string name="url_audio_submit">http://%1$s/submit_audio</string>
     <string name="url_location_submit">http://%1$s/sensor_data/locations_submit</string>
 
-    <string name="stress_campaign_id">9</string>
+    <string name="stress_campaign_id">1</string>
 
     <string name="app_name">StressSensor</string>
     <string name="ConnectionEstablishedMsg">Connection established</string>

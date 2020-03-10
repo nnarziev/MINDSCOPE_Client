@@ -32,25 +32,36 @@ public class ActivityTransitionsReceiver extends BroadcastReceiver {
                     for (ActivityTransitionEvent event : result.getTransitionEvents()) {
                         if (event.getTransitionType() == ActivityTransition.ACTIVITY_TRANSITION_ENTER) {
                             long start_timestamp = System.currentTimeMillis();
+                            String activityType = "";
                             switch (event.getActivityType()) {
                                 case DetectedActivity.STILL:
+                                    activityType = "STILL";
                                     start_time_STILL = start_timestamp;
                                     break;
                                 case DetectedActivity.WALKING:
+                                    activityType = "WALKING";
                                     start_time_WALKING = start_timestamp;
                                     break;
                                 case DetectedActivity.RUNNING:
+                                    activityType = "RUNNING";
                                     start_time_RUNNING = start_timestamp;
                                     break;
                                 case DetectedActivity.ON_BICYCLE:
+                                    activityType = "ON_BICYCLE";
                                     start_time_ON_BICYCLE = start_timestamp;
                                     break;
                                 case DetectedActivity.IN_VEHICLE:
+                                    activityType = "IN_VEHICLE";
                                     start_time_IN_VEHICLE = start_timestamp;
                                     break;
                                 default:
                                     break;
                             }
+
+                            SharedPreferences prefs = context.getSharedPreferences("Configurations", Context.MODE_PRIVATE);
+                            int dataSourceId = prefs.getInt("ACTIVITY_RECOGNITION", -1);
+                            assert dataSourceId != -1;
+                            DbMgr.saveMixedData(dataSourceId, start_timestamp, 1, activityType, start_timestamp);
                         } else if (event.getTransitionType() == ActivityTransition.ACTIVITY_TRANSITION_EXIT) {
                             long activity_end_time = System.currentTimeMillis();
                             long activity_start_time = 0;

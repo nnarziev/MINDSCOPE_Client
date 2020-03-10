@@ -18,6 +18,8 @@ import android.location.LocationManager;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.WindowManager;
@@ -302,20 +304,12 @@ public class Tools {
     private static boolean isReachable;
 
     public static boolean isNetworkAvailable(final Context context) {
-        isReachable = false;
-        try {
+        /*try {
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    String[] arr = context.getString(R.string.grpc_host).split("\\.");
-                    byte[] addr = new byte[]{
-                            (byte) (Integer.parseInt(arr[0])),
-                            (byte) (Integer.parseInt(arr[1])),
-                            (byte) (Integer.parseInt(arr[2])),
-                            (byte) (Integer.parseInt(arr[3]))
-                    };
                     try {
-                        InetAddress inetAddress = InetAddress.getByAddress(addr);
+                        InetAddress inetAddress = InetAddress.getByAddress(new byte[]{(byte) 8, (byte) 8, (byte) 4, (byte) 4});
                         isReachable = inetAddress.isReachable(100);
                     } catch (Exception e) {
                         isReachable = false;
@@ -326,8 +320,13 @@ public class Tools {
             thread.join();
         } catch (Exception e) {
             isReachable = false;
-        }
-        return isReachable;
+        }*/
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo;
+        if (connectivityManager == null)
+            return false;
+        activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     @SuppressWarnings("unused")
