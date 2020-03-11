@@ -12,8 +12,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Handler;
@@ -63,7 +61,7 @@ import kr.ac.inha.stress_sensor.receivers.ScreenAndUnlockReceiver;
 
 import static kr.ac.inha.stress_sensor.receivers.CallReceiver.AudioRunningForCall;
 
-public class CustomSensorsService extends Service implements SensorEventListener {
+public class CustomSensorsService extends Service {
     private static final String TAG = "CustomSensorsService";
 
     //region Constants
@@ -74,11 +72,9 @@ public class CustomSensorsService extends Service implements SensorEventListener
     public static final int SERVICE_START_X_MIN_BEFORE_EMA = 3 * 60; //min
     public static final short HEARTBEAT_PERIOD = 2 * 1000;  //in sec
     public static final short DATA_SUBMIT_PERIOD = 5;  //in min
-    private static final short LIGHT_SENSOR_READ_PERIOD = 20 * 60;  //in sec
-    private static final short LIGHT_SENSOR_READ_DURATION = 5;  //in sec
     private static final short AUDIO_RECORDING_PERIOD = 20 * 60;  //in sec
     private static final short AUDIO_RECORDING_DURATION = 5;  //in sec
-    private static final int ACTIVITY_RECOGNITION_INTERVAL = 60; //in sec
+    private static final int ACTIVITY_RECOGNITION_INTERVAL = 20; //in sec
     private static final int APP_USAGE_SEND_PERIOD = 3; //in sec
 
 
@@ -108,23 +104,19 @@ public class CustomSensorsService extends Service implements SensorEventListener
 
     SharedPreferences loginPrefs;
 
-    long prevLightSensorReadingTime = 0;
     long prevAudioRecordStartTime = 0;
 
     //private StationaryDetector mStationaryDetector;
     NotificationManager mNotificationManager;
     private SensorManager mSensorManager;
-    private Sensor sensorLight;
-    private Sensor sensorStepDetect;
-    private Sensor sensorAcc;
 
     private ScreenAndUnlockReceiver mPhoneUnlockedReceiver;
     private CallReceiver mCallReceiver;
 
     private AudioFeatureRecorder audioFeatureRecorder;
 
-    //private ActivityRecognitionClient activityRecognitionClient;
-    //private PendingIntent activityRecPendingIntent;
+    private ActivityRecognitionClient activityRecognitionClient;
+    private PendingIntent activityRecPendingIntent;
 
     private ActivityRecognitionClient activityTransitionClient;
     private PendingIntent activityTransPendingIntent;
@@ -156,22 +148,6 @@ public class CustomSensorsService extends Service implements SensorEventListener
                 canSendNotif = true;
             //endregion
 
-            //region Registering Light sensor periodically
-            boolean canLightSense = curTimestamp > prevLightSensorReadingTime + LIGHT_SENSOR_READ_PERIOD * 1000;
-            boolean stopLightSensor = curTimestamp > prevLightSensorReadingTime + LIGHT_SENSOR_READ_DURATION * 1000;
-            if (canLightSense) {
-                if (sensorLight == null) {
-                    sensorLight = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
-                    mSensorManager.registerListener(CustomSensorsService.this, sensorLight, SensorManager.SENSOR_DELAY_NORMAL);
-                    prevLightSensorReadingTime = curTimestamp;
-                }
-            } else if (stopLightSensor) {
-                if (sensorLight != null) {
-                    mSensorManager.unregisterListener(CustomSensorsService.this, sensorLight);
-                    sensorLight = null;
-                }
-            }
-            //endregion
 
             //region Registering Audio recorder periodically
             boolean canStartAudioRecord = (curTimestamp > prevAudioRecordStartTime + AUDIO_RECORDING_PERIOD * 1000) || AudioRunningForCall;
@@ -274,21 +250,21 @@ public class CustomSensorsService extends Service implements SensorEventListener
         initDataSourceNameIdMap();
         setUpNewDataSources();
 
-//        activityRecognitionClient = ActivityRecognition.getClient(getApplicationContext());
-//        activityRecPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 2, new Intent(getApplicationContext(), ActivityRecognitionReceiver.class), PendingIntent.FLAG_UPDATE_CURRENT);
-//        activityRecognitionClient.requestActivityUpdates(ACTIVITY_RECOGNITION_INTERVAL * 1000, activityRecPendingIntent)
-//                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//                        Log.d(TAG, "Registered: Activity Recognition");
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Log.e(TAG, "Failed: Activity Recognition");
-//                    }
-//                });
+        activityRecognitionClient = ActivityRecognition.getClient(getApplicationContext());
+        activityRecPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 2, new Intent(getApplicationContext(), ActivityRecognitionReceiver.class), PendingIntent.FLAG_UPDATE_CURRENT);
+        activityRecognitionClient.requestActivityUpdates(ACTIVITY_RECOGNITION_INTERVAL * 1000, activityRecPendingIntent)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Registered: Activity Recognition");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "Failed: Activity Recognition");
+                    }
+                });
 
         activityTransitionClient = ActivityRecognition.getClient(getApplicationContext());
         activityTransPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent(getApplicationContext(), ActivityTransitionsReceiver.class), PendingIntent.FLAG_UPDATE_CURRENT);
@@ -305,17 +281,6 @@ public class CustomSensorsService extends Service implements SensorEventListener
                         Log.e(TAG, "Failed: Activity Transition " + e.toString());
                     }
                 });
-
-        sensorAcc = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
-        //region Register Step detector sensor
-        sensorStepDetect = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
-        if (sensorStepDetect != null) {
-            mSensorManager.registerListener(this, sensorStepDetect, SensorManager.SENSOR_DELAY_NORMAL);
-        } else {
-            Log.e(TAG, "Step detector sensor is NOT available");
-        }
-        //endregion
 
         //region Register Phone unlock and Screen On state receiver
         mPhoneUnlockedReceiver = new ScreenAndUnlockReceiver();
@@ -389,10 +354,7 @@ public class CustomSensorsService extends Service implements SensorEventListener
     @Override
     public void onDestroy() {
         //region Unregister listeners
-        mSensorManager.unregisterListener(this, sensorLight);
-        mSensorManager.unregisterListener(this, sensorAcc);
-        mSensorManager.unregisterListener(this, sensorStepDetect);
-        //activityRecognitionClient.removeActivityUpdates(activityRecPendingIntent);
+        activityRecognitionClient.removeActivityUpdates(activityRecPendingIntent);
         activityTransitionClient.removeActivityTransitionUpdates(activityTransPendingIntent);
         if (audioFeatureRecorder != null)
             audioFeatureRecorder.stop();
@@ -410,24 +372,6 @@ public class CustomSensorsService extends Service implements SensorEventListener
         Tools.sleep(1000);
 
         super.onDestroy();
-    }
-
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-        int dataSourceId = sensorToDataSourceIdMap.get(event.sensor.getType());
-        /*if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            int dataSourceId = CustomSensorsService.customDataNameToSourceIdMap.get("DATA_SRC_ACC");
-            DbMgr.saveMixedData(dataSourceId, System.currentTimeMillis(), 1.0f, System.currentTimeMillis(), event.values[0], event.values[1], event.values[2]);
-        } else*/
-        if (event.sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
-            DbMgr.saveMixedData(dataSourceId, System.currentTimeMillis(), 1.0f, System.currentTimeMillis());
-        } else if (event.sensor.getType() == Sensor.TYPE_LIGHT) {
-            DbMgr.saveMixedData(dataSourceId, System.currentTimeMillis(), 1.0f, System.currentTimeMillis(), event.values[0]);
-        }
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
 
     public List<ActivityTransition> getActivityTransitions() {
