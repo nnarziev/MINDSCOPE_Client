@@ -6,7 +6,13 @@ import java.util.Locale;
 import java.util.Objects;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.database.DatabaseUtils;
 import android.os.Build;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -16,6 +22,7 @@ import android.view.Menu;
 import android.view.View;
 import android.os.Bundle;
 
+import org.apache.http.client.utils.DateUtils;
 import org.json.JSONArray;
 
 import org.json.JSONObject;
@@ -99,10 +106,7 @@ public class MainActivity extends Activity {
 
         DbMgr.init(getApplicationContext());
         AppUseDb.init(getApplicationContext());
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setActionBar((Toolbar) findViewById(R.id.my_toolbar));
-        }
+        setActionBar((Toolbar) findViewById(R.id.my_toolbar));
 
         //region Init UI variables
         btnEMA = findViewById(R.id.btn_late_ema);
@@ -141,16 +145,9 @@ public class MainActivity extends Activity {
         });
 
         //region Registering BroadcastReciever for connectivity changed
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            // only for LOLLIPOP and newer versions
-            connectionMonitor = new ConnectionMonitor(this);
-            connectionMonitor.enable();
-        } else {
-            intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
-            intentFilter.addAction(getPackageName() + "android.net.wifi.WIFI_STATE_CHANGED");
-            connectionReceiver = new ConnectionReceiver();
-            registerReceiver(connectionReceiver, intentFilter);
-        }
+        // only for LOLLIPOP and newer versions
+        connectionMonitor = new ConnectionMonitor(this);
+        connectionMonitor.enable();
         //endregion
 
     }
@@ -555,4 +552,49 @@ public class MainActivity extends Activity {
         editor.putString("dataSourceNames", sb.toString());
         editor.apply();
     }
+
+
+    /* TODO: this permission is for Xiaomi phones for background service running. But still not working
+    String AUTO_START_PREF = "AutoStartPrefs";
+    String AUTO_START_PREF_KEY = "audto_start";
+    private static final Intent[] POWERMANAGER_INTENTS = {
+            new Intent().setComponent(new ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity")),
+            new Intent().setComponent(new ComponentName("com.letv.android.letvsafe", "com.letv.android.letvsafe.AutobootManageActivity")),
+            new Intent().setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.startupmgr.ui.StartupNormalAppListActivity")),
+            new Intent().setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.optimize.process.ProtectActivity")),
+            new Intent().setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.appcontrol.activity.StartupAppControlActivity")),
+            new Intent().setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.permission.startup.StartupAppListActivity")),
+            new Intent().setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.startupapp.StartupAppListActivity")),
+            new Intent().setComponent(new ComponentName("com.oppo.safe", "com.oppo.safe.permission.startup.StartupAppListActivity")),
+            new Intent().setComponent(new ComponentName("com.iqoo.secure", "com.iqoo.secure.ui.phoneoptimize.AddWhiteListActivity")),
+            new Intent().setComponent(new ComponentName("com.iqoo.secure", "com.iqoo.secure.ui.phoneoptimize.BgStartUpManager")),
+            new Intent().setComponent(new ComponentName("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.BgStartUpManagerActivity")),
+            new Intent().setComponent(new ComponentName("com.samsung.android.lool", "com.samsung.android.sm.ui.battery.BatteryActivity")),
+            new Intent().setComponent(new ComponentName("com.htc.pitroad", "com.htc.pitroad.landingpage.activity.LandingPageActivity")),
+            new Intent().setComponent(new ComponentName("com.asus.mobilemanager", "com.asus.mobilemanager.MainActivity"))
+    };
+
+
+    private boolean requestUnrestrictedBackgroundService() {
+        for (final Intent intent : POWERMANAGER_INTENTS)
+            if (getPackageManager().resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY) != null) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+                dialog.setMessage("On this device you must allow us to run services in background");
+                dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivityForResult(intent, 1234);
+                    }
+                });
+                dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+                dialog.show();
+                return false;
+            }
+        return true;
+    }*/
 }

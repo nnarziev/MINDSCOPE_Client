@@ -32,7 +32,7 @@
     <string name="authentication_txt">Authentication</string>
     <string name="authentication_btn">Authenticate</string>
 
-    <string name="ema_explanation">* 1(Never) ~ 5(Very Often)</string>
+    <string name="ema_explanation">* 0(Never) ~ 4(Very Often)</string>
     <string name="ema_question_1">1. 지난 3시간 동안, 초조하거나 스트레스가 쌓인다고 느꼈나요?</string>
     <string name="ema_question_2">2. 지난 3시간 동안, 예상치 못한 일이 생겨서 기분이 나빠졌나요?</string>
     <string name="ema_question_3">3. 지난 3시간 동안 매사를 잘 컨트롤 하고 있다고 느꼈나요?</string>

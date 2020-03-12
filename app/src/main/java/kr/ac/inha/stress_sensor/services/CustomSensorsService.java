@@ -70,7 +70,7 @@ public class CustomSensorsService extends Service {
     public static final long EMA_RESPONSE_EXPIRE_TIME = 3600;  //in sec
     //public static final int EMA_BTN_VISIBLE_X_MIN_AFTER_EMA = 60; //min
     public static final int SERVICE_START_X_MIN_BEFORE_EMA = 3 * 60; //min
-    public static final short HEARTBEAT_PERIOD = 2 * 1000;  //in sec
+    public static final short HEARTBEAT_PERIOD = 30;  //in sec
     public static final short DATA_SUBMIT_PERIOD = 5;  //in min
     private static final short AUDIO_RECORDING_PERIOD = 20 * 60;  //in sec
     private static final short AUDIO_RECORDING_DURATION = 5;  //in sec
@@ -121,13 +121,10 @@ public class CustomSensorsService extends Service {
     private ActivityRecognitionClient activityTransitionClient;
     private PendingIntent activityTransPendingIntent;
 
-    ScheduledExecutorService appUsageSubmitScheduler = Executors.newSingleThreadScheduledExecutor();
-    ScheduledExecutorService heartbeatSendScheduler = Executors.newSingleThreadScheduledExecutor();
-
     private boolean canSendNotif = true;
 
-    private Handler mHandler = new Handler();
-    private Runnable mRunnable = new Runnable() {
+    private Handler mainHandler = new Handler();
+    private Runnable mainRunnable = new Runnable() {
         @Override
         public void run() {
             long curTimestamp = System.currentTimeMillis();
@@ -165,12 +162,12 @@ public class CustomSensorsService extends Service {
             }
             //endregion
 
-            mHandler.postDelayed(this, 2 * 1000);
+            mainHandler.postDelayed(this, 2 * 1000);
         }
     };
 
     private boolean stopDataSubmitThread = false;
-    private Runnable datasubmitRunnable = new Runnable() {
+    private Runnable dataSubmitRunnable = new Runnable() {
         @Override
         public void run() {
             Cursor cursor = DbMgr.getSensorData();
@@ -214,17 +211,20 @@ public class CustomSensorsService extends Service {
         }
     };
 
-    private Runnable AppUsageSubmitRunnable = new Runnable() {
+    private Handler appUsageSubmitHandler = new Handler();
+    private Runnable appUsageSubmitRunnable = new Runnable() {
         public void run() {
             try {
                 Tools.checkAndSendUsageAccessStats(getApplicationContext());
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            appUsageSubmitHandler.postDelayed(this, APP_USAGE_SEND_PERIOD * 1000);
         }
     };
 
-    private Runnable HeartBeatSendRunnable = new Runnable() {
+    private Handler heartBeatHandler = new Handler();
+    private Runnable heartBeatSendRunnable = new Runnable() {
         public void run() {
             Log.e(TAG, "Sending heartbeat");
             try {
@@ -235,6 +235,7 @@ public class CustomSensorsService extends Service {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            heartBeatHandler.postDelayed(this, HEARTBEAT_PERIOD * 1000);
         }
     };
 
@@ -312,13 +313,15 @@ public class CustomSensorsService extends Service {
         startForeground(ID_SERVICE, notification);
         //endregion
 
-        mHandler.post(mRunnable);
+        mainHandler.post(mainRunnable);
+        heartBeatHandler.post(heartBeatSendRunnable);
+        appUsageSubmitHandler.post(appUsageSubmitRunnable);
         new Thread(new Runnable() {
             @Override
             public void run() {
                 while (!stopDataSubmitThread) {
                     if (Tools.isNetworkAvailable(CustomSensorsService.this))
-                        datasubmitRunnable.run();
+                        dataSubmitRunnable.run();
                     try {
                         Thread.sleep(DATA_SUBMIT_PERIOD * 60 * 1000);
                     } catch (InterruptedException e) {
@@ -327,8 +330,6 @@ public class CustomSensorsService extends Service {
                 }
             }
         }).start();
-        heartbeatSendScheduler.scheduleAtFixedRate(HeartBeatSendRunnable, 0, HEARTBEAT_PERIOD, TimeUnit.SECONDS);
-        appUsageSubmitScheduler.scheduleAtFixedRate(AppUsageSubmitRunnable, 0, APP_USAGE_SEND_PERIOD, TimeUnit.SECONDS);
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -361,7 +362,9 @@ public class CustomSensorsService extends Service {
         unregisterReceiver(mPhoneUnlockedReceiver);
         unregisterReceiver(mCallReceiver);
         stopDataSubmitThread = true;
-        mHandler.removeCallbacks(mRunnable);
+        mainHandler.removeCallbacks(mainRunnable);
+        heartBeatHandler.removeCallbacks(heartBeatSendRunnable);
+        appUsageSubmitHandler.removeCallbacks(appUsageSubmitRunnable);
         //endregion
 
         //region Stop foreground service

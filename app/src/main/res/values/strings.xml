@@ -34,7 +34,7 @@
     <string name="authentication_txt">Authentication</string>
     <string name="authentication_btn">Authenticate</string>
 
-    <string name="ema_explanation">* 1(Never) ~ 5(Very Often)</string>
+    <string name="ema_explanation">* 0(Never) ~ 4(Very Often)</string>
     <string name="ema_question_1">1. In the past 3 hours, did you feel nervous or stressful?</string>
     <string name="ema_question_2">2. In the past 3 hours, did you feel bad because something unexpected happened?</string>
     <string name="ema_question_3">3. For the past 3 hours, did you feel you were controlling everything?</string>

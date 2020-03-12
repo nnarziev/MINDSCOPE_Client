@@ -53,6 +53,7 @@ import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
@@ -304,14 +305,15 @@ public class Tools {
     private static boolean isReachable;
 
     public static boolean isNetworkAvailable(final Context context) {
-        /*try {
+        try {
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        InetAddress inetAddress = InetAddress.getByAddress(new byte[]{(byte) 8, (byte) 8, (byte) 4, (byte) 4});
-                        isReachable = inetAddress.isReachable(100);
+                        InetAddress address = InetAddress.getByName("www.google.com");
+                        isReachable = !address.toString().equals("");
                     } catch (Exception e) {
+                        e.printStackTrace();
                         isReachable = false;
                     }
                 }
@@ -319,14 +321,17 @@ public class Tools {
             thread.start();
             thread.join();
         } catch (Exception e) {
+            e.printStackTrace();
             isReachable = false;
-        }*/
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        }
+
+        return isReachable;
+        /*ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo;
         if (connectivityManager == null)
             return false;
         activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();*/
     }
 
     @SuppressWarnings("unused")
