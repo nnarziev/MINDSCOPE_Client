@@ -33,7 +33,19 @@ public class ActivityRecognitionReceiver extends BroadcastReceiver {
                 DetectedActivity detectedActivity = result.getMostProbableActivity();
                 float confidence = ((float) detectedActivity.getConfidence()) / 100;
 
-                if (detectedActivity.getType() == DetectedActivity.STILL) {
+                if (detectedActivity.getType() == DetectedActivity.STILL && confidence > 0.8) {
+                    if (Tools.isLocationServiceRunning(context)) {
+                        context.stopService(locationServiceIntent);
+                    }
+                } else {
+                    if (confidence > 0.8) {
+                        if (!Tools.isLocationServiceRunning(context)) {
+                            context.startService(locationServiceIntent);
+                        }
+                    }
+                }
+
+                /*if (detectedActivity.getType() == DetectedActivity.STILL) {
                     isDynamicActivity = false;
                     if (confidence < 0.5)
                         isStill = false;
@@ -61,7 +73,7 @@ public class ActivityRecognitionReceiver extends BroadcastReceiver {
                     isDynamicActivity = true;
                 } else if (detectedActivity.getType() == DetectedActivity.STILL && confidence > 0.5) {
                     isStill = true;
-                }
+                }*/
             }
         }
     }

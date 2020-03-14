@@ -74,7 +74,7 @@ public class CustomSensorsService extends Service {
     public static final short DATA_SUBMIT_PERIOD = 5;  //in min
     private static final short AUDIO_RECORDING_PERIOD = 20 * 60;  //in sec
     private static final short AUDIO_RECORDING_DURATION = 5;  //in sec
-    private static final int ACTIVITY_RECOGNITION_INTERVAL = 20; //in sec
+    private static final int ACTIVITY_RECOGNITION_INTERVAL = 40; //in sec
     private static final int APP_USAGE_SEND_PERIOD = 3; //in sec
 
 
@@ -229,8 +229,9 @@ public class CustomSensorsService extends Service {
             Log.e(TAG, "Sending heartbeat");
             try {
                 if (Tools.heartbeatNotSent(CustomSensorsService.this)) {
-                    Tools.perform_logout(CustomSensorsService.this);
-                    stopSelf();
+                    Log.e(TAG, "Heartbeat not sent");
+                    /*Tools.perform_logout(CustomSensorsService.this);
+                    stopSelf();*/
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();

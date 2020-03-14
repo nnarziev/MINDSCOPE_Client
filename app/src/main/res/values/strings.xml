@@ -80,4 +80,14 @@
     <string name="set_additional_location">Other place</string>
     <string name="locations_set_instruction">Place the pin where you want it on the map and press the corresponding place button to set the place.</string>
 
+    <string name="log_out_confirmation">Are you sure you want to log out?</string>
+    <string name="location_removed">Location has been removed!</string>
+    <string name="location_remove_confirmation">Are you sure you want to remove this location?</string>
+    <string name="location_set"> location has been set!</string>
+    <string name="location_set_confirmation">Are you sure it\'s your \"%1$s\" location?</string>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="cancel">Cancel</string>
+
 </resources>

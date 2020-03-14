@@ -1137,6 +1137,7 @@ string authentication_txt
 string buttonConnect
 string buttonDisconnect
 string buttonSend
+string cancel
 string common_google_play_services_enable_button
 string common_google_play_services_enable_text
 string common_google_play_services_enable_title
@@ -1175,9 +1176,15 @@ string grpc_port
 string internet_off
 string internet_on
 string last_active
+string location_remove_confirmation
+string location_removed
+string location_set
+string location_set_confirmation
 string locations_set_instruction
 string log_out
+string log_out_confirmation
 string next
+string no
 string no_data
 string notif_channel_id
 string refresh_window
@@ -1213,6 +1220,7 @@ string url_user_login
 string url_user_register
 string url_usr_stat
 string view_files
+string yes
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
 style Animation_AppCompat_Dialog

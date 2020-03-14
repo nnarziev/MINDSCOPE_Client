@@ -109,207 +109,208 @@
 48-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:43:9-43
 49        android:label="@string/app_name"
 49-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:44:9-41
-50        android:networkSecurityConfig="@xml/network_security_config" >
+50        android:networkSecurityConfig="@xml/network_security_config"
 50-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:45:9-69
-51        <activity
-51-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:49:9-51:47
-52            android:name="kr.ac.inha.stress_sensor.old.ViewFilesActivity"
-52-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:50:13-74
-53            android:theme="@style/AppTheme" />
-53-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:51:13-44
-54        <activity
-54-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:52:9-63:20
-55            android:name="kr.ac.inha.stress_sensor.AuthenticationActivity"
-55-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:53:13-75
-56            android:label="@string/app_name"
-56-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:54:13-45
-57            android:launchMode="singleTask"
-57-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:55:13-44
-58            android:screenOrientation="portrait"
-58-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:56:13-49
-59            android:theme="@style/AppTheme" >
-59-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:57:13-44
-60            <intent-filter>
-60-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:58:13-62:29
-61                <action android:name="android.intent.action.MAIN" />
-61-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:59:17-69
-61-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:59:25-66
-62
-63                <category android:name="android.intent.category.LAUNCHER" />
-63-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:61:17-77
-63-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:61:27-74
-64            </intent-filter>
-65        </activity>
-66        <activity
-66-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:64:9-66:47
-67            android:name="kr.ac.inha.stress_sensor.MainActivity"
-67-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:65:13-65
-68            android:theme="@style/AppTheme" />
-68-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:66:13-44
-69        <activity
-69-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:67:9-69:47
-70            android:name="kr.ac.inha.stress_sensor.EMAActivity"
-70-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:68:13-64
-71            android:theme="@style/AppTheme" />
-71-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:69:13-44
-72        <activity
-72-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:70:9-72:47
-73            android:name="kr.ac.inha.stress_sensor.LocationsSettingActivity"
-73-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:71:13-77
-74            android:theme="@style/AppTheme" />
-74-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:72:13-44
-75
-76        <service android:name="kr.ac.inha.stress_sensor.services.CustomSensorsService" />
-76-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:74:9-90
-76-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:74:18-87
-77        <service android:name="kr.ac.inha.stress_sensor.services.LocationService" />
-77-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:75:9-85
-77-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:75:18-82
-78        <service android:name="kr.ac.inha.stress_sensor.services.SendGPSStats" />
-78-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:76:9-82
-78-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:76:18-79
-79
-80        <receiver android:name="kr.ac.inha.stress_sensor.receivers.GeofenceReceiver" />
-80-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:78:9-88
-80-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:78:19-85
-81        <receiver android:name="kr.ac.inha.stress_sensor.receivers.ActivityRecognitionReceiver" />
-81-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:79:9-99
-81-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:79:19-96
-82        <receiver android:name="kr.ac.inha.stress_sensor.receivers.ActivityTransitionsReceiver" />
-82-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:80:9-99
-82-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:80:19-96
-83        <receiver android:name="kr.ac.inha.stress_sensor.receivers.ScreenAndUnlockReceiver" />
-83-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:81:9-95
-83-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:81:19-92
-84        <receiver android:name="kr.ac.inha.stress_sensor.receivers.ConnectionReceiver" >
-84-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:82:9-88:20
-84-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:82:19-87
-85            <intent-filter>
-85-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:83:13-87:29
-86                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-86-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:84:17-86:50
-86-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:85:21-72
-87            </intent-filter>
-88        </receiver>
-89        <receiver
-89-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:89:9-95:20
-90            android:name="com.samsung.android.sdk.accessory.RegisterUponInstallReceiver"
-90-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:90:13-89
-91            android:permission="vuala" >
-91-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:91:13-39
-92            <intent-filter>
-92-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:92:13-94:29
-93                <action android:name="com.samsung.accessory.action.REGISTER_AGENT" />
-93-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:93:17-86
-93-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:93:25-83
-94            </intent-filter>
-95        </receiver>
-96        <receiver
-96-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:96:9-102:20
-97            android:name="com.samsung.android.sdk.accessory.ServiceConnectionIndicationBroadcastReceiver"
-97-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:97:13-106
-98            android:permission="vuala" >
-98-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:98:13-39
-99            <intent-filter>
-99-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:99:13-101:29
-100                <action android:name="com.samsung.accessory.action.SERVICE_CONNECTION_REQUESTED" />
-100-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:100:17-100
-100-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:100:25-97
-101            </intent-filter>
-102        </receiver>
-103        <receiver
-103-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:103:9-112:20
-104            android:name="kr.ac.inha.stress_sensor.receivers.CallReceiver"
-104-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:104:13-75
-105            android:enabled="true" >
-105-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:105:13-35
-106            <intent-filter>
-106-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:106:13-108:29
-107                <action android:name="android.intent.action.PHONE_STATE" />
-107-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:107:17-76
-107-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:107:25-73
-108            </intent-filter>
-109            <intent-filter>
-109-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:109:13-111:29
-110                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
-110-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:110:17-82
-110-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:110:25-79
-111            </intent-filter>
-112        </receiver>
-113        <receiver
-113-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:113:9-120:20
-114            android:name="kr.ac.inha.stress_sensor.receivers.RebootReceiver"
-114-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:114:13-77
-115            android:enabled="true"
-115-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:115:13-35
-116            android:exported="false" >
-116-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:116:13-37
-117            <intent-filter>
-117-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:117:13-119:29
-118                <action android:name="android.intent.action.BOOT_COMPLETED" />
-118-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:118:17-79
-118-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:118:25-76
-119            </intent-filter>
-120        </receiver>
-121
-122        <meta-data
-122-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:122:9-124:69
-123            android:name="com.google.android.gms.version"
-123-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:123:13-58
-124            android:value="@integer/google_play_services_version" />
-124-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:124:13-66
-125        <meta-data
-125-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:125:9-127:55
-126            android:name="com.google.android.maps.v2.API_KEY"
-126-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:126:13-62
-127            android:value="@string/google_maps_key" />
-127-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:127:13-52
-128
-129        <uses-library
-129-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:129:9-131:40
-130            android:name="org.apache.http.legacy"
-130-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:130:13-50
-131            android:required="false" />
-131-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:131:13-37
-132
-133        <!--
-134        <provider
-135            android:name="android.support.v4.content.FileProvider"
-136            android:authorities="com.samsung.android.sdk.accessory.example.filetransfer.receiver"
-137            android:exported="false"
-138            android:grantUriPermissions="true">
-139            <meta-data
-140                android:name="android.support.FILE_PROVIDER_PATHS"
-141                android:resource="@xml/file_paths" />
-142        </provider>
-143
-144        <meta-data
-145            android:name="AccessoryServicesLocation"
-146            android:value="/res/xml/accessoryservices.xml" />
-147        <meta-data
-148            android:name="GearAppType"
-149            android:value="tpk" />
-150
-151        <receiver
-152            android:name=".MainActivity$ConsumerServiceReceiver"
-153            android:enabled="true"
-154            android:exported="true"
-155            android:permission="vuala" />
-156
-157        <receiver android:name="com.samsung.android.sdk.accessoryfiletransfer.SAFileTransferIncomingRequestReceiver">
-158            <intent-filter>
-159                <action android:name="com.samsung.accessory.ftconnection" />
-160            </intent-filter>
-161        </receiver>
-162        -->
-163        <activity
-163-->[com.google.android.gms:play-services-base:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\ddacbb1a5275aad3f5845e4e6edef522\jetified-play-services-base-16.0.1\AndroidManifest.xml:23:9-26:75
-164            android:name="com.google.android.gms.common.api.GoogleApiActivity"
-164-->[com.google.android.gms:play-services-base:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\ddacbb1a5275aad3f5845e4e6edef522\jetified-play-services-base-16.0.1\AndroidManifest.xml:24:13-79
-165            android:exported="false"
-165-->[com.google.android.gms:play-services-base:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\ddacbb1a5275aad3f5845e4e6edef522\jetified-play-services-base-16.0.1\AndroidManifest.xml:25:13-37
-166            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-166-->[com.google.android.gms:play-services-base:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\ddacbb1a5275aad3f5845e4e6edef522\jetified-play-services-base-16.0.1\AndroidManifest.xml:26:13-72
-167    </application>
-168
-169</manifest>
+51        android:testOnly="true" >
+52        <activity
+52-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:49:9-51:47
+53            android:name="kr.ac.inha.stress_sensor.old.ViewFilesActivity"
+53-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:50:13-74
+54            android:theme="@style/AppTheme" />
+54-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:51:13-44
+55        <activity
+55-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:52:9-63:20
+56            android:name="kr.ac.inha.stress_sensor.AuthenticationActivity"
+56-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:53:13-75
+57            android:label="@string/app_name"
+57-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:54:13-45
+58            android:launchMode="singleTask"
+58-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:55:13-44
+59            android:screenOrientation="portrait"
+59-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:56:13-49
+60            android:theme="@style/AppTheme" >
+60-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:57:13-44
+61            <intent-filter>
+61-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:58:13-62:29
+62                <action android:name="android.intent.action.MAIN" />
+62-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:59:17-69
+62-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:59:25-66
+63
+64                <category android:name="android.intent.category.LAUNCHER" />
+64-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:61:17-77
+64-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:61:27-74
+65            </intent-filter>
+66        </activity>
+67        <activity
+67-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:64:9-66:47
+68            android:name="kr.ac.inha.stress_sensor.MainActivity"
+68-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:65:13-65
+69            android:theme="@style/AppTheme" />
+69-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:66:13-44
+70        <activity
+70-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:67:9-69:47
+71            android:name="kr.ac.inha.stress_sensor.EMAActivity"
+71-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:68:13-64
+72            android:theme="@style/AppTheme" />
+72-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:69:13-44
+73        <activity
+73-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:70:9-72:47
+74            android:name="kr.ac.inha.stress_sensor.LocationsSettingActivity"
+74-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:71:13-77
+75            android:theme="@style/AppTheme" />
+75-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:72:13-44
+76
+77        <service android:name="kr.ac.inha.stress_sensor.services.CustomSensorsService" />
+77-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:74:9-90
+77-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:74:18-87
+78        <service android:name="kr.ac.inha.stress_sensor.services.LocationService" />
+78-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:75:9-85
+78-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:75:18-82
+79        <service android:name="kr.ac.inha.stress_sensor.services.SendGPSStats" />
+79-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:76:9-82
+79-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:76:18-79
+80
+81        <receiver android:name="kr.ac.inha.stress_sensor.receivers.GeofenceReceiver" />
+81-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:78:9-88
+81-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:78:19-85
+82        <receiver android:name="kr.ac.inha.stress_sensor.receivers.ActivityRecognitionReceiver" />
+82-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:79:9-99
+82-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:79:19-96
+83        <receiver android:name="kr.ac.inha.stress_sensor.receivers.ActivityTransitionsReceiver" />
+83-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:80:9-99
+83-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:80:19-96
+84        <receiver android:name="kr.ac.inha.stress_sensor.receivers.ScreenAndUnlockReceiver" />
+84-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:81:9-95
+84-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:81:19-92
+85        <receiver android:name="kr.ac.inha.stress_sensor.receivers.ConnectionReceiver" >
+85-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:82:9-88:20
+85-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:82:19-87
+86            <intent-filter>
+86-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:83:13-87:29
+87                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+87-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:84:17-86:50
+87-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:85:21-72
+88            </intent-filter>
+89        </receiver>
+90        <receiver
+90-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:89:9-95:20
+91            android:name="com.samsung.android.sdk.accessory.RegisterUponInstallReceiver"
+91-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:90:13-89
+92            android:permission="vuala" >
+92-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:91:13-39
+93            <intent-filter>
+93-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:92:13-94:29
+94                <action android:name="com.samsung.accessory.action.REGISTER_AGENT" />
+94-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:93:17-86
+94-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:93:25-83
+95            </intent-filter>
+96        </receiver>
+97        <receiver
+97-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:96:9-102:20
+98            android:name="com.samsung.android.sdk.accessory.ServiceConnectionIndicationBroadcastReceiver"
+98-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:97:13-106
+99            android:permission="vuala" >
+99-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:98:13-39
+100            <intent-filter>
+100-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:99:13-101:29
+101                <action android:name="com.samsung.accessory.action.SERVICE_CONNECTION_REQUESTED" />
+101-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:100:17-100
+101-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:100:25-97
+102            </intent-filter>
+103        </receiver>
+104        <receiver
+104-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:103:9-112:20
+105            android:name="kr.ac.inha.stress_sensor.receivers.CallReceiver"
+105-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:104:13-75
+106            android:enabled="true" >
+106-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:105:13-35
+107            <intent-filter>
+107-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:106:13-108:29
+108                <action android:name="android.intent.action.PHONE_STATE" />
+108-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:107:17-76
+108-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:107:25-73
+109            </intent-filter>
+110            <intent-filter>
+110-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:109:13-111:29
+111                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
+111-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:110:17-82
+111-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:110:25-79
+112            </intent-filter>
+113        </receiver>
+114        <receiver
+114-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:113:9-120:20
+115            android:name="kr.ac.inha.stress_sensor.receivers.RebootReceiver"
+115-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:114:13-77
+116            android:enabled="true"
+116-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:115:13-35
+117            android:exported="false" >
+117-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:116:13-37
+118            <intent-filter>
+118-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:117:13-119:29
+119                <action android:name="android.intent.action.BOOT_COMPLETED" />
+119-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:118:17-79
+119-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:118:25-76
+120            </intent-filter>
+121        </receiver>
+122
+123        <meta-data
+123-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:122:9-124:69
+124            android:name="com.google.android.gms.version"
+124-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:123:13-58
+125            android:value="@integer/google_play_services_version" />
+125-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:124:13-66
+126        <meta-data
+126-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:125:9-127:55
+127            android:name="com.google.android.maps.v2.API_KEY"
+127-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:126:13-62
+128            android:value="@string/google_maps_key" />
+128-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:127:13-52
+129
+130        <uses-library
+130-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:129:9-131:40
+131            android:name="org.apache.http.legacy"
+131-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:130:13-50
+132            android:required="false" />
+132-->C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:131:13-37
+133
+134        <!--
+135        <provider
+136            android:name="android.support.v4.content.FileProvider"
+137            android:authorities="com.samsung.android.sdk.accessory.example.filetransfer.receiver"
+138            android:exported="false"
+139            android:grantUriPermissions="true">
+140            <meta-data
+141                android:name="android.support.FILE_PROVIDER_PATHS"
+142                android:resource="@xml/file_paths" />
+143        </provider>
+144
+145        <meta-data
+146            android:name="AccessoryServicesLocation"
+147            android:value="/res/xml/accessoryservices.xml" />
+148        <meta-data
+149            android:name="GearAppType"
+150            android:value="tpk" />
+151
+152        <receiver
+153            android:name=".MainActivity$ConsumerServiceReceiver"
+154            android:enabled="true"
+155            android:exported="true"
+156            android:permission="vuala" />
+157
+158        <receiver android:name="com.samsung.android.sdk.accessoryfiletransfer.SAFileTransferIncomingRequestReceiver">
+159            <intent-filter>
+160                <action android:name="com.samsung.accessory.ftconnection" />
+161            </intent-filter>
+162        </receiver>
+163        -->
+164        <activity
+164-->[com.google.android.gms:play-services-base:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\ddacbb1a5275aad3f5845e4e6edef522\jetified-play-services-base-16.0.1\AndroidManifest.xml:23:9-26:75
+165            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+165-->[com.google.android.gms:play-services-base:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\ddacbb1a5275aad3f5845e4e6edef522\jetified-play-services-base-16.0.1\AndroidManifest.xml:24:13-79
+166            android:exported="false"
+166-->[com.google.android.gms:play-services-base:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\ddacbb1a5275aad3f5845e4e6edef522\jetified-play-services-base-16.0.1\AndroidManifest.xml:25:13-37
+167            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+167-->[com.google.android.gms:play-services-base:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\ddacbb1a5275aad3f5845e4e6edef522\jetified-play-services-base-16.0.1\AndroidManifest.xml:26:13-72
+168    </application>
+169
+170</manifest>

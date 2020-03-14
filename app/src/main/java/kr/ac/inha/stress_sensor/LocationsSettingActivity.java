@@ -276,7 +276,7 @@ public class LocationsSettingActivity extends AppCompatActivity implements OnMap
         editor.putFloat(location.getmId() + "_LAT", (float) location.getmLatLng().latitude);
         editor.putFloat(location.getmId() + "_LNG", (float) location.getmLatLng().longitude);
         editor.apply();
-        Toast.makeText(getApplicationContext(), locationText + " 위치를 설정했습니다!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), locationText + getString(R.string.location_set), Toast.LENGTH_SHORT).show();
         currentStoringLocation.setRadius(GEOFENCE_RADIUS_DEFAULT);
 
         String location_id = currentStoringLocation.getmId();
@@ -306,8 +306,7 @@ public class LocationsSettingActivity extends AppCompatActivity implements OnMap
 
         final SharedPreferences locationPrefs = getSharedPreferences("UserLocations", MODE_PRIVATE);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("주의!");
-        builder.setMessage("저장된 위치를 해제하시겠습니까?");
+        builder.setMessage(getString(R.string.location_remove_confirmation));
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -317,7 +316,7 @@ public class LocationsSettingActivity extends AppCompatActivity implements OnMap
                 editor.remove(locationId + "_LNG");
                 editor.remove(locationId + "_ENTERED_TIME");
                 editor.apply();
-                Toast.makeText(LocationsSettingActivity.this, "저장된 위치가 해제되었습니다!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LocationsSettingActivity.this, getString(R.string.location_removed), Toast.LENGTH_SHORT).show();
                 onMapReady(mMap);
                 drawGeofence(currentGeofenceMarker, GEOFENCE_RADIUS_DEFAULT);
             }
@@ -335,64 +334,51 @@ public class LocationsSettingActivity extends AppCompatActivity implements OnMap
     //region Buttons click listeners
     public void setHomeClick(View view) {
         currentStoringLocation = new StoreLocation(ID_HOME, new LatLng(currentGeofenceMarker.getPosition().latitude, currentGeofenceMarker.getPosition().longitude));
-        setLocation(TITLE_HOME, currentStoringLocation);
+        displayDialog(TITLE_HOME, currentStoringLocation);
+        //setLocation(TITLE_HOME, currentStoringLocation);
     }
 
     public void setDormClick(View view) {
         currentStoringLocation = new StoreLocation(ID_DORM, new LatLng(currentGeofenceMarker.getPosition().latitude, currentGeofenceMarker.getPosition().longitude));
-        setLocation(TITLE_DORM, currentStoringLocation);
+        displayDialog(TITLE_DORM, currentStoringLocation);
+        //setLocation(TITLE_DORM, currentStoringLocation);
     }
 
     public void setUnivClick(View view) {
         currentStoringLocation = new StoreLocation(ID_UNIV, new LatLng(currentGeofenceMarker.getPosition().latitude, currentGeofenceMarker.getPosition().longitude));
-        setLocation(TITLE_UNIV, currentStoringLocation);
+        displayDialog(TITLE_UNIV, currentStoringLocation);
+        //setLocation(TITLE_UNIV, currentStoringLocation);
     }
 
     public void setLibraryClick(View view) {
         currentStoringLocation = new StoreLocation(ID_LIBRARY, new LatLng(currentGeofenceMarker.getPosition().latitude, currentGeofenceMarker.getPosition().longitude));
-        setLocation(TITLE_LIBRARY, currentStoringLocation);
+        displayDialog(TITLE_LIBRARY, currentStoringLocation);
+        //setLocation(TITLE_LIBRARY, currentStoringLocation);
     }
 
     public void setAdditionalPlaceClick(View view) {
         currentStoringLocation = new StoreLocation(ID_ADDITIONAL, new LatLng(currentGeofenceMarker.getPosition().latitude, currentGeofenceMarker.getPosition().longitude));
-        setLocation(TITLE_ADDITIONAL, currentStoringLocation);
+        displayDialog(TITLE_ADDITIONAL, currentStoringLocation);
+        //setLocation(TITLE_LIBRARY, currentStoringLocation);
     }
     //endregion
 
     public void displayDialog(final String locationText, final StoreLocation location) {
         final SharedPreferences locationPrefs = getSharedPreferences("UserLocations", MODE_PRIVATE);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Confirmation!");
-        builder.setMessage("Are you sure it's your " + locationText + "? If it's then please, specify the radius below.");
-        final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        builder.setView(input);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        //builder.setTitle("Confirmation!");
+        builder.setMessage(getString(R.string.location_set_confirmation, locationText));
+        /*final EditText radiusText = new EditText(this);
+        radiusText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        builder.setView(radiusText);*/
+        builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                SharedPreferences.Editor editor = locationPrefs.edit();
-                editor.putFloat(location.getmId() + "_LAT", (float) location.getmLatLng().latitude);
-                editor.putFloat(location.getmId() + "_LNG", (float) location.getmLatLng().longitude);
-                int tmp_radius = GEOFENCE_RADIUS_DEFAULT;
-                if (!input.getText().toString().equals(""))
-                    tmp_radius = Integer.valueOf(input.getText().toString());
-                editor.putInt(location.getmId() + "_RADIUS", tmp_radius);
-                editor.apply();
-                Toast.makeText(getApplicationContext(), locationText + " is set :)", Toast.LENGTH_SHORT).show();
-                currentStoringLocation.setRadius(Integer.valueOf(String.valueOf(tmp_radius)));
-
-                String location_id = currentStoringLocation.getmId();
-                LatLng position = currentStoringLocation.getmLatLng();
-                int radius = currentStoringLocation.getRadius();
-
-                GeofenceHelper.startGeofence(getApplicationContext(), location_id, position, radius);
-
-                onMapReady(mMap);
-                drawGeofence(currentGeofenceMarker, currentStoringLocation.getRadius());
+                setLocation(locationText, location);
             }
         });
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();

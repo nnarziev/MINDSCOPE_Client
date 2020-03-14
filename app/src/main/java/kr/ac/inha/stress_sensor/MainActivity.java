@@ -133,9 +133,10 @@ public class MainActivity extends Activity {
                 updateStats();
                 try {
                     if (Tools.heartbeatNotSent(getApplicationContext())) {
-                        Tools.perform_logout(MainActivity.this);
+                        Log.e(TAG, "Heartbeat not sent");
+                        /*Tools.perform_logout(MainActivity.this);
                         stopService(customSensorsService);
-                        finish();
+                        finish();*/
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -157,9 +158,10 @@ public class MainActivity extends Activity {
         super.onResume();
         try {
             if (Tools.heartbeatNotSent(getApplicationContext())) {
-                Tools.perform_logout(MainActivity.this);
+                Log.e(TAG, "Heartbeat not sent");
+                /*Tools.perform_logout(MainActivity.this);
                 stopService(customSensorsService);
-                finish();
+                finish();*/
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -477,9 +479,26 @@ public class MainActivity extends Activity {
     }
 
     public void logoutClick(MenuItem item) {
-        Tools.perform_logout(this);
-        stopService(customSensorsService);
-        finish();
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setMessage(getString(R.string.log_out_confirmation));
+        alertDialog.setPositiveButton(
+                getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Tools.perform_logout(getApplicationContext());
+                        stopService(customSensorsService);
+                        finish();
+                    }
+                });
+
+        alertDialog.setNegativeButton(
+                getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        alertDialog.show();
     }
 
     private void loadCampaign() {

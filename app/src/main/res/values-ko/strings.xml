@@ -77,4 +77,14 @@
     <string name="set_library_location">도서관</string>
     <string name="set_additional_location">기타 장소</string>
     <string name="locations_set_instruction">지도에서 원하는 위치에 핀을 놓으신 후 해당 장소 버튼을 눌러 장소를 설정하십시오.</string>
+
+    <string name="log_out_confirmation">Are you sure you want to log out?</string>
+    <string name="location_removed">저장된 위치가 해제되었습니다!</string>
+    <string name="location_remove_confirmation">저장된 위치를 해제하시겠습니까?</string>
+    <string name="location_set"> 위치를 설정했습니다!</string>
+    <string name="location_set_confirmation">그것이 당신의 \"%1$s\" 위치인지 확실합니까?</string>
+
+    <string name="yes">예</string>
+    <string name="no">아니오</string>
+    <string name="cancel">취소</string>
 </resources>
