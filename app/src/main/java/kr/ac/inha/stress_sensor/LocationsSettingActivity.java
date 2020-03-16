@@ -2,13 +2,9 @@ package kr.ac.inha.stress_sensor;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.text.InputType;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.graphics.Bitmap;
@@ -157,7 +153,7 @@ public class LocationsSettingActivity extends AppCompatActivity implements OnMap
     @Override
     public boolean onMarkerClick(Marker marker) {
         removeLocation(marker.getTitle());
-        drawGeofence(marker, Integer.valueOf(marker.getSnippet()));
+        drawGeofence(marker, Integer.parseInt(marker.getSnippet()));
         return false;
     }
 
