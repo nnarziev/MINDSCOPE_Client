@@ -16,7 +16,7 @@ public class ConnectionReceiver extends BroadcastReceiver {
     public void onReceive(Context con, Intent intent) {
 
         if (Objects.equals(intent.getAction(), ConnectivityManager.CONNECTIVITY_ACTION)) {
-            if (Tools.isNetworkAvailable(con)) {
+            if (Tools.isNetworkAvailable()) {
                 try {
                     Log.d(TAG, "Network is connected");
                     //TODO: do smth when internet is connected

@@ -1,14 +1,15 @@
 package kr.ac.inha.stress_sensor;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.app.AppOpsManager;
 import android.app.PendingIntent;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
@@ -18,8 +19,6 @@ import android.location.LocationManager;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.WindowManager;
@@ -33,37 +32,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.mime.HttpMultipartMode;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.InetAddress;
-import java.net.SocketTimeoutException;
-import java.net.URL;
-import java.net.UnknownHostException;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import inha.nsl.easytrack.ETServiceGrpc;
 import inha.nsl.easytrack.EtService;
@@ -82,11 +56,6 @@ import static kr.ac.inha.stress_sensor.services.CustomSensorsService.EMA_RESPONS
 import static kr.ac.inha.stress_sensor.services.CustomSensorsService.SERVICE_START_X_MIN_BEFORE_EMA;
 
 public class Tools {
-    private static final String TAG = "TOOLS";
-    static final short
-            RES_OK = 0,
-            RES_FAIL = 1,
-            RES_SRV_ERR = -1;
 
     static final String DATA_SOURCE_SEPARATOR = " ";
 
@@ -121,8 +90,8 @@ public class Tools {
         editor.apply();
     }
 
-    static boolean hasPermissions(Activity activity, String... permissions) {
-        Context context = activity.getApplicationContext();
+    public static boolean hasPermissions(Context con, String... permissions) {
+        Context context = con.getApplicationContext();
         if (context != null && permissions != null)
             for (String permission : permissions)
                 if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED)
@@ -157,7 +126,21 @@ public class Tools {
         }
     }
 
-    static void grantPermissions(Activity activity, String... permissions) {
+    static void requestPermissions(final Activity activity) {
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity)
+                .setTitle(activity.getString(R.string.permissions))
+                .setMessage(activity.getString(R.string.grant_permissions))
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Tools.grantPermissions(activity, PERMISSIONS);
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, null);
+        alertDialog.show();
+    }
+
+    private static void grantPermissions(Activity activity, String... permissions) {
         boolean simple_permissions_granted = true;
         for (String permission : permissions)
             if (ActivityCompat.checkSelfPermission(activity.getApplicationContext(), permission) != PackageManager.PERMISSION_GRANTED) {
@@ -183,117 +166,6 @@ public class Tools {
         }
     }
 
-    private static ExecutorService executor = Executors.newCachedThreadPool();
-
-    public static synchronized String post(String _url, JSONObject json_body) throws IOException {
-        URL url = new URL(_url);
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.setConnectTimeout(2000);
-        con.setDoOutput(json_body != null);
-        con.setDoInput(true);
-        con.setRequestMethod("POST");
-        con.setRequestProperty("Content-Type", "application/json");
-        try {
-            con.connect();
-        } catch (SocketTimeoutException e) {
-            return "";
-        }
-
-
-        if (json_body != null) {
-            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-            wr.writeBytes(convertToUTF8(json_body.toString()));
-            wr.flush();
-            wr.close();
-        }
-
-        int status = con.getResponseCode();
-        if (status != HttpURLConnection.HTTP_OK) {
-            con.disconnect();
-            return "";
-        } else {
-            byte[] buf = new byte[1024];
-            int rd;
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            BufferedInputStream is = new BufferedInputStream(con.getInputStream());
-            while ((rd = is.read(buf)) > 0)
-                bos.write(buf, 0, rd);
-            is.close();
-            con.disconnect();
-            bos.close();
-            return convertFromUTF8(bos.toByteArray());
-        }
-    }
-
-    static String postFiles(String _url, String username, String password, File file) throws IOException {
-        String responseString;
-        HttpPost httppost = new HttpPost(_url);
-        HttpClient httpclient = new DefaultHttpClient();
-
-        MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create();
-        entityBuilder.setMode(HttpMultipartMode.STRICT);
-        entityBuilder.addTextBody("username", username);
-        entityBuilder.addTextBody("password", password);
-        entityBuilder.addPart("file", new FileBody(file));
-        HttpEntity entity = entityBuilder.build();
-
-        httppost.setEntity(entity);
-
-        HttpResponse response = httpclient.execute(httppost);
-        HttpEntity httpEntity = response.getEntity();
-
-        int statusCode = response.getStatusLine().getStatusCode();
-        if (statusCode == 200) {
-            // Server response
-            responseString = EntityUtils.toString(httpEntity);
-        } else {
-            responseString = "Error occurred! Http Status Code: "
-                    + statusCode;
-        }
-
-        return responseString;
-    }
-
-    //region Old method of posting file
-    /*static String postFilesA(String _url, String username, String password, File file) throws IOException {
-        String responseString = null;
-
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost(_url);
-
-        MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create();
-        entityBuilder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-        entityBuilder.addTextBody("password", password);
-        entityBuilder.addTextBody("username", username);
-        entityBuilder.addPart("file", new FileBody(file));
-
-        HttpEntity entity = entityBuilder.build();
-        httppost.setEntity(entity);
-
-        HttpResponse response = httpclient.execute(httppost);
-        HttpEntity httpEntity = response.getEntity();
-
-        int statusCode = response.getStatusLine().getStatusCode();
-        if (statusCode == 200) {
-            // Server response
-            responseString = EntityUtils.toString(httpEntity);
-        } else {
-            responseString = "Error occurred! Http Status Code: "
-                    + statusCode;
-        }
-
-        return responseString;
-    }*/
-    //endregion
-
-    private static String convertFromUTF8(byte[] raw) {
-        return new String(raw, StandardCharsets.UTF_8);
-    }
-
-    private static String convertToUTF8(String s) {
-        return new String(s.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
-    }
-
     static void enable_touch(Activity activity) {
         activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
@@ -304,7 +176,7 @@ public class Tools {
 
     private static boolean isReachable;
 
-    public static boolean isNetworkAvailable(final Context context) {
+    public static boolean isNetworkAvailable() {
         try {
             Thread thread = new Thread(new Runnable() {
                 @Override
@@ -326,89 +198,8 @@ public class Tools {
         }
 
         return isReachable;
-        /*ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo;
-        if (connectivityManager == null)
-            return false;
-        activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();*/
     }
 
-    @SuppressWarnings("unused")
-    static float bytes2float(final byte[] data, final int startIndex) {
-        byte[] floatBytes = new byte[4];
-        System.arraycopy(data, startIndex, floatBytes, 0, 4);
-        return ByteBuffer.wrap(floatBytes).order(ByteOrder.LITTLE_ENDIAN).getFloat();
-    }
-
-    @SuppressWarnings("unused")
-    public static int bytes2int(final byte[] data, final int startIndex) {
-        byte[] intBytes = new byte[4];
-        System.arraycopy(data, startIndex, intBytes, 0, 4);
-        return ByteBuffer.wrap(intBytes).order(ByteOrder.LITTLE_ENDIAN).getInt();
-    }
-
-    @SuppressWarnings("unused")
-    public static long bytes2long(final byte[] data, final int startIndex) {
-        byte[] longBytes = new byte[8];
-        System.arraycopy(data, startIndex, longBytes, 0, 8);
-        return ByteBuffer.wrap(longBytes).order(ByteOrder.LITTLE_ENDIAN).getLong();
-    }
-
-    public static byte[] short2bytes(final short value) {
-        return new byte[]{(byte) value, (byte) (value >> 8)};
-    }
-
-    @SuppressWarnings("unused")
-    public static byte[] int2bytes(final int value) {
-        byte[] ret = new byte[4];
-        ret[3] = (byte) (value & 0xFF);
-        ret[2] = (byte) ((value >> 8) & 0xFF);
-        ret[1] = (byte) ((value >> 16) & 0xFF);
-        ret[0] = (byte) ((value >> 24) & 0xFF);
-        return ret;
-    }
-
-    @SuppressWarnings("unused")
-    @SuppressLint("NewApi")
-    public static byte[] long2bytes(final long value) {
-        ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
-        buffer.putLong(value);
-        return buffer.array();
-    }
-
-    @SuppressWarnings("unused")
-    public static byte[] float2bytes(float value) {
-        return ByteBuffer.allocate(4).putFloat(value).array();
-    }
-
-    private static String[] bytes2hexStrings(final byte[] bytes, final int offset) {
-        String[] res = new String[bytes.length - offset];
-        for (int n = offset; n < bytes.length; n++) {
-            int intVal = bytes[n] & 0xff;
-            res[n - offset] = "";
-            if (intVal < 0x10)
-                res[n - offset] += "0";
-            res[n - offset] += Integer.toHexString(intVal).toUpperCase();
-        }
-        return res;
-    }
-
-    private static String[] bytes2hexStrings(final byte[] bytes) {
-        return bytes2hexStrings(bytes, 0);
-    }
-
-    @SuppressWarnings("unused")
-    @SuppressLint("NewApi")
-    public static String bytes2hexString(final byte[] bytes, final int offset) {
-        return String.join(" ", bytes2hexStrings(bytes, offset));
-    }
-
-    @SuppressWarnings("unused")
-    @SuppressLint("NewApi")
-    public static String bytes2hexString(final byte[] bytes) {
-        return String.join(" ", bytes2hexStrings(bytes));
-    }
 
     static boolean isMainServiceRunning(Context con) {
         ActivityManager manager = (ActivityManager) con.getSystemService(Context.ACTIVITY_SERVICE);
@@ -433,7 +224,7 @@ public class Tools {
     public static synchronized boolean heartbeatNotSent(final Context con) throws InterruptedException {
         final SharedPreferences loginPrefs = con.getSharedPreferences("UserLogin", MODE_PRIVATE);
 
-        if (Tools.isNetworkAvailable(con)) {
+        if (Tools.isNetworkAvailable()) {
             new Thread() {
                 @Override
                 public void run() {
@@ -464,6 +255,7 @@ public class Tools {
         return false;
     }
 
+    @SuppressWarnings("unused")
     public static boolean checkIfInEMARange(Calendar cal) {
         long t = (cal.get(Calendar.HOUR_OF_DAY) * 3600 + cal.get(Calendar.MINUTE) * 60 + cal.get(Calendar.SECOND)) * 1000;
         return (EMAActivity.EMA_NOTIF_MILLIS[0] - SERVICE_START_X_MIN_BEFORE_EMA * 60 * 1000 <= t && t <= EMAActivity.EMA_NOTIF_MILLIS[0]) ||
@@ -493,6 +285,7 @@ public class Tools {
 
     }
 
+    @SuppressWarnings("unused")
     public static int getEMAOrderFromRangeBeforeEMA(long timestamp) {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(timestamp);
@@ -533,7 +326,7 @@ public class Tools {
         return ema_order;
     }
 
-    public static void perform_logout(Context con) {
+    static void perform_logout(Context con) {
 
         SharedPreferences loginPrefs = con.getSharedPreferences("UserLogin", MODE_PRIVATE);
         SharedPreferences locationPrefs = con.getSharedPreferences("UserLocations", MODE_PRIVATE);

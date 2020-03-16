@@ -40,9 +40,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import inha.nsl.easytrack.ETServiceGrpc;
 import inha.nsl.easytrack.EtService;
@@ -52,6 +49,7 @@ import io.grpc.StatusRuntimeException;
 import kr.ac.inha.stress_sensor.AuthenticationActivity;
 import kr.ac.inha.stress_sensor.DbMgr;
 import kr.ac.inha.stress_sensor.EMAActivity;
+import kr.ac.inha.stress_sensor.MainActivity;
 import kr.ac.inha.stress_sensor.R;
 import kr.ac.inha.stress_sensor.receivers.ActivityTransitionsReceiver;
 import kr.ac.inha.stress_sensor.Tools;
@@ -59,6 +57,7 @@ import kr.ac.inha.stress_sensor.receivers.ActivityRecognitionReceiver;
 import kr.ac.inha.stress_sensor.receivers.CallReceiver;
 import kr.ac.inha.stress_sensor.receivers.ScreenAndUnlockReceiver;
 
+import static kr.ac.inha.stress_sensor.MainActivity.PERMISSIONS;
 import static kr.ac.inha.stress_sensor.receivers.CallReceiver.AudioRunningForCall;
 
 public class CustomSensorsService extends Service {
@@ -196,7 +195,6 @@ public class CustomSensorsService extends Service {
 
                         if (responseMessage.getDoneSuccessfully()) {
                             DbMgr.deleteRecord(cursor.getInt(0));
-                            //Log.e("Deletion", "Deletion: " + cursor.getInt(0));
                         }
 
                     } while (cursor.moveToNext());
@@ -210,6 +208,21 @@ public class CustomSensorsService extends Service {
             cursor.close();
         }
     };
+    private Thread dataSubmissionThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            while (!stopDataSubmitThread) {
+
+                if (Tools.isNetworkAvailable())
+                    dataSubmitRunnable.run();
+                try {
+                    Thread.sleep(DATA_SUBMIT_PERIOD * 60 * 1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    });
 
     private Handler appUsageSubmitHandler = new Handler();
     private Runnable appUsageSubmitRunnable = new Runnable() {
@@ -226,7 +239,11 @@ public class CustomSensorsService extends Service {
     private Handler heartBeatHandler = new Handler();
     private Runnable heartBeatSendRunnable = new Runnable() {
         public void run() {
-            Log.e(TAG, "Sending heartbeat");
+            //before sending hear-beat check permissions granted or not. If not grant first
+            if (!Tools.hasPermissions(getApplicationContext(), PERMISSIONS)) {
+                startMainActivity();
+            }
+
             try {
                 if (Tools.heartbeatNotSent(CustomSensorsService.this)) {
                     Log.e(TAG, "Heartbeat not sent");
@@ -293,7 +310,6 @@ public class CustomSensorsService extends Service {
         registerReceiver(mPhoneUnlockedReceiver, filter);
         //endregion
 
-
         //region Register Phone call logs receiver
         mCallReceiver = new CallReceiver();
         IntentFilter intentFilter = new IntentFilter();
@@ -317,20 +333,7 @@ public class CustomSensorsService extends Service {
         mainHandler.post(mainRunnable);
         heartBeatHandler.post(heartBeatSendRunnable);
         appUsageSubmitHandler.post(appUsageSubmitRunnable);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (!stopDataSubmitThread) {
-                    if (Tools.isNetworkAvailable(CustomSensorsService.this))
-                        dataSubmitRunnable.run();
-                    try {
-                        Thread.sleep(DATA_SUBMIT_PERIOD * 60 * 1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
+        dataSubmissionThread.start();
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -405,7 +408,6 @@ public class CustomSensorsService extends Service {
         return null;
     }
 
-
     private void initDataSourceNameIdMap() {
         sensorNameToTypeMap.put("ANDROID_ACCELEROMETER", Sensor.TYPE_ACCELEROMETER);
         sensorNameToTypeMap.put("ANDROID_AMBIENT_TEMPERATURE", Sensor.TYPE_AMBIENT_TEMPERATURE);
@@ -459,12 +461,10 @@ public class CustomSensorsService extends Service {
         }
     }
 
-
     private void sendNotification(short ema_order) {
         final NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         Intent notificationIntent = new Intent(CustomSensorsService.this, EMAActivity.class);
-        Log.e(TAG, "EMA order 2: " + ema_order);
         notificationIntent.putExtra("ema_order", ema_order);
         //PendingIntent pendingIntent = PendingIntent.getActivities(CustomSensorsService.this, 0, new Intent[]{notificationIntent}, 0);
         PendingIntent pendingIntent = PendingIntent.getActivity(CustomSensorsService.this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -488,5 +488,11 @@ public class CustomSensorsService extends Service {
 
         final Notification notification = builder.build();
         notificationManager.notify(EMA_NOTIFICATION_ID, notification);
+    }
+
+    private void startMainActivity() {
+        Intent intentService = new Intent(this, MainActivity.class);
+        intentService.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intentService);
     }
 }

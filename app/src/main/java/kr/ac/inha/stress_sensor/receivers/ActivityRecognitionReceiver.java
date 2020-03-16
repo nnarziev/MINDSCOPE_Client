@@ -13,6 +13,7 @@ import androidx.core.app.NotificationCompat;
 import com.google.android.gms.location.ActivityRecognitionResult;
 import com.google.android.gms.location.DetectedActivity;
 
+
 import kr.ac.inha.stress_sensor.R;
 import kr.ac.inha.stress_sensor.Tools;
 import kr.ac.inha.stress_sensor.services.LocationService;
@@ -20,7 +21,6 @@ import kr.ac.inha.stress_sensor.services.LocationService;
 public class ActivityRecognitionReceiver extends BroadcastReceiver {
 
     public static final String TAG = "ActivityRecog";
-    static boolean isDynamicActivity = false;
     static boolean isStill = false;
 
     @Override
@@ -32,55 +32,33 @@ public class ActivityRecognitionReceiver extends BroadcastReceiver {
 
                 DetectedActivity detectedActivity = result.getMostProbableActivity();
                 float confidence = ((float) detectedActivity.getConfidence()) / 100;
+                Log.e(TAG, String.format("Activity: %s; confidence: %f", detectedActivity.getType(), confidence));
 
-                if (detectedActivity.getType() == DetectedActivity.STILL && confidence > 0.8) {
-                    if (Tools.isLocationServiceRunning(context)) {
-                        context.stopService(locationServiceIntent);
-                    }
-                } else {
-                    if (confidence > 0.8) {
-                        if (!Tools.isLocationServiceRunning(context)) {
-                            context.startService(locationServiceIntent);
-                        }
-                    }
-                }
-
-                /*if (detectedActivity.getType() == DetectedActivity.STILL) {
-                    isDynamicActivity = false;
-                    if (confidence < 0.5)
-                        isStill = false;
-                } else {
-                    isStill = false;
-                    if (confidence < 0.5)
-                        isDynamicActivity = false;
-                }
-
-                if (isDynamicActivity) { //if two consecutive dynamic activities with confidences of more than 0.5
-                    Log.e(TAG, "Two consecutive dynamic activities");
+                //start the GPS location collection service after non-STILL activity with confidence of more than 0.95
+                if (detectedActivity.getType() != DetectedActivity.STILL && confidence > 0.95) {
                     if (!Tools.isLocationServiceRunning(context)) {
                         context.startService(locationServiceIntent);
-                        //sendNotification(context, "STARTED->Location service");
                     }
-                } else if (isStill) { //if two consecutive still states with confidences of more than 0.5
-                    Log.e(TAG, "Two consecutive stills");
-                    if (Tools.isLocationServiceRunning(context)) {
-                        context.stopService(locationServiceIntent);
-                        //sendNotification(context, "STOPPED->Location service");
+                } else if (detectedActivity.getType() == DetectedActivity.STILL) {
+                    if (confidence < 0.9)
+                        isStill = false;
+                    else {
+                        // stop the GPS location collection service after two consecutive STILL activities with confidence of more than 0.9
+                        if (isStill) {
+                            if (Tools.isLocationServiceRunning(context)) {
+                                context.stopService(locationServiceIntent);
+                            }
+                        }
+                        isStill = true;
                     }
                 }
-
-                if (detectedActivity.getType() != DetectedActivity.STILL && confidence > 0.5) {
-                    isDynamicActivity = true;
-                } else if (detectedActivity.getType() == DetectedActivity.STILL && confidence > 0.5) {
-                    isStill = true;
-                }*/
             }
         }
     }
 
-    private void sendNotification(Context con, String content) {
+    @SuppressWarnings("unused")
+    private void sendNotification(Context con, String content, int notifID) {
         final NotificationManager notificationManager = (NotificationManager) con.getSystemService(Context.NOTIFICATION_SERVICE);
-        int notificaiton_id = 4321;  //notif id
 
         String channelId = "geofence_notifs";
         NotificationCompat.Builder builder = new NotificationCompat.Builder(con.getApplicationContext(), channelId);
@@ -98,6 +76,6 @@ public class ActivityRecognitionReceiver extends BroadcastReceiver {
         }
 
         final Notification notification = builder.build();
-        notificationManager.notify(notificaiton_id, notification);
+        notificationManager.notify(notifID, notification);
     }
 }

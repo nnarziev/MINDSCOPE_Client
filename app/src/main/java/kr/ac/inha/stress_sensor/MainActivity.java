@@ -7,14 +7,11 @@ import java.util.Objects;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.pm.PackageManager;
-import android.database.DatabaseUtils;
 import android.os.Build;
 
+import androidx.core.content.ContextCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
@@ -22,7 +19,6 @@ import android.view.Menu;
 import android.view.View;
 import android.os.Bundle;
 
-import org.apache.http.client.utils.DateUtils;
 import org.json.JSONArray;
 
 import org.json.JSONObject;
@@ -37,7 +33,6 @@ import android.widget.Toolbar;
 import org.json.JSONException;
 
 import android.widget.TextView;
-import android.content.IntentFilter;
 import android.widget.RelativeLayout;
 
 import android.content.SharedPreferences;
@@ -49,7 +44,6 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
 import kr.ac.inha.stress_sensor.receivers.ConnectionMonitor;
-import kr.ac.inha.stress_sensor.receivers.ConnectionReceiver;
 import kr.ac.inha.stress_sensor.services.CustomSensorsService;
 
 
@@ -58,7 +52,7 @@ public class MainActivity extends Activity {
     //region Constants
     private static final String TAG = "MainActivity";
     static int PERMISSION_ALL = 1;
-    static String[] PERMISSIONS = {
+    public static String[] PERMISSIONS = {
             android.Manifest.permission.READ_PHONE_STATE,
             android.Manifest.permission.PROCESS_OUTGOING_CALLS,
             Manifest.permission.RECORD_AUDIO,
@@ -86,9 +80,7 @@ public class MainActivity extends Activity {
     //endregion
 
     private Intent customSensorsService;
-    ConnectionReceiver connectionReceiver;
     ConnectionMonitor connectionMonitor;
-    IntentFilter intentFilter;
 
     private SharedPreferences loginPrefs;
     SharedPreferences configPrefs;
@@ -156,6 +148,11 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        if (!Tools.hasPermissions(this, PERMISSIONS)) {
+            Tools.requestPermissions(MainActivity.this);
+        }
+
         try {
             if (Tools.heartbeatNotSent(getApplicationContext())) {
                 Log.e(TAG, "Heartbeat not sent");
@@ -186,7 +183,7 @@ public class MainActivity extends Activity {
         customSensorsService = new Intent(this, CustomSensorsService.class);
         initUserStats(true, 0, 0, null);
 
-        if (Tools.isNetworkAvailable(this)) {
+        if (Tools.isNetworkAvailable()) {
             loadCampaign();
         } else if (configPrefs.getBoolean("campaignLoaded", false)) {
             try {
@@ -247,10 +244,10 @@ public class MainActivity extends Activity {
 
     public void initUserStats(boolean error, long joinedTimesamp, long hbPhone, String dataLoadedPhone) {
         if (Tools.isMainServiceRunning(MainActivity.this)) {
-            tvServiceStatus.setTextColor(getResources().getColor(R.color.green));
+            tvServiceStatus.setTextColor(ContextCompat.getColor(this, R.color.green));
             tvServiceStatus.setText(getString(R.string.service_runnig));
         } else {
-            tvServiceStatus.setTextColor(getResources().getColor(R.color.red));
+            tvServiceStatus.setTextColor(ContextCompat.getColor(this, R.color.red));
             tvServiceStatus.setText(getString(R.string.service_stopped));
         }
         if (!error) {
@@ -259,7 +256,7 @@ public class MainActivity extends Activity {
             tvDataLoadedPhone.setVisibility(View.VISIBLE);
             tvHBPhone.setVisibility(View.VISIBLE);
 
-            tvInternetStatus.setTextColor(getResources().getColor(R.color.green));
+            tvInternetStatus.setTextColor(ContextCompat.getColor(this, R.color.green));
 
             tvInternetStatus.setText(getString(R.string.internet_on));
 
@@ -272,9 +269,9 @@ public class MainActivity extends Activity {
             int heart_beat = (int) Math.ceil(hbTimeDif / 1000 / 60); // in minutes
 
             if (heart_beat > 30)
-                tvHBPhone.setTextColor(getResources().getColor(R.color.red));
+                tvHBPhone.setTextColor(ContextCompat.getColor(this, R.color.red));
             else
-                tvHBPhone.setTextColor(getResources().getColor(R.color.green));
+                tvHBPhone.setTextColor(ContextCompat.getColor(this, R.color.green));
 
 
             if (dayNum > 1) {
@@ -288,7 +285,7 @@ public class MainActivity extends Activity {
             String last_active_text = hbPhone == 0 ? "just now" : formatMinutes(heart_beat) + " ago";
             tvHBPhone.setText(getString(R.string.last_active, last_active_text));
         } else {
-            tvInternetStatus.setTextColor(getResources().getColor(R.color.red));
+            tvInternetStatus.setTextColor(ContextCompat.getColor(this, R.color.red));
             tvInternetStatus.setText(getString(R.string.internet_off));
             tvDayNum.setVisibility(View.GONE);
             tvEmaNum.setVisibility(View.GONE);
@@ -340,7 +337,7 @@ public class MainActivity extends Activity {
     }
 
     public void updateStats() {
-        if (Tools.isNetworkAvailable(this))
+        if (Tools.isNetworkAvailable())
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -455,12 +452,19 @@ public class MainActivity extends Activity {
     }
 
     public void restartServiceClick(MenuItem item) {
-        if (!Tools.isMainServiceRunning(getApplicationContext())) {
-            customSensorsService = new Intent(this, CustomSensorsService.class);
+        customSensorsService = new Intent(this, CustomSensorsService.class);
+        if (item != null) {
             stopService(customSensorsService);
             if (!Tools.hasPermissions(this, PERMISSIONS)) {
-                Tools.grantPermissions(this, PERMISSIONS);
+                Log.e(TAG, "restartServiceClick: 2");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Tools.requestPermissions(MainActivity.this);
+                    }
+                });
             } else {
+                Log.e(TAG, "restartServiceClick: 3");
                 if (configPrefs.getLong("startTimestamp", 0) <= System.currentTimeMillis()) {
                     Log.e(TAG, "RESTART SERVICE");
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -470,7 +474,30 @@ public class MainActivity extends Activity {
                     }
                 }
             }
+        } else {
+            if (!Tools.isMainServiceRunning(getApplicationContext())) {
+                customSensorsService = new Intent(this, CustomSensorsService.class);
+                stopService(customSensorsService);
+                if (!Tools.hasPermissions(this, PERMISSIONS)) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Tools.requestPermissions(MainActivity.this);
+                        }
+                    });
+                } else {
+                    if (configPrefs.getLong("startTimestamp", 0) <= System.currentTimeMillis()) {
+                        Log.e(TAG, "RESTART SERVICE");
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            startForegroundService(customSensorsService);
+                        } else {
+                            startService(customSensorsService);
+                        }
+                    }
+                }
+            }
         }
+
     }
 
     public void setLocationsClick(MenuItem item) {
@@ -571,7 +598,6 @@ public class MainActivity extends Activity {
         editor.putString("dataSourceNames", sb.toString());
         editor.apply();
     }
-
 
     /* TODO: this permission is for Xiaomi phones for background service running. But still not working
     String AUTO_START_PREF = "AutoStartPrefs";

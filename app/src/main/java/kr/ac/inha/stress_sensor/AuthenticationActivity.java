@@ -1,8 +1,6 @@
 package kr.ac.inha.stress_sensor;
 
 import android.Manifest;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -30,7 +28,6 @@ import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
 
 import static kr.ac.inha.stress_sensor.LocationsSettingActivity.GEOFENCE_RADIUS_DEFAULT;
-import static kr.ac.inha.stress_sensor.MainActivity.PERMISSIONS;
 
 public class AuthenticationActivity extends Activity {
 
@@ -57,17 +54,6 @@ public class AuthenticationActivity extends Activity {
             intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=inha.nsl.easytrack"));
             intent.setPackage("com.android.vending");
             startActivityForResult(intent, RC_OPEN_APP_STORE);
-        } else if (!Tools.hasPermissions(this, PERMISSIONS)) {
-            new AlertDialog.Builder(this)
-                    .setTitle("Permissions")
-                    .setMessage("You have to grant permissions first!")
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            Tools.grantPermissions(AuthenticationActivity.this, PERMISSIONS);
-                        }
-                    })
-                    .setNegativeButton(android.R.string.cancel, null).show();
         } else {
             loginPrefs = getApplicationContext().getSharedPreferences("UserLogin", MODE_PRIVATE);
             if (loginPrefs.getBoolean("logged_in", false)) {
@@ -75,8 +61,6 @@ public class AuthenticationActivity extends Activity {
                     resetGeofences();
                 startMainActivity();
             }
-
-
         }
 
 
@@ -183,7 +167,7 @@ public class AuthenticationActivity extends Activity {
                 }
             } else if (resultCode == Activity.RESULT_FIRST_USER)
                 Toast.makeText(this, "Canceled", Toast.LENGTH_SHORT).show();
-            else if (resultCode == Activity.RESULT_CANCELED){
+            else if (resultCode == Activity.RESULT_CANCELED) {
                 Toast.makeText(this, "Technical issue. Please check your internet connectivity and try again!", Toast.LENGTH_SHORT).show();
             }
         } else if (requestCode == RC_OPEN_MAIN_ACTIVITY) {

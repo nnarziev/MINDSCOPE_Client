@@ -19,6 +19,7 @@ import java.util.Locale;
 
 import kr.ac.inha.stress_sensor.services.SendGPSStats;
 
+import static kr.ac.inha.stress_sensor.MainActivity.PERMISSIONS;
 import static kr.ac.inha.stress_sensor.services.CustomSensorsService.EMA_NOTIFICATION_ID;
 import static kr.ac.inha.stress_sensor.services.CustomSensorsService.SERVICE_START_X_MIN_BEFORE_EMA;
 
@@ -50,6 +51,9 @@ public class EMAActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!Tools.hasPermissions(this, PERMISSIONS)) {
+            Tools.requestPermissions(EMAActivity.this);
+        }
         loginPrefs = getSharedPreferences("UserLogin", MODE_PRIVATE);
         if (!loginPrefs.getBoolean("logged_in", false)) {
             finish();

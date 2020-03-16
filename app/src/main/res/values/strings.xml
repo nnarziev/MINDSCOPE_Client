@@ -44,7 +44,7 @@
     <string name="next">Next</string>
 
     <string name="notif_channel_id">sast-notifs</string>
-    <string name="daily_notif_text">설문 시간입니다! 설문에 응해주세요 :)</string>
+    <string name="daily_notif_text">Hey there! Please, fill in the questionnaire :)</string>
     <string name="smartphone">smartphone</string>
     <string name="smartwatch">smartwatch</string>
     <string name="submit_to_server">Submit to Server</string>
@@ -89,5 +89,8 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="cancel">Cancel</string>
+
+    <string name="grant_permissions">Please, grant permissions or turn on locations!</string>
+    <string name="permissions">Permissions</string>
 
 </resources>

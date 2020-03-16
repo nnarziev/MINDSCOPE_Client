@@ -1171,6 +1171,7 @@ string file_count
 string files_from_watch_transfer_status
 string get_mood_data
 string google_maps_key
+string grant_permissions
 string grpc_host
 string grpc_port
 string internet_off
@@ -1187,6 +1188,7 @@ string next
 string no
 string no_data
 string notif_channel_id
+string permissions
 string refresh_window
 string responses_delimiter
 string restart_data_collection
