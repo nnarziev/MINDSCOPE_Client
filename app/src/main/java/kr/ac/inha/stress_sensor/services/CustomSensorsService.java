@@ -101,9 +101,9 @@ public class CustomSensorsService extends Service {
     public static HashMap<String, Integer> sensorNameToTypeMap;
     public static SparseIntArray sensorToDataSourceIdMap;
 
-    SharedPreferences loginPrefs;
+    static SharedPreferences loginPrefs;
 
-    long prevAudioRecordStartTime = 0;
+    private long prevAudioRecordStartTime = 0;
 
     //private StationaryDetector mStationaryDetector;
     NotificationManager mNotificationManager;
@@ -134,6 +134,7 @@ public class CustomSensorsService extends Service {
             if (ema_order != 0 && canSendNotif) {
                 Log.e(TAG, "EMA order 1: " + ema_order);
                 sendNotification(ema_order);
+                loginPrefs = getSharedPreferences("UserLogin", MODE_PRIVATE);
                 SharedPreferences.Editor editor = loginPrefs.edit();
                 editor.putBoolean("ema_btn_make_visible", true);
                 editor.apply();
@@ -177,6 +178,7 @@ public class CustomSensorsService extends Service {
                 ).usePlaintext().build();
                 ETServiceGrpc.ETServiceBlockingStub stub = ETServiceGrpc.newBlockingStub(channel);
 
+                loginPrefs = getSharedPreferences("UserLogin", MODE_PRIVATE);
                 int userId = loginPrefs.getInt(AuthenticationActivity.user_id, -1);
                 String email = loginPrefs.getString(AuthenticationActivity.usrEmail, null);
 
