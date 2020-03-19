@@ -90,10 +90,14 @@ public class GeofenceReceiver extends BroadcastReceiver {
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(channelId, con.getString(R.string.app_name), NotificationManager.IMPORTANCE_DEFAULT);
-            notificationManager.createNotificationChannel(channel);
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(channel);
+            }
         }
 
         final Notification notification = builder.build();
-        notificationManager.notify(notificaiton_id, notification);
+        if (notificationManager != null) {
+            notificationManager.notify(notificaiton_id, notification);
+        }
     }
 }

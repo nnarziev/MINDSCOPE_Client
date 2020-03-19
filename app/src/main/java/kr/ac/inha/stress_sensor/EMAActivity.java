@@ -1,5 +1,6 @@
 package kr.ac.inha.stress_sensor;
 
+import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
@@ -48,11 +49,13 @@ public class EMAActivity extends AppCompatActivity {
 
     private SharedPreferences loginPrefs;
 
+    private AlertDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (!Tools.hasPermissions(this, PERMISSIONS)) {
-            Tools.requestPermissions(EMAActivity.this);
+            dialog = Tools.requestPermissions(EMAActivity.this);
         }
         loginPrefs = getSharedPreferences("UserLogin", MODE_PRIVATE);
         if (!loginPrefs.getBoolean("logged_in", false)) {
@@ -173,7 +176,9 @@ public class EMAActivity extends AppCompatActivity {
         finish();
 
         final NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.cancel(EMA_NOTIFICATION_ID);
+        if (notificationManager != null) {
+            notificationManager.cancel(EMA_NOTIFICATION_ID);
+        }
 
         Toast.makeText(this, "Response saved", Toast.LENGTH_SHORT).show();
     }
@@ -182,4 +187,21 @@ public class EMAActivity extends AppCompatActivity {
         return start < value && value < end;
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (dialog != null) {
+            dialog.dismiss();
+            dialog = null;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (dialog != null) {
+            dialog.dismiss();
+            dialog = null;
+        }
+    }
 }

@@ -137,9 +137,11 @@ public class LocationsSettingActivity extends AppCompatActivity implements OnMap
             }
         }
 
-        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         try {
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 20, this);
+            LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+            if (locationManager != null) {
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 20, this);
+            }
         } catch (SecurityException e) {
             e.printStackTrace();
         }

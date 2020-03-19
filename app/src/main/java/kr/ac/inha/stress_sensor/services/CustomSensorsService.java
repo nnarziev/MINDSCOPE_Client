@@ -66,6 +66,7 @@ public class CustomSensorsService extends Service {
     //region Constants
     private static final int ID_SERVICE = 101;
     public static final int EMA_NOTIFICATION_ID = 1234; //in sec
+    public static final int PERMISSION_REQUEST_NOTIFICATION_ID = 1111; //in sec
     public static final long EMA_RESPONSE_EXPIRE_TIME = 3600;  //in sec
     //public static final int EMA_BTN_VISIBLE_X_MIN_AFTER_EMA = 60; //min
     public static final int SERVICE_START_X_MIN_BEFORE_EMA = 3 * 60; //min
@@ -106,7 +107,8 @@ public class CustomSensorsService extends Service {
     private long prevAudioRecordStartTime = 0;
 
     //private StationaryDetector mStationaryDetector;
-    NotificationManager mNotificationManager;
+    static NotificationManager mNotificationManager;
+    static Boolean permissionNotificationPosted;
     private SensorManager mSensorManager;
 
     private ScreenAndUnlockReceiver mPhoneUnlockedReceiver;
@@ -126,6 +128,13 @@ public class CustomSensorsService extends Service {
     private Runnable mainRunnable = new Runnable() {
         @Override
         public void run() {
+
+            //check if all permissions are set then dismiss notification for request
+            if (Tools.hasPermissions(getApplicationContext(), PERMISSIONS)) {
+                mNotificationManager.cancel(PERMISSION_REQUEST_NOTIFICATION_ID);
+                permissionNotificationPosted = false;
+            }
+
             long curTimestamp = System.currentTimeMillis();
             Calendar curCal = Calendar.getInstance();
 
@@ -242,8 +251,9 @@ public class CustomSensorsService extends Service {
     private Runnable heartBeatSendRunnable = new Runnable() {
         public void run() {
             //before sending hear-beat check permissions granted or not. If not grant first
-            if (!Tools.hasPermissions(getApplicationContext(), PERMISSIONS)) {
-                startMainActivity();
+            if (!Tools.hasPermissions(getApplicationContext(), PERMISSIONS) && !permissionNotificationPosted) {
+                permissionNotificationPosted = true;
+                sendNotificationForPermissionSetting();
             }
 
             try {
@@ -336,6 +346,8 @@ public class CustomSensorsService extends Service {
         heartBeatHandler.post(heartBeatSendRunnable);
         appUsageSubmitHandler.post(appUsageSubmitRunnable);
         dataSubmissionThread.start();
+
+        permissionNotificationPosted = false;
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -349,7 +361,9 @@ public class CustomSensorsService extends Service {
         mChannel.setLightColor(Color.RED);
         mChannel.enableVibration(true);
         NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.createNotificationChannel(mChannel);
+        if (mNotificationManager != null) {
+            mNotificationManager.createNotificationChannel(mChannel);
+        }
         return id;
     }
 
@@ -376,6 +390,7 @@ public class CustomSensorsService extends Service {
         //region Stop foreground service
         stopForeground(false);
         mNotificationManager.cancel(ID_SERVICE);
+        mNotificationManager.cancel(PERMISSION_REQUEST_NOTIFICATION_ID);
         //endregion
 
         Tools.sleep(1000);
@@ -485,16 +500,50 @@ public class CustomSensorsService extends Service {
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(channelId, this.getString(R.string.app_name), NotificationManager.IMPORTANCE_DEFAULT);
-            notificationManager.createNotificationChannel(channel);
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(channel);
+            }
         }
 
         final Notification notification = builder.build();
-        notificationManager.notify(EMA_NOTIFICATION_ID, notification);
+        if (notificationManager != null) {
+            notificationManager.notify(EMA_NOTIFICATION_ID, notification);
+        }
     }
 
     private void startMainActivity() {
         Intent intentService = new Intent(this, MainActivity.class);
         intentService.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intentService);
+    }
+
+    private void sendNotificationForPermissionSetting() {
+        final NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Intent notificationIntent = new Intent(CustomSensorsService.this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(CustomSensorsService.this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        String channelId = "StressSensor_permission_notif";
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this.getApplicationContext(), channelId);
+        builder.setContentTitle(this.getString(R.string.app_name))
+                .setContentText(this.getString(R.string.grant_permissions))
+                .setTicker("New Message Alert!")
+                .setOngoing(true)
+                .setContentIntent(pendingIntent)
+                .setSmallIcon(R.mipmap.ic_launcher_no_bg)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setDefaults(Notification.DEFAULT_ALL);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(channelId, this.getString(R.string.app_name), NotificationManager.IMPORTANCE_HIGH);
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(channel);
+            }
+        }
+
+        final Notification notification = builder.build();
+        if (notificationManager != null) {
+            notificationManager.notify(PERMISSION_REQUEST_NOTIFICATION_ID, notification);
+        }
     }
 }

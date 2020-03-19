@@ -126,7 +126,7 @@ public class Tools {
         }
     }
 
-    static void requestPermissions(final Activity activity) {
+    static AlertDialog requestPermissions(final Activity activity) {
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity)
                 .setTitle(activity.getString(R.string.permissions))
                 .setMessage(activity.getString(R.string.grant_permissions))
@@ -137,7 +137,7 @@ public class Tools {
                     }
                 })
                 .setNegativeButton(android.R.string.cancel, null);
-        alertDialog.show();
+        return alertDialog.show();
     }
 
     private static void grantPermissions(Activity activity, String... permissions) {
@@ -154,8 +154,6 @@ public class Tools {
             activity.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
         if (!simple_permissions_granted)
             ActivityCompat.requestPermissions(activity, PERMISSIONS, PERMISSION_ALL);
-
-
     }
 
     public static void sleep(int time) {

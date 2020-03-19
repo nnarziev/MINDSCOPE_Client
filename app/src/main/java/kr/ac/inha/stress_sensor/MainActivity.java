@@ -85,6 +85,8 @@ public class MainActivity extends Activity {
     private SharedPreferences loginPrefs;
     SharedPreferences configPrefs;
 
+    private AlertDialog dialog;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -150,7 +152,7 @@ public class MainActivity extends Activity {
         super.onResume();
 
         if (!Tools.hasPermissions(this, PERMISSIONS)) {
-            Tools.requestPermissions(MainActivity.this);
+            dialog = Tools.requestPermissions(MainActivity.this);
         }
 
         try {
@@ -237,9 +239,22 @@ public class MainActivity extends Activity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        if (dialog != null) {
+            dialog.dismiss();
+            dialog = null;
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         loadingPanel.setVisibility(View.GONE);
+        if (dialog != null) {
+            dialog.dismiss();
+            dialog = null;
+        }
     }
 
     public void initUserStats(boolean error, long joinedTimesamp, long hbPhone, String dataLoadedPhone) {
@@ -456,11 +471,10 @@ public class MainActivity extends Activity {
         if (item != null) {
             stopService(customSensorsService);
             if (!Tools.hasPermissions(this, PERMISSIONS)) {
-                Log.e(TAG, "restartServiceClick: 2");
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Tools.requestPermissions(MainActivity.this);
+                        dialog = Tools.requestPermissions(MainActivity.this);
                     }
                 });
             } else {
@@ -482,7 +496,7 @@ public class MainActivity extends Activity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Tools.requestPermissions(MainActivity.this);
+                            dialog = Tools.requestPermissions(MainActivity.this);
                         }
                     });
                 } else {

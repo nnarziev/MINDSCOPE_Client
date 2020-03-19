@@ -41,7 +41,7 @@
     <string name="submit">제출</string>
     <string name="next">다음</string>
 
-    <string name="notif_channel_id">sast-notifs</string>
+    <string name="notif_channel_id">StressSensor_notif_chanel</string>
     <string name="daily_notif_text">설문 시간입니다! 설문에 응해주세요 :)</string>
     <string name="smartphone">smartphone</string>
     <string name="smartwatch">smartwatch</string>

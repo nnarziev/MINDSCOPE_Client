@@ -43,7 +43,7 @@
     <string name="submit">Submit</string>
     <string name="next">Next</string>
 
-    <string name="notif_channel_id">sast-notifs</string>
+    <string name="notif_channel_id">StressSensor_notif_chanel</string>
     <string name="daily_notif_text">Hey there! Please, fill in the questionnaire :)</string>
     <string name="smartphone">smartphone</string>
     <string name="smartwatch">smartwatch</string>
