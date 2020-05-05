@@ -7,13 +7,13 @@ INJECTED from C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\
 MERGED from C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:2:1-165:12
 MERGED from [androidx.appcompat:appcompat:1.1.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\1d143f069b9d230a6380eb6d14e0486f\appcompat-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\9e2ecde1092856c465b0236ed2839858\constraintlayout-1.1.3\AndroidManifest.xml:2:1-11:12
-MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\2a3ea254850720a5112468ecefbeb991\jetified-graphview-4.2.2\AndroidManifest.xml:2:1-14:12
-MERGED from [com.google.android.gms:play-services-maps:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\af9a0df484cfaee63d9347e750fc4018\jetified-play-services-maps-16.0.0\AndroidManifest.xml:17:1-32:12
-MERGED from [com.google.android.gms:play-services-location:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\9fd69df2edfbaca9cc2570bc81021121\jetified-play-services-location-16.0.0\AndroidManifest.xml:2:1-9:12
-MERGED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\ddacbb1a5275aad3f5845e4e6edef522\jetified-play-services-base-16.0.1\AndroidManifest.xml:17:1-29:12
+MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\fe2e2542a5838483b2787da64b749c58\jetified-graphview-4.2.2\AndroidManifest.xml:2:1-14:12
+MERGED from [com.google.android.gms:play-services-maps:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\bd43320d6429a75a25c647394d1d6de9\jetified-play-services-maps-16.0.0\AndroidManifest.xml:17:1-32:12
+MERGED from [com.google.android.gms:play-services-location:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\1bcded25755852e19ed94c17c13128ef\jetified-play-services-location-16.0.0\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\8df027f2ccb56305c555c107dd9d3b38\jetified-play-services-base-16.0.1\AndroidManifest.xml:17:1-29:12
 MERGED from [com.google.android.gms:play-services-places-placereport:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\bc1221c41eada8bd867f7917204db530\play-services-places-placereport-16.0.0\AndroidManifest.xml:17:1-24:12
-MERGED from [com.google.android.gms:play-services-tasks:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\44ea8cbe1082d4750439e39d89c4a513\jetified-play-services-tasks-16.0.1\AndroidManifest.xml:2:1-9:12
-MERGED from [com.google.android.gms:play-services-basement:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\9a951aaa59111abc4578451f009ea860\jetified-play-services-basement-16.0.1\AndroidManifest.xml:17:1-28:12
+MERGED from [com.google.android.gms:play-services-tasks:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\fe53057938dfca8efbe7148648c9d1e3\jetified-play-services-tasks-16.0.1\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-basement:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\20b0c587bf03261d9868b77c6db9eefe\jetified-play-services-basement-16.0.1\AndroidManifest.xml:17:1-28:12
 MERGED from [androidx.legacy:legacy-support-v4:1.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\44289334ec7b137bdb625c3b10d8909d\legacy-support-v4-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.fragment:fragment:1.1.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\dab3acca55876e4aa2ba98485ce9f6be\fragment-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.appcompat:appcompat-resources:1.1.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\13b64d5fecc94ae4d49d5655a134223d\appcompat-resources-1.1.0\AndroidManifest.xml:17:1-24:12
@@ -79,8 +79,8 @@ ADDED from C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\And
 		ADDED from C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:8:22-82
 uses-permission#android.permission.INTERNET
 ADDED from C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:9:5-67
-MERGED from [com.google.android.gms:play-services-maps:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\af9a0df484cfaee63d9347e750fc4018\jetified-play-services-maps-16.0.0\AndroidManifest.xml:24:5-67
-MERGED from [com.google.android.gms:play-services-maps:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\af9a0df484cfaee63d9347e750fc4018\jetified-play-services-maps-16.0.0\AndroidManifest.xml:24:5-67
+MERGED from [com.google.android.gms:play-services-maps:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\bd43320d6429a75a25c647394d1d6de9\jetified-play-services-maps-16.0.0\AndroidManifest.xml:24:5-67
+MERGED from [com.google.android.gms:play-services-maps:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\bd43320d6429a75a25c647394d1d6de9\jetified-play-services-maps-16.0.0\AndroidManifest.xml:24:5-67
 	android:name
 		ADDED from C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:9:22-64
 uses-permission#android.permission.WAKE_LOCK
@@ -101,8 +101,8 @@ ADDED from C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\And
 		ADDED from C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:13:22-73
 uses-permission#android.permission.ACCESS_NETWORK_STATE
 ADDED from C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:14:5-79
-MERGED from [com.google.android.gms:play-services-maps:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\af9a0df484cfaee63d9347e750fc4018\jetified-play-services-maps-16.0.0\AndroidManifest.xml:23:5-79
-MERGED from [com.google.android.gms:play-services-maps:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\af9a0df484cfaee63d9347e750fc4018\jetified-play-services-maps-16.0.0\AndroidManifest.xml:23:5-79
+MERGED from [com.google.android.gms:play-services-maps:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\bd43320d6429a75a25c647394d1d6de9\jetified-play-services-maps-16.0.0\AndroidManifest.xml:23:5-79
+MERGED from [com.google.android.gms:play-services-maps:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\bd43320d6429a75a25c647394d1d6de9\jetified-play-services-maps-16.0.0\AndroidManifest.xml:23:5-79
 	android:name
 		ADDED from C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:14:22-76
 uses-permission#android.permission.FOREGROUND_SERVICE
@@ -182,8 +182,8 @@ ADDED from C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\And
 		ADDED from C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:36:19-69
 uses-feature#0x00020000
 ADDED from C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:37:5-39:35
-MERGED from [com.google.android.gms:play-services-maps:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\af9a0df484cfaee63d9347e750fc4018\jetified-play-services-maps-16.0.0\AndroidManifest.xml:26:5-28:35
-MERGED from [com.google.android.gms:play-services-maps:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\af9a0df484cfaee63d9347e750fc4018\jetified-play-services-maps-16.0.0\AndroidManifest.xml:26:5-28:35
+MERGED from [com.google.android.gms:play-services-maps:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\bd43320d6429a75a25c647394d1d6de9\jetified-play-services-maps-16.0.0\AndroidManifest.xml:26:5-28:35
+MERGED from [com.google.android.gms:play-services-maps:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\bd43320d6429a75a25c647394d1d6de9\jetified-play-services-maps-16.0.0\AndroidManifest.xml:26:5-28:35
 	android:glEsVersion
 		ADDED from C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:38:9-41
 	android:required
@@ -192,20 +192,20 @@ application
 ADDED from C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:41:5-161:19
 MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\9e2ecde1092856c465b0236ed2839858\constraintlayout-1.1.3\AndroidManifest.xml:9:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\9e2ecde1092856c465b0236ed2839858\constraintlayout-1.1.3\AndroidManifest.xml:9:5-20
-MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\2a3ea254850720a5112468ecefbeb991\jetified-graphview-4.2.2\AndroidManifest.xml:11:5-12:19
-MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\2a3ea254850720a5112468ecefbeb991\jetified-graphview-4.2.2\AndroidManifest.xml:11:5-12:19
-MERGED from [com.google.android.gms:play-services-maps:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\af9a0df484cfaee63d9347e750fc4018\jetified-play-services-maps-16.0.0\AndroidManifest.xml:30:5-20
-MERGED from [com.google.android.gms:play-services-maps:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\af9a0df484cfaee63d9347e750fc4018\jetified-play-services-maps-16.0.0\AndroidManifest.xml:30:5-20
-MERGED from [com.google.android.gms:play-services-location:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\9fd69df2edfbaca9cc2570bc81021121\jetified-play-services-location-16.0.0\AndroidManifest.xml:7:5-20
-MERGED from [com.google.android.gms:play-services-location:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\9fd69df2edfbaca9cc2570bc81021121\jetified-play-services-location-16.0.0\AndroidManifest.xml:7:5-20
-MERGED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\ddacbb1a5275aad3f5845e4e6edef522\jetified-play-services-base-16.0.1\AndroidManifest.xml:22:5-27:19
-MERGED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\ddacbb1a5275aad3f5845e4e6edef522\jetified-play-services-base-16.0.1\AndroidManifest.xml:22:5-27:19
+MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\fe2e2542a5838483b2787da64b749c58\jetified-graphview-4.2.2\AndroidManifest.xml:11:5-12:19
+MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\fe2e2542a5838483b2787da64b749c58\jetified-graphview-4.2.2\AndroidManifest.xml:11:5-12:19
+MERGED from [com.google.android.gms:play-services-maps:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\bd43320d6429a75a25c647394d1d6de9\jetified-play-services-maps-16.0.0\AndroidManifest.xml:30:5-20
+MERGED from [com.google.android.gms:play-services-maps:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\bd43320d6429a75a25c647394d1d6de9\jetified-play-services-maps-16.0.0\AndroidManifest.xml:30:5-20
+MERGED from [com.google.android.gms:play-services-location:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\1bcded25755852e19ed94c17c13128ef\jetified-play-services-location-16.0.0\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-location:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\1bcded25755852e19ed94c17c13128ef\jetified-play-services-location-16.0.0\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\8df027f2ccb56305c555c107dd9d3b38\jetified-play-services-base-16.0.1\AndroidManifest.xml:22:5-27:19
+MERGED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\8df027f2ccb56305c555c107dd9d3b38\jetified-play-services-base-16.0.1\AndroidManifest.xml:22:5-27:19
 MERGED from [com.google.android.gms:play-services-places-placereport:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\bc1221c41eada8bd867f7917204db530\play-services-places-placereport-16.0.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.gms:play-services-places-placereport:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\bc1221c41eada8bd867f7917204db530\play-services-places-placereport-16.0.0\AndroidManifest.xml:22:5-20
-MERGED from [com.google.android.gms:play-services-tasks:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\44ea8cbe1082d4750439e39d89c4a513\jetified-play-services-tasks-16.0.1\AndroidManifest.xml:7:5-20
-MERGED from [com.google.android.gms:play-services-tasks:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\44ea8cbe1082d4750439e39d89c4a513\jetified-play-services-tasks-16.0.1\AndroidManifest.xml:7:5-20
-MERGED from [com.google.android.gms:play-services-basement:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\9a951aaa59111abc4578451f009ea860\jetified-play-services-basement-16.0.1\AndroidManifest.xml:22:5-26:19
-MERGED from [com.google.android.gms:play-services-basement:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\9a951aaa59111abc4578451f009ea860\jetified-play-services-basement-16.0.1\AndroidManifest.xml:22:5-26:19
+MERGED from [com.google.android.gms:play-services-tasks:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\fe53057938dfca8efbe7148648c9d1e3\jetified-play-services-tasks-16.0.1\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-tasks:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\fe53057938dfca8efbe7148648c9d1e3\jetified-play-services-tasks-16.0.1\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-basement:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\20b0c587bf03261d9868b77c6db9eefe\jetified-play-services-basement-16.0.1\AndroidManifest.xml:22:5-26:19
+MERGED from [com.google.android.gms:play-services-basement:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\20b0c587bf03261d9868b77c6db9eefe\jetified-play-services-basement-16.0.1\AndroidManifest.xml:22:5-26:19
 MERGED from [androidx.core:core:1.1.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\e74396b6f887d6567c60625538edf397\core-1.1.0\AndroidManifest.xml:24:5-89
 MERGED from [androidx.core:core:1.1.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\e74396b6f887d6567c60625538edf397\core-1.1.0\AndroidManifest.xml:24:5-89
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\fd0826027d078c08b6261d733604182b\versionedparcelable-1.1.0\AndroidManifest.xml:24:5-25:19
@@ -368,8 +368,8 @@ ADDED from C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\And
 		ADDED from C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:118:25-76
 meta-data#com.google.android.gms.version
 ADDED from C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:122:9-124:69
-MERGED from [com.google.android.gms:play-services-basement:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\9a951aaa59111abc4578451f009ea860\jetified-play-services-basement-16.0.1\AndroidManifest.xml:23:9-25:69
-MERGED from [com.google.android.gms:play-services-basement:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\9a951aaa59111abc4578451f009ea860\jetified-play-services-basement-16.0.1\AndroidManifest.xml:23:9-25:69
+MERGED from [com.google.android.gms:play-services-basement:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\20b0c587bf03261d9868b77c6db9eefe\jetified-play-services-basement-16.0.1\AndroidManifest.xml:23:9-25:69
+MERGED from [com.google.android.gms:play-services-basement:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\20b0c587bf03261d9868b77c6db9eefe\jetified-play-services-basement-16.0.1\AndroidManifest.xml:23:9-25:69
 	android:value
 		ADDED from C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml:124:13-66
 	android:name
@@ -398,20 +398,20 @@ MERGED from [androidx.appcompat:appcompat:1.1.0] C:\Users\NSL\.gradle\caches\tra
 MERGED from [androidx.appcompat:appcompat:1.1.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\1d143f069b9d230a6380eb6d14e0486f\appcompat-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\9e2ecde1092856c465b0236ed2839858\constraintlayout-1.1.3\AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\9e2ecde1092856c465b0236ed2839858\constraintlayout-1.1.3\AndroidManifest.xml:5:5-7:41
-MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\2a3ea254850720a5112468ecefbeb991\jetified-graphview-4.2.2\AndroidManifest.xml:7:5-9:41
-MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\2a3ea254850720a5112468ecefbeb991\jetified-graphview-4.2.2\AndroidManifest.xml:7:5-9:41
-MERGED from [com.google.android.gms:play-services-maps:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\af9a0df484cfaee63d9347e750fc4018\jetified-play-services-maps-16.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-maps:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\af9a0df484cfaee63d9347e750fc4018\jetified-play-services-maps-16.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-location:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\9fd69df2edfbaca9cc2570bc81021121\jetified-play-services-location-16.0.0\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-location:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\9fd69df2edfbaca9cc2570bc81021121\jetified-play-services-location-16.0.0\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\ddacbb1a5275aad3f5845e4e6edef522\jetified-play-services-base-16.0.1\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\ddacbb1a5275aad3f5845e4e6edef522\jetified-play-services-base-16.0.1\AndroidManifest.xml:20:5-44
+MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\fe2e2542a5838483b2787da64b749c58\jetified-graphview-4.2.2\AndroidManifest.xml:7:5-9:41
+MERGED from [com.jjoe64:graphview:4.2.2] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\fe2e2542a5838483b2787da64b749c58\jetified-graphview-4.2.2\AndroidManifest.xml:7:5-9:41
+MERGED from [com.google.android.gms:play-services-maps:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\bd43320d6429a75a25c647394d1d6de9\jetified-play-services-maps-16.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-maps:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\bd43320d6429a75a25c647394d1d6de9\jetified-play-services-maps-16.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-location:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\1bcded25755852e19ed94c17c13128ef\jetified-play-services-location-16.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-location:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\1bcded25755852e19ed94c17c13128ef\jetified-play-services-location-16.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\8df027f2ccb56305c555c107dd9d3b38\jetified-play-services-base-16.0.1\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\8df027f2ccb56305c555c107dd9d3b38\jetified-play-services-base-16.0.1\AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-places-placereport:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\bc1221c41eada8bd867f7917204db530\play-services-places-placereport-16.0.0\AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-places-placereport:16.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\bc1221c41eada8bd867f7917204db530\play-services-places-placereport-16.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-tasks:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\44ea8cbe1082d4750439e39d89c4a513\jetified-play-services-tasks-16.0.1\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-tasks:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\44ea8cbe1082d4750439e39d89c4a513\jetified-play-services-tasks-16.0.1\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-basement:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\9a951aaa59111abc4578451f009ea860\jetified-play-services-basement-16.0.1\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-basement:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\9a951aaa59111abc4578451f009ea860\jetified-play-services-basement-16.0.1\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-tasks:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\fe53057938dfca8efbe7148648c9d1e3\jetified-play-services-tasks-16.0.1\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-tasks:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\fe53057938dfca8efbe7148648c9d1e3\jetified-play-services-tasks-16.0.1\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-basement:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\20b0c587bf03261d9868b77c6db9eefe\jetified-play-services-basement-16.0.1\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-basement:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\20b0c587bf03261d9868b77c6db9eefe\jetified-play-services-basement-16.0.1\AndroidManifest.xml:20:5-44
 MERGED from [androidx.legacy:legacy-support-v4:1.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\44289334ec7b137bdb625c3b10d8909d\legacy-support-v4-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.legacy:legacy-support-v4:1.0.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\44289334ec7b137bdb625c3b10d8909d\legacy-support-v4-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.fragment:fragment:1.1.0] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\dab3acca55876e4aa2ba98485ce9f6be\fragment-1.1.0\AndroidManifest.xml:20:5-22:41
@@ -481,10 +481,10 @@ INJECTED from C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\debug
 		INJECTED from C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\NSL\AndroidStudioProjects\StressSensor-gRPC\app\src\debug\AndroidManifest.xml
 activity#com.google.android.gms.common.api.GoogleApiActivity
-ADDED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\ddacbb1a5275aad3f5845e4e6edef522\jetified-play-services-base-16.0.1\AndroidManifest.xml:23:9-26:75
+ADDED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\8df027f2ccb56305c555c107dd9d3b38\jetified-play-services-base-16.0.1\AndroidManifest.xml:23:9-26:75
 	android:exported
-		ADDED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\ddacbb1a5275aad3f5845e4e6edef522\jetified-play-services-base-16.0.1\AndroidManifest.xml:25:13-37
+		ADDED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\8df027f2ccb56305c555c107dd9d3b38\jetified-play-services-base-16.0.1\AndroidManifest.xml:25:13-37
 	android:theme
-		ADDED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\ddacbb1a5275aad3f5845e4e6edef522\jetified-play-services-base-16.0.1\AndroidManifest.xml:26:13-72
+		ADDED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\8df027f2ccb56305c555c107dd9d3b38\jetified-play-services-base-16.0.1\AndroidManifest.xml:26:13-72
 	android:name
-		ADDED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\ddacbb1a5275aad3f5845e4e6edef522\jetified-play-services-base-16.0.1\AndroidManifest.xml:24:13-79
+		ADDED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\NSL\.gradle\caches\transforms-2\files-2.1\8df027f2ccb56305c555c107dd9d3b38\jetified-play-services-base-16.0.1\AndroidManifest.xml:24:13-79

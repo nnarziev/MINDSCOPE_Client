@@ -67,6 +67,8 @@ public class DbMgr {
     }
 
     public static Cursor getSensorData() {
+        //TODO: Come back here and solve this problem
+        // java.lang.NullPointerException: Attempt to invoke virtual method 'android.database.Cursor android.database.sqlite.SQLiteDatabase.rawQuery(java.lang.String, java.lang.String[])' on a null object reference
         return db.rawQuery("select * from Data;", new String[0]);
     }
 
