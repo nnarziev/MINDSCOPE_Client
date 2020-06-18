@@ -4,6 +4,23 @@
             "outputFile": "C:\\Users\\NSL\\AndroidStudioProjects\\StressSensor-gRPC\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-tr\\values-tr.xml",
             "map": [
                 {
+                    "source": "C:\\Users\\NSL\\.gradle\\caches\\transforms-2\\files-2.1\\d1604f0d76945fe13853734666d66029\\jetified-play-services-base-16.0.1\\res\\values-tr\\values.xml",
+                    "from": {
+                        "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
+                        "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
+                        "startOffsets": "245,353,540,674,777,983,1111,1264,1395,1626,1731,1919,2051,2255,2448,2536,2626",
+                        "endColumns": "107,186,133,102,205,127,152,130,230,104,187,131,203,192,87,89,104",
+                        "endOffsets": "352,539,673,776,982,1110,1263,1394,1625,1730,1918,2050,2254,2447,2535,2625,2730"
+                    },
+                    "to": {
+                        "startLines": "29,30,31,32,33,34,35,36,38,39,40,41,42,43,44,45,46",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "2797,2909,3096,3234,3341,3547,3679,3836,4177,4408,4517,4705,4841,5045,5242,5334,5428",
+                        "endColumns": "111,186,137,106,205,131,156,134,230,108,187,135,203,196,91,93,108",
+                        "endOffsets": "2904,3091,3229,3336,3542,3674,3831,3966,4403,4512,4700,4836,5040,5237,5329,5423,5532"
+                    }
+                },
+                {
                     "source": "C:\\Users\\NSL\\.gradle\\caches\\transforms-2\\files-2.1\\e74396b6f887d6567c60625538edf397\\core-1.1.0\\res\\values-tr\\values-tr.xml",
                     "from": {
                         "startLines": "2",
@@ -21,24 +38,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\NSL\\.gradle\\caches\\transforms-2\\files-2.1\\ddacbb1a5275aad3f5845e4e6edef522\\jetified-play-services-base-16.0.1\\res\\values-tr\\values.xml",
-                    "from": {
-                        "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
-                        "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
-                        "startOffsets": "245,353,540,674,777,983,1111,1264,1395,1626,1731,1919,2051,2255,2448,2536,2626",
-                        "endColumns": "107,186,133,102,205,127,152,130,230,104,187,131,203,192,87,89,104",
-                        "endOffsets": "352,539,673,776,982,1110,1263,1394,1625,1730,1918,2050,2254,2447,2535,2625,2730"
-                    },
-                    "to": {
-                        "startLines": "29,30,31,32,33,34,35,36,38,39,40,41,42,43,44,45,46",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "2797,2909,3096,3234,3341,3547,3679,3836,4177,4408,4517,4705,4841,5045,5242,5334,5428",
-                        "endColumns": "111,186,137,106,205,131,156,134,230,108,187,135,203,196,91,93,108",
-                        "endOffsets": "2904,3091,3229,3336,3542,3674,3831,3966,4403,4512,4700,4836,5040,5237,5329,5423,5532"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\NSL\\.gradle\\caches\\transforms-2\\files-2.1\\9a951aaa59111abc4578451f009ea860\\jetified-play-services-basement-16.0.1\\res\\values-tr\\values.xml",
+                    "source": "C:\\Users\\NSL\\.gradle\\caches\\transforms-2\\files-2.1\\1c6b1cbd643ab95c79ea3a55ffac8957\\jetified-play-services-basement-16.0.1\\res\\values-tr\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",

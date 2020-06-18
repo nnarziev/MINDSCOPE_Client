@@ -57,7 +57,6 @@ import kr.ac.inha.stress_sensor.receivers.ActivityRecognitionReceiver;
 import kr.ac.inha.stress_sensor.receivers.CallReceiver;
 import kr.ac.inha.stress_sensor.receivers.ScreenAndUnlockReceiver;
 
-import static kr.ac.inha.stress_sensor.MainActivity.PERMISSIONS;
 import static kr.ac.inha.stress_sensor.receivers.CallReceiver.AudioRunningForCall;
 
 public class CustomSensorsService extends Service {
@@ -130,7 +129,7 @@ public class CustomSensorsService extends Service {
         public void run() {
 
             //check if all permissions are set then dismiss notification for request
-            if (Tools.hasPermissions(getApplicationContext(), PERMISSIONS)) {
+            if (Tools.hasPermissions(getApplicationContext(), Tools.PERMISSIONS)) {
                 mNotificationManager.cancel(PERMISSION_REQUEST_NOTIFICATION_ID);
                 permissionNotificationPosted = false;
             }
@@ -251,7 +250,7 @@ public class CustomSensorsService extends Service {
     private Runnable heartBeatSendRunnable = new Runnable() {
         public void run() {
             //before sending hear-beat check permissions granted or not. If not grant first
-            if (!Tools.hasPermissions(getApplicationContext(), PERMISSIONS) && !permissionNotificationPosted) {
+            if (!Tools.hasPermissions(getApplicationContext(), Tools.PERMISSIONS) && !permissionNotificationPosted) {
                 permissionNotificationPosted = true;
                 sendNotificationForPermissionSetting();
             }

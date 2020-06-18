@@ -51,14 +51,7 @@ public class MainActivity extends Activity {
 
     //region Constants
     private static final String TAG = "MainActivity";
-    static int PERMISSION_ALL = 1;
-    public static String[] PERMISSIONS = {
-            android.Manifest.permission.READ_PHONE_STATE,
-            android.Manifest.permission.PROCESS_OUTGOING_CALLS,
-            Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
-    };
+
     //endregion
 
     //region UI variables
@@ -151,7 +144,7 @@ public class MainActivity extends Activity {
     protected void onResume() {
         super.onResume();
 
-        if (!Tools.hasPermissions(this, PERMISSIONS)) {
+        if (!Tools.hasPermissions(this, Tools.PERMISSIONS)) {
             dialog = Tools.requestPermissions(MainActivity.this);
         }
 
@@ -470,7 +463,7 @@ public class MainActivity extends Activity {
         customSensorsService = new Intent(this, CustomSensorsService.class);
         if (item != null) {
             stopService(customSensorsService);
-            if (!Tools.hasPermissions(this, PERMISSIONS)) {
+            if (!Tools.hasPermissions(this, Tools.PERMISSIONS)) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -492,7 +485,7 @@ public class MainActivity extends Activity {
             if (!Tools.isMainServiceRunning(getApplicationContext())) {
                 customSensorsService = new Intent(this, CustomSensorsService.class);
                 stopService(customSensorsService);
-                if (!Tools.hasPermissions(this, PERMISSIONS)) {
+                if (!Tools.hasPermissions(this, Tools.PERMISSIONS)) {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

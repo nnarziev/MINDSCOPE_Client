@@ -38,24 +38,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\NSL\\.gradle\\caches\\transforms-2\\files-2.1\\9a951aaa59111abc4578451f009ea860\\jetified-play-services-basement-16.0.1\\res\\values-fa\\values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "247",
-                        "endColumns": "213",
-                        "endOffsets": "460"
-                    },
-                    "to": {
-                        "startLines": "37",
-                        "startColumns": "4",
-                        "startOffsets": "3939",
-                        "endColumns": "213",
-                        "endOffsets": "4148"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\NSL\\.gradle\\caches\\transforms-2\\files-2.1\\ddacbb1a5275aad3f5845e4e6edef522\\jetified-play-services-base-16.0.1\\res\\values-fa\\values.xml",
+                    "source": "C:\\Users\\NSL\\.gradle\\caches\\transforms-2\\files-2.1\\d1604f0d76945fe13853734666d66029\\jetified-play-services-base-16.0.1\\res\\values-fa\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -69,6 +52,23 @@
                         "startOffsets": "2795,2905,3096,3229,3334,3533,3663,3808,4153,4365,4477,4680,4815,5029,5217,5313,5411",
                         "endColumns": "109,190,132,104,198,129,144,130,211,111,202,134,213,187,95,97,113",
                         "endOffsets": "2900,3091,3224,3329,3528,3658,3803,3934,4360,4472,4675,4810,5024,5212,5308,5406,5520"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\NSL\\.gradle\\caches\\transforms-2\\files-2.1\\1c6b1cbd643ab95c79ea3a55ffac8957\\jetified-play-services-basement-16.0.1\\res\\values-fa\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "247",
+                        "endColumns": "213",
+                        "endOffsets": "460"
+                    },
+                    "to": {
+                        "startLines": "37",
+                        "startColumns": "4",
+                        "startOffsets": "3939",
+                        "endColumns": "213",
+                        "endOffsets": "4148"
                     }
                 }
             ]

@@ -50,45 +50,21 @@ import kr.ac.inha.stress_sensor.services.LocationService;
 
 import static android.content.Context.MODE_PRIVATE;
 import static kr.ac.inha.stress_sensor.EMAActivity.EMA_NOTIF_HOURS;
-import static kr.ac.inha.stress_sensor.MainActivity.PERMISSIONS;
-import static kr.ac.inha.stress_sensor.MainActivity.PERMISSION_ALL;
 import static kr.ac.inha.stress_sensor.services.CustomSensorsService.EMA_RESPONSE_EXPIRE_TIME;
 import static kr.ac.inha.stress_sensor.services.CustomSensorsService.SERVICE_START_X_MIN_BEFORE_EMA;
 
 public class Tools {
 
     static final String DATA_SOURCE_SEPARATOR = " ";
-
-    public static void checkAndSendUsageAccessStats(Context con) throws IOException {
-        SharedPreferences loginPrefs = con.getSharedPreferences("UserLogin", MODE_PRIVATE);
-        long lastSavedTimestamp = loginPrefs.getLong("lastUsageSubmissionTime", -1);
-
-        Calendar fromCal = Calendar.getInstance();
-        if (lastSavedTimestamp == -1)
-            fromCal.add(Calendar.DAY_OF_WEEK, -2);
-        else
-            fromCal.setTime(new Date(lastSavedTimestamp));
-
-        final Calendar tillCal = Calendar.getInstance();
-        tillCal.set(Calendar.MILLISECOND, 0);
-
-        PackageManager localPackageManager = con.getPackageManager();
-        Intent intent = new Intent("android.intent.action.MAIN");
-        intent.addCategory("android.intent.category.HOME");
-        String launcher_packageName = localPackageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY).activityInfo.packageName;
-
-        UsageStatsManager usageStatsManager = (UsageStatsManager) con.getSystemService(Context.USAGE_STATS_SERVICE);
-        List<UsageStats> stats = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_BEST, fromCal.getTimeInMillis(), System.currentTimeMillis());
-        for (UsageStats usageStats : stats) {
-            //do not include launcher's package name
-            if (usageStats.getTotalTimeInForeground() > 0 && !usageStats.getPackageName().contains(launcher_packageName)) {
-                AppUseDb.saveAppUsageStat(usageStats.getPackageName(), usageStats.getLastTimeUsed(), usageStats.getTotalTimeInForeground());
-            }
-        }
-        SharedPreferences.Editor editor = loginPrefs.edit();
-        editor.putLong("lastUsageSubmissionTime", tillCal.getTimeInMillis());
-        editor.apply();
-    }
+    static int PERMISSION_ALL = 1;
+    public static String[] PERMISSIONS = {
+            Manifest.permission.ACTIVITY_RECOGNITION,
+            android.Manifest.permission.READ_PHONE_STATE,
+            android.Manifest.permission.PROCESS_OUTGOING_CALLS,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+    };
 
     public static boolean hasPermissions(Context con, String... permissions) {
         Context context = con.getApplicationContext();
@@ -154,6 +130,37 @@ public class Tools {
             activity.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
         if (!simple_permissions_granted)
             ActivityCompat.requestPermissions(activity, PERMISSIONS, PERMISSION_ALL);
+    }
+
+    public static void checkAndSendUsageAccessStats(Context con) throws IOException {
+        SharedPreferences loginPrefs = con.getSharedPreferences("UserLogin", MODE_PRIVATE);
+        long lastSavedTimestamp = loginPrefs.getLong("lastUsageSubmissionTime", -1);
+
+        Calendar fromCal = Calendar.getInstance();
+        if (lastSavedTimestamp == -1)
+            fromCal.add(Calendar.DAY_OF_WEEK, -2);
+        else
+            fromCal.setTime(new Date(lastSavedTimestamp));
+
+        final Calendar tillCal = Calendar.getInstance();
+        tillCal.set(Calendar.MILLISECOND, 0);
+
+        PackageManager localPackageManager = con.getPackageManager();
+        Intent intent = new Intent("android.intent.action.MAIN");
+        intent.addCategory("android.intent.category.HOME");
+        String launcher_packageName = localPackageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY).activityInfo.packageName;
+
+        UsageStatsManager usageStatsManager = (UsageStatsManager) con.getSystemService(Context.USAGE_STATS_SERVICE);
+        List<UsageStats> stats = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_BEST, fromCal.getTimeInMillis(), System.currentTimeMillis());
+        for (UsageStats usageStats : stats) {
+            //do not include launcher's package name
+            if (usageStats.getTotalTimeInForeground() > 0 && !usageStats.getPackageName().contains(launcher_packageName)) {
+                AppUseDb.saveAppUsageStat(usageStats.getPackageName(), usageStats.getLastTimeUsed(), usageStats.getTotalTimeInForeground());
+            }
+        }
+        SharedPreferences.Editor editor = loginPrefs.edit();
+        editor.putLong("lastUsageSubmissionTime", tillCal.getTimeInMillis());
+        editor.apply();
     }
 
     public static void sleep(int time) {
