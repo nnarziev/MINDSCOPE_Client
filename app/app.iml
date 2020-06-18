@@ -174,5 +174,6 @@
     <orderEntry type="library" name="Gradle: androidx.arch.core:core-runtime:2.0.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.constraintlayout:constraintlayout:1.1.3@aar" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.http.legacy-android-29" level="project" />
+    <orderEntry type="library" name="Bundled Protobuf Distribution" level="application" />
   </component>
 </module>
