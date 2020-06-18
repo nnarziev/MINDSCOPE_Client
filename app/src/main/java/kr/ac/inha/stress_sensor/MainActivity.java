@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -44,15 +43,12 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
 import kr.ac.inha.stress_sensor.receivers.ConnectionMonitor;
-import kr.ac.inha.stress_sensor.services.CustomSensorsService;
+import kr.ac.inha.stress_sensor.services.MainService;
 
 
 public class MainActivity extends Activity {
 
-    //region Constants
-    private static final String TAG = "MainActivity";
-
-    //endregion
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     //region UI variables
     private Button btnEMA;
@@ -68,8 +64,6 @@ public class MainActivity extends Activity {
     private TextView ema_tv_2;
     private TextView ema_tv_3;
     private TextView ema_tv_4;
-    private TextView ema_tv_5;
-    private TextView ema_tv_6;
     //endregion
 
     private Intent customSensorsService;
@@ -109,8 +103,6 @@ public class MainActivity extends Activity {
         ema_tv_2 = findViewById(R.id.ema_tv_2);
         ema_tv_3 = findViewById(R.id.ema_tv_3);
         ema_tv_4 = findViewById(R.id.ema_tv_4);
-        ema_tv_5 = findViewById(R.id.ema_tv_5);
-        ema_tv_6 = findViewById(R.id.ema_tv_6);
         //endregion
 
         final SwipeRefreshLayout pullToRefresh = findViewById(R.id.pullToRefresh);
@@ -175,7 +167,7 @@ public class MainActivity extends Activity {
         }
 
 
-        customSensorsService = new Intent(this, CustomSensorsService.class);
+        customSensorsService = new Intent(this, MainService.class);
         initUserStats(true, 0, 0, null);
 
         if (Tools.isNetworkAvailable()) {
@@ -303,8 +295,6 @@ public class MainActivity extends Activity {
             ema_tv_2.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.unchecked_box, 0, 0);
             ema_tv_3.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.unchecked_box, 0, 0);
             ema_tv_4.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.unchecked_box, 0, 0);
-            ema_tv_5.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.unchecked_box, 0, 0);
-            ema_tv_6.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.unchecked_box, 0, 0);
         }
     }
 
@@ -313,8 +303,6 @@ public class MainActivity extends Activity {
         ema_tv_2.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.unchecked_box, 0, 0);
         ema_tv_3.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.unchecked_box, 0, 0);
         ema_tv_4.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.unchecked_box, 0, 0);
-        ema_tv_5.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.unchecked_box, 0, 0);
-        ema_tv_6.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.unchecked_box, 0, 0);
         if (values != null) {
             tvEmaNum.setText(getString(R.string.ema_responses, values.size()));
             for (String val : values) {
@@ -330,12 +318,6 @@ public class MainActivity extends Activity {
                         break;
                     case 4:
                         ema_tv_4.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.checked_box, 0, 0);
-                        break;
-                    case 5:
-                        ema_tv_5.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.checked_box, 0, 0);
-                        break;
-                    case 6:
-                        ema_tv_6.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.checked_box, 0, 0);
                         break;
                     default:
                         break;
@@ -451,7 +433,7 @@ public class MainActivity extends Activity {
     }
 
     public void lateEMAClick(View view) {
-        short ema_order = Tools.getEMAOrderFromRangeAfterEMA(Calendar.getInstance());
+        int ema_order = Tools.getEMAOrderFromRangeAfterEMA(Calendar.getInstance());
         if (ema_order != 0) {
             Intent intent = new Intent(this, EMAActivity.class);
             intent.putExtra("ema_order", ema_order);
@@ -460,7 +442,7 @@ public class MainActivity extends Activity {
     }
 
     public void restartServiceClick(MenuItem item) {
-        customSensorsService = new Intent(this, CustomSensorsService.class);
+        customSensorsService = new Intent(this, MainService.class);
         if (item != null) {
             stopService(customSensorsService);
             if (!Tools.hasPermissions(this, Tools.PERMISSIONS)) {
@@ -483,7 +465,7 @@ public class MainActivity extends Activity {
             }
         } else {
             if (!Tools.isMainServiceRunning(getApplicationContext())) {
-                customSensorsService = new Intent(this, CustomSensorsService.class);
+                customSensorsService = new Intent(this, MainService.class);
                 stopService(customSensorsService);
                 if (!Tools.hasPermissions(this, Tools.PERMISSIONS)) {
                     runOnUiThread(new Runnable() {
@@ -606,47 +588,47 @@ public class MainActivity extends Activity {
         editor.apply();
     }
 
-    /* TODO: this permission is for Xiaomi phones for background service running. But still not working
-    String AUTO_START_PREF = "AutoStartPrefs";
-    String AUTO_START_PREF_KEY = "audto_start";
-    private static final Intent[] POWERMANAGER_INTENTS = {
-            new Intent().setComponent(new ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity")),
-            new Intent().setComponent(new ComponentName("com.letv.android.letvsafe", "com.letv.android.letvsafe.AutobootManageActivity")),
-            new Intent().setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.startupmgr.ui.StartupNormalAppListActivity")),
-            new Intent().setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.optimize.process.ProtectActivity")),
-            new Intent().setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.appcontrol.activity.StartupAppControlActivity")),
-            new Intent().setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.permission.startup.StartupAppListActivity")),
-            new Intent().setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.startupapp.StartupAppListActivity")),
-            new Intent().setComponent(new ComponentName("com.oppo.safe", "com.oppo.safe.permission.startup.StartupAppListActivity")),
-            new Intent().setComponent(new ComponentName("com.iqoo.secure", "com.iqoo.secure.ui.phoneoptimize.AddWhiteListActivity")),
-            new Intent().setComponent(new ComponentName("com.iqoo.secure", "com.iqoo.secure.ui.phoneoptimize.BgStartUpManager")),
-            new Intent().setComponent(new ComponentName("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.BgStartUpManagerActivity")),
-            new Intent().setComponent(new ComponentName("com.samsung.android.lool", "com.samsung.android.sm.ui.battery.BatteryActivity")),
-            new Intent().setComponent(new ComponentName("com.htc.pitroad", "com.htc.pitroad.landingpage.activity.LandingPageActivity")),
-            new Intent().setComponent(new ComponentName("com.asus.mobilemanager", "com.asus.mobilemanager.MainActivity"))
-    };
-
-
-    private boolean requestUnrestrictedBackgroundService() {
-        for (final Intent intent : POWERMANAGER_INTENTS)
-            if (getPackageManager().resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY) != null) {
-                AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-                dialog.setMessage("On this device you must allow us to run services in background");
-                dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        startActivityForResult(intent, 1234);
-                    }
-                });
-                dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                });
-                dialog.show();
-                return false;
-            }
-        return true;
-    }*/
+//    This permission is for Xiaomi phones for background service running. But still not working
+//    String AUTO_START_PREF = "AutoStartPrefs";
+//    String AUTO_START_PREF_KEY = "audto_start";
+//    private static final Intent[] POWERMANAGER_INTENTS = {
+//            new Intent().setComponent(new ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity")),
+//            new Intent().setComponent(new ComponentName("com.letv.android.letvsafe", "com.letv.android.letvsafe.AutobootManageActivity")),
+//            new Intent().setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.startupmgr.ui.StartupNormalAppListActivity")),
+//            new Intent().setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.optimize.process.ProtectActivity")),
+//            new Intent().setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.appcontrol.activity.StartupAppControlActivity")),
+//            new Intent().setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.permission.startup.StartupAppListActivity")),
+//            new Intent().setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.startupapp.StartupAppListActivity")),
+//            new Intent().setComponent(new ComponentName("com.oppo.safe", "com.oppo.safe.permission.startup.StartupAppListActivity")),
+//            new Intent().setComponent(new ComponentName("com.iqoo.secure", "com.iqoo.secure.ui.phoneoptimize.AddWhiteListActivity")),
+//            new Intent().setComponent(new ComponentName("com.iqoo.secure", "com.iqoo.secure.ui.phoneoptimize.BgStartUpManager")),
+//            new Intent().setComponent(new ComponentName("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.BgStartUpManagerActivity")),
+//            new Intent().setComponent(new ComponentName("com.samsung.android.lool", "com.samsung.android.sm.ui.battery.BatteryActivity")),
+//            new Intent().setComponent(new ComponentName("com.htc.pitroad", "com.htc.pitroad.landingpage.activity.LandingPageActivity")),
+//            new Intent().setComponent(new ComponentName("com.asus.mobilemanager", "com.asus.mobilemanager.MainActivity"))
+//    };
+//
+//
+//    private boolean requestUnrestrictedBackgroundService() {
+//        for (final Intent intent : POWERMANAGER_INTENTS)
+//            if (getPackageManager().resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY) != null) {
+//                AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+//                dialog.setMessage("On this device you must allow us to run services in background");
+//                dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        startActivityForResult(intent, 1234);
+//                    }
+//                });
+//                dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        finish();
+//                    }
+//                });
+//                dialog.show();
+//                return false;
+//            }
+//        return true;
+//    }
 }

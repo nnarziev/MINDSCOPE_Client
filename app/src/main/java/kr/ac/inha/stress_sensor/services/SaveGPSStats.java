@@ -21,15 +21,15 @@ import java.util.ArrayList;
 import kr.ac.inha.stress_sensor.DbMgr;
 
 import static kr.ac.inha.stress_sensor.LocationsSettingActivity.ID_HOME;
-import static kr.ac.inha.stress_sensor.services.CustomSensorsService.SERVICE_START_X_MIN_BEFORE_EMA;
+import static kr.ac.inha.stress_sensor.services.MainService.SERVICE_START_X_MIN_BEFORE_EMA;
 import static kr.ac.inha.stress_sensor.services.LocationService.LOCATIONS_TXT;
 
-public class SendGPSStats extends IntentService {
+public class SaveGPSStats extends IntentService {
     public static final String TAG = "SendGPSStats";
     private ArrayList<LatLng> mLocationsList = new ArrayList<>();
     private ArrayList<Long> mLocationsTimestamps = new ArrayList<>();
 
-    public SendGPSStats() {
+    public SaveGPSStats() {
         super(TAG);
     }
 
@@ -37,7 +37,7 @@ public class SendGPSStats extends IntentService {
     protected void onHandleIntent(@Nullable Intent intent) {
         if (intent != null) {
             long time_end = System.currentTimeMillis();
-            long time_start = (time_end - SERVICE_START_X_MIN_BEFORE_EMA * 60 * 1000) + 1000; // add one second to start time
+            long time_start = (time_end - SERVICE_START_X_MIN_BEFORE_EMA * 1000) + 1000; // add one second to start time
             try {
                 if (readLocations(time_start, time_end) > 1) {
                     SharedPreferences prefs = getSharedPreferences("Configurations", Context.MODE_PRIVATE);

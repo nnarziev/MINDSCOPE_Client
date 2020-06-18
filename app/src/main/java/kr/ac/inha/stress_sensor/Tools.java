@@ -45,13 +45,12 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
 import kr.ac.inha.stress_sensor.receivers.GeofenceReceiver;
-import kr.ac.inha.stress_sensor.services.CustomSensorsService;
+import kr.ac.inha.stress_sensor.services.MainService;
 import kr.ac.inha.stress_sensor.services.LocationService;
 
 import static android.content.Context.MODE_PRIVATE;
 import static kr.ac.inha.stress_sensor.EMAActivity.EMA_NOTIF_HOURS;
-import static kr.ac.inha.stress_sensor.services.CustomSensorsService.EMA_RESPONSE_EXPIRE_TIME;
-import static kr.ac.inha.stress_sensor.services.CustomSensorsService.SERVICE_START_X_MIN_BEFORE_EMA;
+import static kr.ac.inha.stress_sensor.services.MainService.EMA_RESPONSE_EXPIRE_TIME;
 
 public class Tools {
 
@@ -205,11 +204,10 @@ public class Tools {
         return isReachable;
     }
 
-
     static boolean isMainServiceRunning(Context con) {
         ActivityManager manager = (ActivityManager) con.getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (CustomSensorsService.class.getName().equals(service.service.getClassName())) {
+            if (MainService.class.getName().equals(service.service.getClassName())) {
                 return true;
             }
         }
@@ -260,75 +258,24 @@ public class Tools {
         return false;
     }
 
-    @SuppressWarnings("unused")
-    public static boolean checkIfInEMARange(Calendar cal) {
-        long t = (cal.get(Calendar.HOUR_OF_DAY) * 3600 + cal.get(Calendar.MINUTE) * 60 + cal.get(Calendar.SECOND)) * 1000;
-        return (EMAActivity.EMA_NOTIF_MILLIS[0] - SERVICE_START_X_MIN_BEFORE_EMA * 60 * 1000 <= t && t <= EMAActivity.EMA_NOTIF_MILLIS[0]) ||
-                (EMAActivity.EMA_NOTIF_MILLIS[1] - SERVICE_START_X_MIN_BEFORE_EMA * 60 * 1000 <= t && t <= EMAActivity.EMA_NOTIF_MILLIS[1]) ||
-                (EMAActivity.EMA_NOTIF_MILLIS[2] - SERVICE_START_X_MIN_BEFORE_EMA * 60 * 1000 <= t && t <= EMAActivity.EMA_NOTIF_MILLIS[2]) ||
-                (EMAActivity.EMA_NOTIF_MILLIS[3] - SERVICE_START_X_MIN_BEFORE_EMA * 60 * 1000 <= t && t <= EMAActivity.EMA_NOTIF_MILLIS[3]) ||
-                (EMAActivity.EMA_NOTIF_MILLIS[4] - SERVICE_START_X_MIN_BEFORE_EMA * 60 * 1000 <= t && t <= EMAActivity.EMA_NOTIF_MILLIS[4]) ||
-                (EMAActivity.EMA_NOTIF_MILLIS[5] - SERVICE_START_X_MIN_BEFORE_EMA * 60 * 1000 <= t && t <= EMAActivity.EMA_NOTIF_MILLIS[5]);
-    }
-
-    public static short getEMAOrderAtExactTime(Calendar cal) {
-        short ema_order = 0;
-        if (cal.get(Calendar.HOUR_OF_DAY) == EMA_NOTIF_HOURS[0] && cal.get(Calendar.MINUTE) == 0)
-            ema_order = 1;
-        else if (cal.get(Calendar.HOUR_OF_DAY) == EMA_NOTIF_HOURS[1] && cal.get(Calendar.MINUTE) == 0)
-            ema_order = 2;
-        else if (cal.get(Calendar.HOUR_OF_DAY) == EMA_NOTIF_HOURS[2] && cal.get(Calendar.MINUTE) == 0)
-            ema_order = 3;
-        else if (cal.get(Calendar.HOUR_OF_DAY) == EMA_NOTIF_HOURS[3] && cal.get(Calendar.MINUTE) == 0)
-            ema_order = 4;
-        else if (cal.get(Calendar.HOUR_OF_DAY) == EMA_NOTIF_HOURS[4] && cal.get(Calendar.MINUTE) == 0)
-            ema_order = 5;
-        else if (cal.get(Calendar.HOUR_OF_DAY) == EMA_NOTIF_HOURS[5] && cal.get(Calendar.MINUTE) == 0)
-            ema_order = 6;
-
-        return ema_order;
+    public static int getEMAOrderAtExactTime(Calendar cal) {
+        for (short i = 0; i < EMA_NOTIF_HOURS.length; i++) {
+            if (cal.get(Calendar.HOUR_OF_DAY) == EMA_NOTIF_HOURS[i] && cal.get(Calendar.MINUTE) == 0) {
+                return i + 1;
+            }
+        }
+        return 0;
 
     }
 
-    @SuppressWarnings("unused")
-    public static int getEMAOrderFromRangeBeforeEMA(long timestamp) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(timestamp);
-        int ema_order = 0;
+    static int getEMAOrderFromRangeAfterEMA(Calendar cal) {
         long t = (cal.get(Calendar.HOUR_OF_DAY) * 3600 + cal.get(Calendar.MINUTE) * 60 + cal.get(Calendar.SECOND)) * 1000;
-        if (EMAActivity.EMA_NOTIF_MILLIS[0] - SERVICE_START_X_MIN_BEFORE_EMA * 60 * 1000 <= t && t <= EMAActivity.EMA_NOTIF_MILLIS[0])
-            ema_order = 1;
-        else if (EMAActivity.EMA_NOTIF_MILLIS[1] - SERVICE_START_X_MIN_BEFORE_EMA * 60 * 1000 <= t && t <= EMAActivity.EMA_NOTIF_MILLIS[1])
-            ema_order = 2;
-        else if (EMAActivity.EMA_NOTIF_MILLIS[2] - SERVICE_START_X_MIN_BEFORE_EMA * 60 * 1000 <= t && t <= EMAActivity.EMA_NOTIF_MILLIS[2])
-            ema_order = 3;
-        else if (EMAActivity.EMA_NOTIF_MILLIS[3] - SERVICE_START_X_MIN_BEFORE_EMA * 60 * 1000 <= t && t <= EMAActivity.EMA_NOTIF_MILLIS[3])
-            ema_order = 4;
-        else if (EMAActivity.EMA_NOTIF_MILLIS[4] - SERVICE_START_X_MIN_BEFORE_EMA * 60 * 1000 <= t && t <= EMAActivity.EMA_NOTIF_MILLIS[4])
-            ema_order = 5;
-        else if (EMAActivity.EMA_NOTIF_MILLIS[5] - SERVICE_START_X_MIN_BEFORE_EMA * 60 * 1000 <= t && t <= EMAActivity.EMA_NOTIF_MILLIS[5])
-            ema_order = 6;
+        for (int i = 0; i < EMA_NOTIF_HOURS.length; i++) {
+            if ((EMA_NOTIF_HOURS[i] * 3600 * 1000) <= t && t <= (EMA_NOTIF_HOURS[i] * 3600 * 1000) + EMA_RESPONSE_EXPIRE_TIME * 1000)
+                return i + 1;
 
-        return ema_order;
-    }
-
-    static short getEMAOrderFromRangeAfterEMA(Calendar cal) {
-        short ema_order = 0;
-        long t = (cal.get(Calendar.HOUR_OF_DAY) * 3600 + cal.get(Calendar.MINUTE) * 60 + cal.get(Calendar.SECOND)) * 1000;
-        if (EMAActivity.EMA_NOTIF_MILLIS[0] <= t && t <= EMAActivity.EMA_NOTIF_MILLIS[0] + EMA_RESPONSE_EXPIRE_TIME * 1000)
-            ema_order = 1;
-        else if (EMAActivity.EMA_NOTIF_MILLIS[1] <= t && t <= EMAActivity.EMA_NOTIF_MILLIS[1] + EMA_RESPONSE_EXPIRE_TIME * 1000)
-            ema_order = 2;
-        else if (EMAActivity.EMA_NOTIF_MILLIS[2] <= t && t <= EMAActivity.EMA_NOTIF_MILLIS[2] + EMA_RESPONSE_EXPIRE_TIME * 1000)
-            ema_order = 3;
-        else if (EMAActivity.EMA_NOTIF_MILLIS[3] <= t && t <= EMAActivity.EMA_NOTIF_MILLIS[3] + EMA_RESPONSE_EXPIRE_TIME * 1000)
-            ema_order = 4;
-        else if (EMAActivity.EMA_NOTIF_MILLIS[4] <= t && t <= EMAActivity.EMA_NOTIF_MILLIS[4] + EMA_RESPONSE_EXPIRE_TIME * 1000)
-            ema_order = 5;
-        else if (EMAActivity.EMA_NOTIF_MILLIS[5] <= t && t <= EMAActivity.EMA_NOTIF_MILLIS[5] + EMA_RESPONSE_EXPIRE_TIME * 1000)
-            ema_order = 6;
-
-        return ema_order;
+        }
+        return 0;
     }
 
     static void perform_logout(Context con) {
@@ -349,6 +296,10 @@ public class Tools {
         editorLogin.apply();
 
         GeofenceHelper.removeAllGeofences(con);
+    }
+
+    public static boolean inRange(long value, long start, long end) {
+        return start < value && value < end;
     }
 }
 

@@ -46,6 +46,7 @@ import inha.nsl.easytrack.EtService;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
+import kr.ac.inha.stress_sensor.AppUseDb;
 import kr.ac.inha.stress_sensor.AuthenticationActivity;
 import kr.ac.inha.stress_sensor.DbMgr;
 import kr.ac.inha.stress_sensor.EMAActivity;
@@ -57,9 +58,10 @@ import kr.ac.inha.stress_sensor.receivers.ActivityRecognitionReceiver;
 import kr.ac.inha.stress_sensor.receivers.CallReceiver;
 import kr.ac.inha.stress_sensor.receivers.ScreenAndUnlockReceiver;
 
+import static kr.ac.inha.stress_sensor.EMAActivity.EMA_NOTIF_HOURS;
 import static kr.ac.inha.stress_sensor.receivers.CallReceiver.AudioRunningForCall;
 
-public class CustomSensorsService extends Service {
+public class MainService extends Service {
     private static final String TAG = "CustomSensorsService";
 
     //region Constants
@@ -67,35 +69,13 @@ public class CustomSensorsService extends Service {
     public static final int EMA_NOTIFICATION_ID = 1234; //in sec
     public static final int PERMISSION_REQUEST_NOTIFICATION_ID = 1111; //in sec
     public static final long EMA_RESPONSE_EXPIRE_TIME = 3600;  //in sec
-    //public static final int EMA_BTN_VISIBLE_X_MIN_AFTER_EMA = 60; //min
-    public static final int SERVICE_START_X_MIN_BEFORE_EMA = 3 * 60; //min
+    public static final int SERVICE_START_X_MIN_BEFORE_EMA = (int) (EMA_NOTIF_HOURS[1] - EMA_NOTIF_HOURS[0]) * 60 * 60; //in sec
     public static final short HEARTBEAT_PERIOD = 30;  //in sec
-    public static final short DATA_SUBMIT_PERIOD = 5;  //in min
+    public static final short DATA_SUBMIT_PERIOD = 5 * 60;  //in sec
     private static final short AUDIO_RECORDING_PERIOD = 20 * 60;  //in sec
     private static final short AUDIO_RECORDING_DURATION = 5;  //in sec
     private static final int ACTIVITY_RECOGNITION_INTERVAL = 40; //in sec
     private static final int APP_USAGE_SEND_PERIOD = 3; //in sec
-
-
-    /*public static final short DATA_SRC_ACC = 1;
-    public static final short DATA_SRC_STATIONARY_DUR = 2;
-    public static final short DATA_SRC_SCREEN_ON_DUR = 3;
-    public static final short DATA_SRC_STEP_DETECTOR = 4;
-    public static final short DATA_SRC_UNLOCKED_DUR = 5;
-    public static final short DATA_SRC_PHONE_CALLS = 6;
-    public static final short DATA_SRC_LIGHT = 7;
-    public static final short DATA_SRC_APP_USAGE = 8;
-    public static final short DATA_SRC_GPS_LOCATIONS = 9;
-    public static final short DATA_SRC_ACTIVITY = 10;
-    public static final short DATA_SRC_TOTAL_DIST_COVERED = 11;
-    public static final short DATA_SRC_MAX_DIST_FROM_HOME = 12;
-    public static final short DATA_SRC_MAX_DIST_TWO_LOCATIONS = 13;
-    public static final short DATA_SRC_RADIUS_OF_GYRATION = 14;
-    public static final short DATA_SRC_STDDEV_OF_DISPLACEMENT = 15;
-    public static final short DATA_SRC_NUM_OF_DIF_PLACES = 16;
-    public static final short DATA_SRC_AUDIO_LOUDNESS = 17;
-    public static final short DATA_SRC_ACTIVITY_DURATION = 18;*/
-
     //endregion
 
     public static HashMap<String, Integer> sensorNameToTypeMap;
@@ -138,7 +118,7 @@ public class CustomSensorsService extends Service {
             Calendar curCal = Calendar.getInstance();
 
             //region Sending Notification and some statistics periodically
-            short ema_order = Tools.getEMAOrderAtExactTime(curCal);
+            int ema_order = Tools.getEMAOrderAtExactTime(curCal);
             if (ema_order != 0 && canSendNotif) {
                 Log.e(TAG, "EMA order 1: " + ema_order);
                 sendNotification(ema_order);
@@ -147,9 +127,10 @@ public class CustomSensorsService extends Service {
                 editor.putBoolean("ema_btn_make_visible", true);
                 editor.apply();
                 canSendNotif = false;
+                saveSomeStats(); //save some stats that we need only once per EMA is posted
             }
 
-            if (curCal.get(Calendar.MINUTE) != 0)
+            if (curCal.get(Calendar.MINUTE) > 0)
                 canSendNotif = true;
             //endregion
 
@@ -159,7 +140,7 @@ public class CustomSensorsService extends Service {
             boolean stopAudioRecord = (curTimestamp > prevAudioRecordStartTime + AUDIO_RECORDING_DURATION * 1000);
             if (canStartAudioRecord) {
                 if (audioFeatureRecorder == null)
-                    audioFeatureRecorder = new AudioFeatureRecorder(CustomSensorsService.this);
+                    audioFeatureRecorder = new AudioFeatureRecorder(MainService.this);
                 audioFeatureRecorder.start();
                 prevAudioRecordStartTime = curTimestamp;
             } else if (stopAudioRecord) {
@@ -226,7 +207,7 @@ public class CustomSensorsService extends Service {
                 if (Tools.isNetworkAvailable())
                     dataSubmitRunnable.run();
                 try {
-                    Thread.sleep(DATA_SUBMIT_PERIOD * 60 * 1000);
+                    Thread.sleep(DATA_SUBMIT_PERIOD * 1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -256,7 +237,7 @@ public class CustomSensorsService extends Service {
             }
 
             try {
-                if (Tools.heartbeatNotSent(CustomSensorsService.this)) {
+                if (Tools.heartbeatNotSent(MainService.this)) {
                     Log.e(TAG, "Heartbeat not sent");
                     /*Tools.perform_logout(CustomSensorsService.this);
                     stopSelf();*/
@@ -477,13 +458,13 @@ public class CustomSensorsService extends Service {
         }
     }
 
-    private void sendNotification(short ema_order) {
+    private void sendNotification(int ema_order) {
         final NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Intent notificationIntent = new Intent(CustomSensorsService.this, EMAActivity.class);
+        Intent notificationIntent = new Intent(MainService.this, EMAActivity.class);
         notificationIntent.putExtra("ema_order", ema_order);
         //PendingIntent pendingIntent = PendingIntent.getActivities(CustomSensorsService.this, 0, new Intent[]{notificationIntent}, 0);
-        PendingIntent pendingIntent = PendingIntent.getActivity(CustomSensorsService.this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(MainService.this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         String channelId = this.getString(R.string.notif_channel_id);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this.getApplicationContext(), channelId);
@@ -510,17 +491,11 @@ public class CustomSensorsService extends Service {
         }
     }
 
-    private void startMainActivity() {
-        Intent intentService = new Intent(this, MainActivity.class);
-        intentService.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intentService);
-    }
-
     private void sendNotificationForPermissionSetting() {
         final NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Intent notificationIntent = new Intent(CustomSensorsService.this, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(CustomSensorsService.this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent notificationIntent = new Intent(MainService.this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(MainService.this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         String channelId = "StressSensor_permission_notif";
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this.getApplicationContext(), channelId);
@@ -544,5 +519,39 @@ public class CustomSensorsService extends Service {
         if (notificationManager != null) {
             notificationManager.notify(PERMISSION_REQUEST_NOTIFICATION_ID, notification);
         }
+    }
+
+    //function to save some stats when the EMA button submit it clicked
+    private void saveSomeStats() {
+
+        // saving GPS statistics every notification time
+        startService(new Intent(MainService.this, SaveGPSStats.class));
+
+        final long app_usage_time_end = System.currentTimeMillis();
+        final long app_usage_time_start = (app_usage_time_end - SERVICE_START_X_MIN_BEFORE_EMA * 1000) + 1000; // add one second to start time
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SharedPreferences configPrefs = getSharedPreferences("Configurations", Context.MODE_PRIVATE);
+                int dataSourceId = configPrefs.getInt("APPLICATION_USAGE", -1);
+                assert dataSourceId != -1;
+                Cursor cursor = AppUseDb.getAppUsage();
+                if (cursor.moveToFirst()) {
+                    do {
+                        String package_name = cursor.getString(1);
+                        long start_time = cursor.getLong(2);
+                        long end_time = cursor.getLong(3);
+                        if (Tools.inRange(start_time, app_usage_time_start, app_usage_time_end) && Tools.inRange(end_time, app_usage_time_start, app_usage_time_end))
+                            if (start_time < end_time) {
+                                //Log.e(TAG, "Inserting -> package: " + package_name + "; start: " + start_time + "; end: " + end_time);
+                                DbMgr.saveMixedData(dataSourceId, start_time, 1.0f, start_time, end_time, package_name);
+                            }
+                    }
+                    while (cursor.moveToNext());
+                }
+                cursor.close();
+            }
+        }).start();
+
     }
 }

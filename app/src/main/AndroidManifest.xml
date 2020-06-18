@@ -72,9 +72,9 @@
             android:name="kr.ac.inha.stress_sensor.LocationsSettingActivity"
             android:theme="@style/AppTheme" />
 
-        <service android:name="kr.ac.inha.stress_sensor.services.CustomSensorsService" />
+        <service android:name="kr.ac.inha.stress_sensor.services.MainService" />
         <service android:name="kr.ac.inha.stress_sensor.services.LocationService" />
-        <service android:name="kr.ac.inha.stress_sensor.services.SendGPSStats" />
+        <service android:name="kr.ac.inha.stress_sensor.services.SaveGPSStats" />
 
         <receiver android:name="kr.ac.inha.stress_sensor.receivers.GeofenceReceiver" />
         <receiver android:name="kr.ac.inha.stress_sensor.receivers.ActivityRecognitionReceiver" />

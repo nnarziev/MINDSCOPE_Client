@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-class AppUseDb {
+public class AppUseDb {
     static private SQLiteDatabase db;
     private static final String TAG = "AppUseDb";
 

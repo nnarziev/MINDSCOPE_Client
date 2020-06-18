@@ -53,7 +53,8 @@
     <string name="view_files">View files</string>
 
     <string name="day_num">Duration: %1$d day</string>
-    <string name="ema_responses">EMA responses: %1$d/6</string>
+    <string name="ema_responses_rate">EMA responses: %1$d/6</string>
+    <string name="ema_responses">EMA responses</string>
     <string name="data_loaded">Data loaded:  %1$s</string>
     <string name="last_active">Last active:  %1$s</string>
 
@@ -92,5 +93,10 @@
 
     <string name="grant_permissions">Please, grant permissions or turn on locations!</string>
     <string name="permissions">Permissions</string>
+    <string name="answer_last_ema">answer last EMA</string>
+    <string name="_11_00">11:00</string>
+    <string name="_15_00">15:00</string>
+    <string name="_19_00">19:00</string>
+    <string name="_23_00">23:00</string>
 
 </resources>
