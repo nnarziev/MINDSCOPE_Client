@@ -1,4 +1,4 @@
-# StressSensor
+# MINDSCOPE
 
 Instructions for installing and using the application:
 
