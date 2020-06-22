@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -84,6 +85,19 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+            // only for gingerbread and newer versions
+            Tools.PERMISSIONS = new String[]{
+                    Manifest.permission.ACTIVITY_RECOGNITION,
+                    Manifest.permission.READ_PHONE_STATE,
+                    Manifest.permission.PROCESS_OUTGOING_CALLS,
+                    Manifest.permission.RECORD_AUDIO,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+            };
+        }
+
 
         DbMgr.init(getApplicationContext());
         AppUseDb.init(getApplicationContext());
@@ -304,7 +318,7 @@ public class MainActivity extends Activity {
         ema_tv_3.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.unchecked_box, 0, 0);
         ema_tv_4.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.unchecked_box, 0, 0);
         if (values != null) {
-            tvEmaNum.setText(getString(R.string.ema_responses, values.size()));
+            tvEmaNum.setText(getString(R.string.ema_responses_rate, values.size()));
             for (String val : values) {
                 switch (Integer.parseInt(val.split(Tools.DATA_SOURCE_SEPARATOR)[1])) {
                     case 1:

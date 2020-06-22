@@ -57,9 +57,8 @@ public class Tools {
     static final String DATA_SOURCE_SEPARATOR = " ";
     static int PERMISSION_ALL = 1;
     public static String[] PERMISSIONS = {
-            Manifest.permission.ACTIVITY_RECOGNITION,
-            android.Manifest.permission.READ_PHONE_STATE,
-            android.Manifest.permission.PROCESS_OUTGOING_CALLS,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.PROCESS_OUTGOING_CALLS,
             Manifest.permission.RECORD_AUDIO,
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION
