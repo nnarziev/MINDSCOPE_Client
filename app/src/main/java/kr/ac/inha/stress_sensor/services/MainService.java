@@ -353,6 +353,7 @@ public class MainService extends Service {
         mainHandler.post(mainRunnable);
         heartBeatHandler.post(heartBeatSendRunnable);
         appUsageSaveHandler.post(appUsageSaveRunnable);
+        appUsageSubmitHandler.post(appUsageSubmitRunnable);
         dataSubmissionHandler.post(dataSubmitRunnable);
 
         permissionNotificationPosted = false;
@@ -393,6 +394,7 @@ public class MainService extends Service {
         heartBeatHandler.removeCallbacks(heartBeatSendRunnable);
         appUsageSaveHandler.removeCallbacks(appUsageSaveRunnable);
         dataSubmissionHandler.removeCallbacks(dataSubmitRunnable);
+        appUsageSubmitHandler.removeCallbacks(appUsageSubmitRunnable);
         //endregion
 
         //region Stop foreground service
