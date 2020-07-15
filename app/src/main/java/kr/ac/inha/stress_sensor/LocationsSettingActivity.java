@@ -283,6 +283,12 @@ public class LocationsSettingActivity extends AppCompatActivity implements OnMap
 
         GeofenceHelper.startGeofence(getApplicationContext(), location_id, position, radius);
 
+        SharedPreferences confPrefs = getSharedPreferences("Configurations", Context.MODE_PRIVATE);
+        int dataSourceId = confPrefs.getInt("LOCATIONS_MANUAL", -1);
+        assert dataSourceId != -1;
+        long nowTime = System.currentTimeMillis();
+        DbMgr.saveMixedData(dataSourceId, nowTime, 1.0f, nowTime, location.getmId(), (float) location.getmLatLng().latitude, (float) location.getmLatLng().longitude);
+
         onMapReady(mMap);
         drawGeofence(currentGeofenceMarker, currentStoringLocation.getRadius());
     }

@@ -69,13 +69,14 @@ public class MainService extends Service {
     public static final int EMA_NOTIFICATION_ID = 1234; //in sec
     public static final int PERMISSION_REQUEST_NOTIFICATION_ID = 1111; //in sec
     public static final long EMA_RESPONSE_EXPIRE_TIME = 3600;  //in sec
-    public static final int SERVICE_START_X_MIN_BEFORE_EMA = (int) (EMA_NOTIF_HOURS[1] - EMA_NOTIF_HOURS[0]) * 60 * 60; //in sec
+    public static final int SERVICE_START_X_MIN_BEFORE_EMA = (EMA_NOTIF_HOURS[1] - EMA_NOTIF_HOURS[0]) * 60 * 60; //in sec
     public static final short HEARTBEAT_PERIOD = 30;  //in sec
     public static final short DATA_SUBMIT_PERIOD = 5 * 60;  //in sec
     private static final short AUDIO_RECORDING_PERIOD = 20 * 60;  //in sec
     private static final short AUDIO_RECORDING_DURATION = 5;  //in sec
     private static final int ACTIVITY_RECOGNITION_INTERVAL = 40; //in sec
-    private static final int APP_USAGE_SEND_PERIOD = 3; //in sec
+    private static final int APP_USAGE_SAVE_PERIOD = 3; //in sec
+    private static final int APP_USAGE_SUBMIT_PERIOD = 5 * 60; //in sec
     //endregion
 
     public static HashMap<String, Integer> sensorNameToTypeMap;
@@ -114,6 +115,12 @@ public class MainService extends Service {
                 permissionNotificationPosted = false;
             }
 
+            //permissions granted or not. If not grant first
+            if (!Tools.hasPermissions(getApplicationContext(), Tools.PERMISSIONS) && !permissionNotificationPosted) {
+                permissionNotificationPosted = true;
+                sendNotificationForPermissionSetting();
+            }
+
             long curTimestamp = System.currentTimeMillis();
             Calendar curCal = Calendar.getInstance();
 
@@ -127,13 +134,12 @@ public class MainService extends Service {
                 editor.putBoolean("ema_btn_make_visible", true);
                 editor.apply();
                 canSendNotif = false;
-                saveSomeStats(); //save some stats that we need only once per EMA is posted
+                //saveSomeStats(); //save some stats that we need only once per EMA is posted
             }
 
             if (curCal.get(Calendar.MINUTE) > 0)
                 canSendNotif = true;
             //endregion
-
 
             //region Registering Audio recorder periodically
             boolean canStartAudioRecord = (curTimestamp > prevAudioRecordStartTime + AUDIO_RECORDING_PERIOD * 1000) || AudioRunningForCall;
@@ -151,91 +157,113 @@ public class MainService extends Service {
             }
             //endregion
 
-            mainHandler.postDelayed(this, 2 * 1000);
+            mainHandler.postDelayed(this, 5 * 1000);
         }
     };
 
-    private boolean stopDataSubmitThread = false;
+    private Handler dataSubmissionHandler = new Handler();
     private Runnable dataSubmitRunnable = new Runnable() {
         @Override
         public void run() {
-            Cursor cursor = DbMgr.getSensorData();
-            if (cursor.moveToFirst()) {
-                ManagedChannel channel = ManagedChannelBuilder.forAddress(
-                        getString(R.string.grpc_host),
-                        Integer.parseInt(getString(R.string.grpc_port))
-                ).usePlaintext().build();
-                ETServiceGrpc.ETServiceBlockingStub stub = ETServiceGrpc.newBlockingStub(channel);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    if (Tools.isNetworkAvailable()) {
+                        Cursor cursor = DbMgr.getSensorData();
+                        if (cursor.moveToFirst()) {
+                            ManagedChannel channel = ManagedChannelBuilder.forAddress(
+                                    getString(R.string.grpc_host),
+                                    Integer.parseInt(getString(R.string.grpc_port))
+                            ).usePlaintext().build();
+                            ETServiceGrpc.ETServiceBlockingStub stub = ETServiceGrpc.newBlockingStub(channel);
 
-                loginPrefs = getSharedPreferences("UserLogin", MODE_PRIVATE);
-                int userId = loginPrefs.getInt(AuthenticationActivity.user_id, -1);
-                String email = loginPrefs.getString(AuthenticationActivity.usrEmail, null);
+                            loginPrefs = getSharedPreferences("UserLogin", MODE_PRIVATE);
+                            int userId = loginPrefs.getInt(AuthenticationActivity.user_id, -1);
+                            String email = loginPrefs.getString(AuthenticationActivity.usrEmail, null);
 
-                try {
-                    do {
-                        EtService.SubmitDataRecordRequestMessage submitDataRecordRequestMessage = EtService.SubmitDataRecordRequestMessage.newBuilder()
-                                .setUserId(userId)
-                                .setEmail(email)
-                                .setDataSource(cursor.getInt(1))
-                                .setTimestamp(cursor.getLong(2))
-                                .setValues(cursor.getString(4))
-                                .build();
-                        //String res = cursor.getInt(0) + ", " + cursor.getLong(1) + ", " + cursor.getLong(2) + ", " + cursor.getLong(4);
-                        //Log.e("submitThread", "Submission: " + res);
-                        EtService.DefaultResponseMessage responseMessage = stub.submitDataRecord(submitDataRecordRequestMessage);
+                            try {
+                                do {
+                                    EtService.SubmitDataRecordRequestMessage submitDataRecordRequestMessage = EtService.SubmitDataRecordRequestMessage.newBuilder()
+                                            .setUserId(userId)
+                                            .setEmail(email)
+                                            .setDataSource(cursor.getInt(1))
+                                            .setTimestamp(cursor.getLong(2))
+                                            .setValues(cursor.getString(4))
+                                            .build();
+                                    //String res = cursor.getInt(0) + ", " + cursor.getLong(1) + ", " + cursor.getLong(2) + ", " + cursor.getLong(4);
+                                    //Log.e("submitThread", "Submission: " + res);
+                                    EtService.DefaultResponseMessage responseMessage = stub.submitDataRecord(submitDataRecordRequestMessage);
 
-                        if (responseMessage.getDoneSuccessfully()) {
-                            DbMgr.deleteRecord(cursor.getInt(0));
+                                    if (responseMessage.getDoneSuccessfully()) {
+                                        DbMgr.deleteRecord(cursor.getInt(0));
+                                    }
+
+                                } while (cursor.moveToNext());
+                            } catch (StatusRuntimeException e) {
+                                Log.e(TAG, "DataCollectorService.setUpDataSubmissionThread() exception: " + e.getMessage());
+                                e.printStackTrace();
+                            } finally {
+                                channel.shutdown();
+                            }
                         }
+                        cursor.close();
+                    }
 
-                    } while (cursor.moveToNext());
-                } catch (StatusRuntimeException e) {
-                    Log.e(TAG, "DataCollectorService.setUpDataSubmissionThread() exception: " + e.getMessage());
-                    e.printStackTrace();
-                } finally {
-                    channel.shutdown();
                 }
-            }
-            cursor.close();
+            }).start();
+            dataSubmissionHandler.postDelayed(dataSubmitRunnable, DATA_SUBMIT_PERIOD * 60 * 1000);
         }
     };
-    private Thread dataSubmissionThread = new Thread(new Runnable() {
-        @Override
-        public void run() {
-            while (!stopDataSubmitThread) {
-
-                if (Tools.isNetworkAvailable())
-                    dataSubmitRunnable.run();
-                try {
-                    Thread.sleep(DATA_SUBMIT_PERIOD * 1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    });
 
     private Handler appUsageSubmitHandler = new Handler();
     private Runnable appUsageSubmitRunnable = new Runnable() {
+        //TODO: test how it works
+        @Override
+        public void run() {
+            final long app_usage_time_end = System.currentTimeMillis();
+            final long app_usage_time_start = (app_usage_time_end - APP_USAGE_SUBMIT_PERIOD * 1000) + 1000; // add one second to start time
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    SharedPreferences configPrefs = getSharedPreferences("Configurations", Context.MODE_PRIVATE);
+                    int dataSourceId = configPrefs.getInt("APPLICATION_USAGE", -1);
+                    assert dataSourceId != -1;
+                    Cursor cursor = AppUseDb.getAppUsage();
+                    if (cursor.moveToFirst()) {
+                        do {
+                            String package_name = cursor.getString(1);
+                            long start_time = cursor.getLong(2);
+                            long end_time = cursor.getLong(3);
+                            if (Tools.inRange(start_time, app_usage_time_start, app_usage_time_end) && Tools.inRange(end_time, app_usage_time_start, app_usage_time_end))
+                                if (start_time < end_time) {
+                                    //Log.e(TAG, "Inserting -> package: " + package_name + "; start: " + start_time + "; end: " + end_time);
+                                    DbMgr.saveMixedData(dataSourceId, start_time, 1.0f, start_time, end_time, package_name);
+                                }
+                        }
+                        while (cursor.moveToNext());
+                    }
+                    cursor.close();
+                }
+            }).start();
+            appUsageSubmitHandler.postDelayed(appUsageSubmitRunnable, APP_USAGE_SUBMIT_PERIOD * 1000);
+        }
+    };
+
+    private Handler appUsageSaveHandler = new Handler();
+    private Runnable appUsageSaveRunnable = new Runnable() {
         public void run() {
             try {
                 Tools.checkAndSendUsageAccessStats(getApplicationContext());
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            appUsageSubmitHandler.postDelayed(this, APP_USAGE_SEND_PERIOD * 1000);
+            appUsageSaveHandler.postDelayed(this, APP_USAGE_SAVE_PERIOD * 1000);
         }
     };
 
     private Handler heartBeatHandler = new Handler();
     private Runnable heartBeatSendRunnable = new Runnable() {
         public void run() {
-            //before sending hear-beat check permissions granted or not. If not grant first
-            if (!Tools.hasPermissions(getApplicationContext(), Tools.PERMISSIONS) && !permissionNotificationPosted) {
-                permissionNotificationPosted = true;
-                sendNotificationForPermissionSetting();
-            }
-
             try {
                 if (Tools.heartbeatNotSent(MainService.this)) {
                     Log.e(TAG, "Heartbeat not sent");
@@ -324,8 +352,8 @@ public class MainService extends Service {
 
         mainHandler.post(mainRunnable);
         heartBeatHandler.post(heartBeatSendRunnable);
-        appUsageSubmitHandler.post(appUsageSubmitRunnable);
-        dataSubmissionThread.start();
+        appUsageSaveHandler.post(appUsageSaveRunnable);
+        dataSubmissionHandler.post(dataSubmitRunnable);
 
         permissionNotificationPosted = false;
     }
@@ -361,10 +389,10 @@ public class MainService extends Service {
             audioFeatureRecorder.stop();
         unregisterReceiver(mPhoneUnlockedReceiver);
         unregisterReceiver(mCallReceiver);
-        stopDataSubmitThread = true;
         mainHandler.removeCallbacks(mainRunnable);
         heartBeatHandler.removeCallbacks(heartBeatSendRunnable);
-        appUsageSubmitHandler.removeCallbacks(appUsageSubmitRunnable);
+        appUsageSaveHandler.removeCallbacks(appUsageSaveRunnable);
+        dataSubmissionHandler.removeCallbacks(dataSubmitRunnable);
         //endregion
 
         //region Stop foreground service

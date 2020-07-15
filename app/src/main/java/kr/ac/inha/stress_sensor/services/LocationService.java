@@ -61,12 +61,13 @@ public class LocationService extends Service implements LocationListener {
         cal.setTimeInMillis(location.getTime());
         String formattedTime = cal.get(Calendar.DAY_OF_MONTH) + " " + cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND) + "." + cal.get(Calendar.MILLISECOND);
         */
+        long nowTime = System.currentTimeMillis();
+
         String resultString = location.getTime() + "," + location.getLatitude() + "," + location.getLongitude() + "\n";
         try {
             SharedPreferences prefs = getSharedPreferences("Configurations", Context.MODE_PRIVATE);
             int dataSourceId = prefs.getInt("LOCATION_GPS", -1);
-            assert dataSourceId != -1;
-            DbMgr.saveMixedData(dataSourceId, location.getTime(), location.getAccuracy(), location.getTime(), location.getLatitude(), location.getLongitude(), location.getAccuracy(), location.getAltitude());
+            DbMgr.saveMixedData(dataSourceId, nowTime, location.getAccuracy(), nowTime, location.getLatitude(), location.getLongitude());
             FileOutputStream fileOutputStream = openFileOutput(LOCATIONS_TXT, Context.MODE_APPEND);
             fileOutputStream.write(resultString.getBytes());
             fileOutputStream.close();

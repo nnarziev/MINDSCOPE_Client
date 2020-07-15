@@ -72,11 +72,11 @@
     <string name="update_stats">Update</string>
     <string name="no_data">No data</string>
     <string name="log_out">로그 아웃</string>
-    <string name="set_home_location">집</string>
-    <string name="set_dorm_location">기숙사</string>
-    <string name="set_university_location">학교</string>
-    <string name="set_library_location">도서관</string>
-    <string name="set_additional_location">기타 장소</string>
+    <string name="set_home_location">Home</string>
+    <string name="set_dorm_location">Dormitory</string>
+    <string name="set_university_location">University</string>
+    <string name="set_library_location">Library</string>
+    <string name="set_additional_location">Other place</string>
     <string name="locations_set_instruction">지도에서 원하는 위치에 핀을 놓으신 후 해당 장소 버튼을 눌러 장소를 설정하십시오.</string>
 
     <string name="log_out_confirmation">Are you sure you want to log out?</string>
