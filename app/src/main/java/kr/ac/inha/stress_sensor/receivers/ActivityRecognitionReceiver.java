@@ -39,6 +39,7 @@ public class ActivityRecognitionReceiver extends BroadcastReceiver {
                     if (!Tools.isLocationServiceRunning(context)) {
                         context.startService(locationServiceIntent);
                     }
+                    isStill = false;
                 } else if (detectedActivity.getType() == DetectedActivity.STILL) {
                     if (confidence < 0.9)
                         isStill = false;
